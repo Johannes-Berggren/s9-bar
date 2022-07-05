@@ -1,37 +1,16 @@
 <script setup lang="ts">
-import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore, query } from "firebase/firestore";
+import { getItems, getMembers } from "@/config/firebase";
 import { onMounted, ref } from "vue";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDcRk89s5vl4ihZ1J_cO0e6AOMDMIkXIz0",
-  authDomain: "s9bar-54d46.firebaseapp.com",
-  projectId: "s9bar-54d46",
-  storageBucket: "s9bar-54d46.appspot.com",
-  messagingSenderId: "815180929686",
-  appId: "1:815180929686:web:ac9bdb834bf375220540b7",
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 const items = ref<Record<string, unknown>[]>([]);
+const loading = ref(true);
 const members = ref<Record<string, unknown>[]>([]);
 
 onMounted(async () => {
-  const itemsQuery = query(collection(db, "items"));
-  const itemsSnapshot = await getDocs(itemsQuery);
+  items.value = await getItems();
+  members.value = await getMembers();
 
-  itemsSnapshot.forEach((s) => {
-    items.value.push(s.data());
-  });
-
-  const membersQuery = query(collection(db, "members"));
-  const membersSnapshot = await getDocs(membersQuery);
-
-  membersSnapshot.forEach((s) => {
-    members.value.push(s.data());
-  });
+  loading.value = false;
 });
 
 </script>
@@ -42,45 +21,74 @@ onMounted(async () => {
   </header>
 
   <main>
-    <h4>Items</h4>
-    <v-row>
-      <v-col v-for="item in items" :key="item.name" cols="4">
+    <v-row align="center" class="mb-4">
+      <h2 class="mr-4">Bar items</h2>
+
+      <v-btn color="primary" size="x-small">New item</v-btn>
+    </v-row>
+
+    <v-progress-circular v-if="loading" :loading="loading" height="100" color="white" indeterminate />
+    <v-expansion-panels v-else>
+      <v-expansion-panel v-for="item in items" :key="item.name" cols="4">
+        <v-expansion-panel-title>
+          <b>{{ item.name }}</b>
+          <v-spacer />
+          {{ item.currentInventory }} left in the bar
+        </v-expansion-panel-title>
+
+        <v-expansion-panel-text>
+          <v-row>
+            <v-col cols="2">
+              <v-img :src="item.imageURL" />
+            </v-col>
+
+            <v-col>
+              <h3>Pris {{ item.price }}</h3>
+              <v-btn color="primary" large>Kjøp!</v-btn>
+            </v-col>
+
+            <v-col cols="12">
+              <pre>{{ item }}</pre>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
+
+    <v-divider class="my-12" />
+
+    <v-row align="center" class="mb-4">
+      <h2 class="mr-4">Club members</h2>
+
+      <v-btn color="primary" size="x-small">New member</v-btn>
+    </v-row>
+
+    <v-progress-circular v-if="loading" :loading="loading" height="100" color="white" indeterminate />
+    <v-row v-else>
+      <v-col v-for="member in members" :key="member.ID" cols="4">
         <v-card>
           <v-card-title>
-            {{ item.name }}
+            {{ member.firstName }} {{ member.lastName }}
           </v-card-title>
-
-          <v-card-text>
-            <v-row>
-              <v-col>
-                {{ item.name }}
-              </v-col>
-
-              <v-col>
-                <v-img :src="item.imageURL" />
-              </v-col>
-            </v-row>
-          </v-card-text>
 
           <v-card-actions>
             <v-row>
               <v-col>
-                <h3>Pris {{ item.price }}</h3>
+                <v-btn>Knapp 1</v-btn>
               </v-col>
 
               <v-col>
-                <v-btn color="success" large>Kjøp!</v-btn>
+                <v-btn>Knapp 2</v-btn>
               </v-col>
             </v-row>
           </v-card-actions>
         </v-card>
       </v-col>
-    </v-row>
 
-    <h4>Members</h4>
-    <v-card v-for="member in members" :key="member.ID">
-      {{ member.firstName }} {{ member.lastName }}
-    </v-card>
+      <v-col cols="12">
+
+      </v-col>
+    </v-row>
   </main>
 </template>
 
