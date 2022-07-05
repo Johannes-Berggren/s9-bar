@@ -43,10 +43,44 @@ onMounted(async () => {
 
   <main>
     <h4>Items</h4>
-    <pre style="margin-bottom: 50px">{{ items }}</pre>
+    <v-row>
+      <v-col v-for="item in items" :key="item.name" cols="4">
+        <v-card>
+          <v-card-title>
+            {{ item.name }}
+          </v-card-title>
+
+          <v-card-text>
+            <v-row>
+              <v-col>
+                {{ item.name }}
+              </v-col>
+
+              <v-col>
+                <v-img :src="item.imageURL" />
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-row>
+              <v-col>
+                <h3>Pris {{ item.price }}</h3>
+              </v-col>
+
+              <v-col>
+                <v-btn color="success" large>Kjøp!</v-btn>
+              </v-col>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
 
     <h4>Members</h4>
-    <pre>{{ members }}</pre>
+    <v-card v-for="member in members" :key="member.ID">
+      {{ member.firstName }} {{ member.lastName }}
+    </v-card>
   </main>
 </template>
 
