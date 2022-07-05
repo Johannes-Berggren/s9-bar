@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { getItems, getMembers } from "@/config/firebase";
-import { onMounted, reactive, ref } from "vue";
+import { getItems, getMembers, updateItem } from "@/config/firebase";
+import type Item from "@/interfaces/Item";
+import type Member from "@/interfaces/Member";
+import { onMounted, reactive } from "vue";
 
 const vm = reactive({
   addItemDialogVisible: false,
   addMemberDialogVisible: false,
-  items: [] as Record<string, unknown>[],
+  items: [] as Item[],
+  newItem: {
+    ID: 0,
+    currentInventory: 0,
+    imageURL: "",
+    name: "",
+    price: 0,
+    type: ""
+  } as Item,
   loading: true,
-  members: [] as Record<string, unknown>[],
+  members: [] as Member[],
 });
 
 onMounted(async () => {
@@ -31,7 +41,7 @@ onMounted(async () => {
 
     <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
     <v-expansion-panels v-else>
-      <v-expansion-panel v-for="item in vm.items" :key="item.name" cols="4">
+      <v-expansion-panel v-for="item in vm.items" :key="item.ID" cols="4">
         <v-expansion-panel-title>
           <b>{{ item.name }}</b>
           <v-spacer />
@@ -39,17 +49,46 @@ onMounted(async () => {
         </v-expansion-panel-title>
 
         <v-expansion-panel-text>
-          <v-row align="center">
+          <v-row>
             <v-col cols="2">
               <v-img :src="item.imageURL" />
             </v-col>
 
-            <v-col>
-              <v-btn color="primary" large>Kjøp for {{ item.price }} BitchCoin</v-btn>
-            </v-col>
+            <v-col cols="10">
+              <v-row>
+                <v-col>
+                  <v-text-field v-model="item.name" label="Name" @change="updateItem(item)" />
+                </v-col>
 
-            <v-col>
-              <v-btn color="primary" large>Endre beholdning</v-btn>
+                <v-col>
+                  <v-text-field
+                    v-model="item.price"
+                    label="Price"
+                    prefix="BitchCoin"
+                    @change="updateItem(item)"
+                    type="number"
+                  />
+                </v-col>
+
+                <v-col>
+                  <v-text-field
+                    v-model="item.currentInventory"
+                    label="In the bar"
+                    @change="updateItem(item)"
+                    type="number"
+                  />
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col>
+                  <v-btn color="primary" large>Kjøp for {{ item.price }} BitchCoin</v-btn>
+                </v-col>
+
+                <v-col>
+                  <v-btn color="primary" large>Endre beholdning</v-btn>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </v-expansion-panel-text>
@@ -89,7 +128,19 @@ onMounted(async () => {
 
     <v-dialog v-model="vm.addItemDialogVisible">
       <v-card width="600" height="600">
-        <h4>HER KAN MAN SNART LEGGE TIL SHIT I BAREN</h4>
+        <v-row>
+          <v-col>
+            <v-text-field v-model="vm.newItem.name" label="Name" />
+          </v-col>
+
+          <v-col>
+            <v-text-field v-model="vm.newItem.price" label="Price" prefix="BitchCoin" type="number" />
+          </v-col>
+
+          <v-col>
+            <v-text-field v-model="vm.newItem.currentInventory" label="In the bar" type="number" />
+          </v-col>
+        </v-row>
       </v-card>
     </v-dialog>
 

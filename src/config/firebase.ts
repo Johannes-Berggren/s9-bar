@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore, query } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs, getFirestore, query } from "firebase/firestore";
+import type Item from "@/interfaces/Item";
+import type Member from "@/interfaces/Member";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcRk89s5vl4ihZ1J_cO0e6AOMDMIkXIz0",
@@ -13,38 +15,54 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function addItem() {
-  // TODO
+export async function addItem(item: Item): Promise<void> {
+  // TODO: Find next index
+  const itemObject: Item = {
+    ID: item.ID,
+    currentInventory: +item.currentInventory,
+    imageURL: item.imageURL,
+    name: item.name,
+    price: +item.price,
+    type: item.type,
+  };
+  await setDoc(doc(db, "items", String(item.ID)), itemObject);
 }
 
-async function getItems() {
+export async function getItems(): Promise<Item[]> {
   const itemsQuery = query(collection(db, "items"));
   const itemsSnapshot = await getDocs(itemsQuery);
 
-  return itemsSnapshot.docs.map((s) => s.data());
+  return itemsSnapshot.docs.map((s) => s.data() as Item);
 }
 
-async function addMember() {
-  // TODO
+export async function updateItem(item: Item): Promise<void> {
+  const updateObject: Item = {
+    ID: item.ID,
+    currentInventory: +item.currentInventory,
+    imageURL: item.imageURL,
+    name: item.name,
+    price: +item.price,
+    type: item.type,
+  };
+  await setDoc(doc(db, "items", String(item.ID)), updateObject);
 }
 
-async function editMember() {
-  // TODO
-}
+// export async function addMember(member: Member): Promise<Member> {
+//   // TODO
+// }
 
-async function getMembers() {
+// export async function editMember(member: Member): Promise<Member> {
+//   // TODO
+// }
+
+export async function getMembers(): Promise<Member[]> {
   const membersQuery = query(collection(db, "members"));
   const membersSnapshot = await getDocs(membersQuery);
 
-  return membersSnapshot.docs.map((s) => s.data());
+  return membersSnapshot.docs.map((s) => s.data() as Member);
 }
 
 export {
-  addItem,
-  addMember,
   app,
   db,
-  editMember,
-  getItems,
-  getMembers,
 };
