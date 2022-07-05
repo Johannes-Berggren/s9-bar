@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { getItems, getMembers } from "@/config/firebase";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 
-const items = ref<Record<string, unknown>[]>([]);
-const loading = ref(true);
-const members = ref<Record<string, unknown>[]>([]);
-
-onMounted(async () => {
-  items.value = await getItems();
-  members.value = await getMembers();
-
-  loading.value = false;
+const vm = reactive({
+  addItemDialogVisible: false,
+  addMemberDialogVisible: false,
+  items: [] as Record<string, unknown>[],
+  loading: true,
+  members: [] as Record<string, unknown>[],
 });
 
+onMounted(async () => {
+  vm.items = await getItems();
+  vm.members = await getMembers();
+  vm.loading = false;
+});
 </script>
 
 <template>
@@ -24,12 +26,12 @@ onMounted(async () => {
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Bar items</h2>
 
-      <v-btn color="primary" size="x-small">New item</v-btn>
+      <v-btn color="primary" size="x-small" @click="vm.addItemDialogVisible = true">New item</v-btn>
     </v-row>
 
-    <v-progress-circular v-if="loading" :loading="loading" height="100" color="white" indeterminate />
+    <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
     <v-expansion-panels v-else>
-      <v-expansion-panel v-for="item in items" :key="item.name" cols="4">
+      <v-expansion-panel v-for="item in vm.items" :key="item.name" cols="4">
         <v-expansion-panel-title>
           <b>{{ item.name }}</b>
           <v-spacer />
@@ -37,18 +39,17 @@ onMounted(async () => {
         </v-expansion-panel-title>
 
         <v-expansion-panel-text>
-          <v-row>
+          <v-row align="center">
             <v-col cols="2">
               <v-img :src="item.imageURL" />
             </v-col>
 
             <v-col>
-              <h3>Pris {{ item.price }}</h3>
-              <v-btn color="primary" large>Kjøp!</v-btn>
+              <v-btn color="primary" large>Kjøp for {{ item.price }} BitchCoin</v-btn>
             </v-col>
 
-            <v-col cols="12">
-              <pre>{{ item }}</pre>
+            <v-col>
+              <v-btn color="primary" large>Endre beholdning</v-btn>
             </v-col>
           </v-row>
         </v-expansion-panel-text>
@@ -60,12 +61,12 @@ onMounted(async () => {
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Club members</h2>
 
-      <v-btn color="primary" size="x-small">New member</v-btn>
+      <v-btn color="primary" size="x-small" @click="vm.addMemberDialogVisible = true">New member</v-btn>
     </v-row>
 
-    <v-progress-circular v-if="loading" :loading="loading" height="100" color="white" indeterminate />
+    <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
     <v-row v-else>
-      <v-col v-for="member in members" :key="member.ID" cols="4">
+      <v-col v-for="member in vm.members" :key="member.ID" cols="12" sm="6">
         <v-card>
           <v-card-title>
             {{ member.firstName }} {{ member.lastName }}
@@ -84,11 +85,19 @@ onMounted(async () => {
           </v-card-actions>
         </v-card>
       </v-col>
-
-      <v-col cols="12">
-
-      </v-col>
     </v-row>
+
+    <v-dialog v-model="vm.addItemDialogVisible">
+      <v-card width="600" height="600">
+        <h4>HER KAN MAN SNART LEGGE TIL SHIT I BAREN</h4>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="vm.addMemberDialogVisible">
+      <v-card width="600" height="600">
+        <h4>HER KAN MAN SNART LEGGE TIL MEDLEMMER</h4>
+      </v-card>
+    </v-dialog>
   </main>
 </template>
 
