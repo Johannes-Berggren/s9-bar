@@ -79,16 +79,6 @@ onMounted(async () => {
                   />
                 </v-col>
               </v-row>
-
-              <v-row>
-                <v-col>
-                  <v-btn color="primary" large>Kjøp for {{ item.price }} BitchCoin</v-btn>
-                </v-col>
-
-                <v-col>
-                  <v-btn color="primary" large>Endre beholdning</v-btn>
-                </v-col>
-              </v-row>
             </v-col>
           </v-row>
         </v-expansion-panel-text>
