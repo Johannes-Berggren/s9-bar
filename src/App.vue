@@ -1,34 +1,3 @@
-<script setup lang="ts">
-import { getItems, getMembers, updateItem } from "@/config/firebase";
-import type Item from "@/interfaces/Item";
-import type Member from "@/interfaces/Member";
-import { onMounted, reactive } from "vue";
-
-const vm = reactive({
-  addItemDialogVisible: false,
-  addMemberDialogVisible: false,
-  items: [] as Item[],
-  memberInfoDialogVisible: false,
-  newItem: {
-    ID: 0,
-    currentInventory: 0,
-    imageURL: "",
-    name: "",
-    price: 0,
-    type: "",
-  } as Item,
-  loading: true,
-  members: [] as Member[],
-  pickedMember: {},
-});
-
-onMounted(async () => {
-  vm.items = await getItems();
-  vm.members = await getMembers();
-  vm.loading = false;
-});
-</script>
-
 <template>
   <div>
     <v-container>
@@ -167,6 +136,37 @@ onMounted(async () => {
     </v-dialog>
   </div>
 </template>
+
+<script setup lang="ts">
+import { getItems, getMembers, updateItem } from "@/config/firebase";
+import type Item from "@/interfaces/Item";
+import type Member from "@/interfaces/Member";
+import { onMounted, reactive } from "vue";
+
+const vm = reactive({
+  addItemDialogVisible: false,
+  addMemberDialogVisible: false,
+  items: [] as Item[],
+  memberInfoDialogVisible: false,
+  newItem: {
+    ID: 0,
+    currentInventory: 0,
+    imageURL: "",
+    name: "",
+    price: 0,
+    type: "",
+  } as Item,
+  loading: true,
+  members: [] as Member[],
+  pickedMember: {},
+});
+
+onMounted(async () => {
+  vm.items = await getItems();
+  vm.members = await getMembers();
+  vm.loading = false;
+});
+</script>
 
 <style>
 @import './assets/base.css';
