@@ -8,16 +8,18 @@ const vm = reactive({
   addItemDialogVisible: false,
   addMemberDialogVisible: false,
   items: [] as Item[],
+  memberInfoDialogVisible: false,
   newItem: {
     ID: 0,
     currentInventory: 0,
     imageURL: "",
     name: "",
     price: 0,
-    type: ""
+    type: "",
   } as Item,
   loading: true,
   members: [] as Member[],
+  pickedMember: {},
 });
 
 onMounted(async () => {
@@ -28,94 +30,110 @@ onMounted(async () => {
 </script>
 
 <template>
-  <header>
-    <img alt="S9 Logo" class="logo" src="./assets/logo.png" width="125" height="125" />
-  </header>
+  <div>
+    <v-container>
+      <v-row>
+        <v-col cols="3">
+          <img alt="S9 Logo" class="logo" src="./assets/logo.png" width="125" height="125" />
+        </v-col>
 
-  <main>
-    <v-row align="center" class="mb-4">
-      <h2 class="mr-4">Bar items</h2>
+        <v-col cols="9">
+          <v-row align="center" class="mb-4">
+            <h2 class="mr-4">Bar items</h2>
 
-      <v-btn color="primary" size="x-small" @click="vm.addItemDialogVisible = true">New item</v-btn>
-    </v-row>
+            <v-btn color="primary" size="x-small" @click="vm.addItemDialogVisible = true">New item</v-btn>
+          </v-row>
 
-    <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
-    <v-expansion-panels v-else>
-      <v-expansion-panel v-for="item in vm.items" :key="item.ID" cols="4">
-        <v-expansion-panel-title>
-          <b>{{ item.name }}</b>
-          <v-spacer />
-          {{ item.currentInventory }} left in the bar
-        </v-expansion-panel-title>
+          <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
+          <v-expansion-panels v-else>
+            <v-expansion-panel v-for="item in vm.items" :key="item.ID" cols="4">
+              <v-expansion-panel-title>
+                <b>{{ item.name }}</b>
+                <v-spacer />
+                {{ item.currentInventory }} left in the bar
+              </v-expansion-panel-title>
 
-        <v-expansion-panel-text>
-          <v-row>
-            <v-col cols="2">
-              <v-img :src="item.imageURL" />
-            </v-col>
+              <v-expansion-panel-text>
+                <v-row>
+                  <v-col cols="2">
+                    <v-img :src="item.imageURL" />
+                  </v-col>
 
-            <v-col cols="10">
-              <v-row>
-                <v-col>
-                  <v-text-field v-model="item.name" label="Name" @change="updateItem(item)" />
-                </v-col>
+                  <v-col cols="10">
+                    <v-row>
+                      <v-col>
+                        <v-text-field v-model="item.name" label="Name" @change="updateItem(item)" />
+                      </v-col>
 
-                <v-col>
-                  <v-text-field
-                    v-model="item.price"
-                    label="Price"
-                    prefix="BitchCoin"
-                    @change="updateItem(item)"
-                    type="number"
-                  />
-                </v-col>
+                      <v-col>
+                        <v-text-field
+                          v-model="item.price"
+                          label="Price"
+                          prefix="BitchCoin"
+                          @change="updateItem(item)"
+                          type="number"
+                        />
+                      </v-col>
 
-                <v-col>
-                  <v-text-field
-                    v-model="item.currentInventory"
-                    label="In the bar"
-                    @change="updateItem(item)"
-                    type="number"
-                  />
-                </v-col>
-              </v-row>
+                      <v-col>
+                        <v-text-field
+                          v-model="item.currentInventory"
+                          label="In the bar"
+                          @change="updateItem(item)"
+                          type="number"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
+
+          <v-divider class="my-12" />
+
+          <v-row align="center" class="mb-4">
+            <h2 class="mr-4">Club members</h2>
+
+            <v-btn color="primary" size="x-small" @click="vm.addMemberDialogVisible = true">New member</v-btn>
+          </v-row>
+
+          <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
+          <v-row v-else>
+            <v-col v-for="member in vm.members" :key="member.ID" cols="12" sm="6">
+              <v-card>
+                <v-card-title>
+                  {{ member.firstName }} {{ member.lastName }}
+                </v-card-title>
+
+                <v-card-actions>
+                  <v-row>
+                    <v-col>
+                      <v-btn size="small">Add credit</v-btn>
+                    </v-col>
+
+                    <v-col>
+                      <v-btn size="small" @click="vm.memberInfoDialogVisible = true; vm.pickedMember = member">More info</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card-actions>
+              </v-card>
             </v-col>
           </v-row>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
 
-    <v-divider class="my-12" />
+          <v-row align="center" class="mb-4">
+            <h2 class="mr-4">Transactions</h2>
+          </v-row>
 
-    <v-row align="center" class="mb-4">
-      <h2 class="mr-4">Club members</h2>
+          <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
+          <v-row v-else>
+            <pre>{{ vm.transactions }}</pre>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
 
-      <v-btn color="primary" size="x-small" @click="vm.addMemberDialogVisible = true">New member</v-btn>
-    </v-row>
-
-    <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
-    <v-row v-else>
-      <v-col v-for="member in vm.members" :key="member.ID" cols="12" sm="6">
-        <v-card>
-          <v-card-title>
-            {{ member.firstName }} {{ member.lastName }}
-          </v-card-title>
-
-          <v-card-actions>
-            <v-row>
-              <v-col>
-                <v-btn>Knapp 1</v-btn>
-              </v-col>
-
-              <v-col>
-                <v-btn>Knapp 2</v-btn>
-              </v-col>
-            </v-row>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-
+    <!-- ADD ITEM DIALOG -->
     <v-dialog v-model="vm.addItemDialogVisible">
       <v-card width="600" height="600">
         <v-row>
@@ -134,12 +152,20 @@ onMounted(async () => {
       </v-card>
     </v-dialog>
 
+    <!-- ADD MEMBER DIALOG -->
     <v-dialog v-model="vm.addMemberDialogVisible">
       <v-card width="600" height="600">
         <h4>HER KAN MAN SNART LEGGE TIL MEDLEMMER</h4>
       </v-card>
     </v-dialog>
-  </main>
+
+    <!-- MEMBER INFORMATION DIALOG -->
+    <v-dialog v-model="vm.memberInfoDialogVisible">
+      <v-card width="600" height="600">
+        <pre>{{ vm.pickedMember }}</pre>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <style>
@@ -179,12 +205,6 @@ a,
   body {
     display: flex;
     place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
   }
 
   header {
