@@ -1,3 +1,4 @@
+import type Transaction from "@/interfaces/Transaction";
 import { initializeApp } from "firebase/app";
 import { collection, doc, setDoc, getDocs, getFirestore, query } from "firebase/firestore";
 import type Item from "@/interfaces/Item";
@@ -60,6 +61,13 @@ export async function getMembers(): Promise<Member[]> {
   const membersSnapshot = await getDocs(membersQuery);
 
   return membersSnapshot.docs.map((s) => s.data() as Member);
+}
+
+export async function getTransactions(): Promise<Transaction[]> {
+  const transactionsQuery = query(collection(db, "transactions"));
+  const transactionsSnapshot = await getDocs(transactionsQuery);
+
+  return transactionsSnapshot.docs.map((s) => s.data() as Transaction);
 }
 
 export {

@@ -90,13 +90,15 @@
             </v-col>
           </v-row>
 
+          <v-divider class="my-12" />
+
           <v-row align="center" class="mb-4">
             <h2 class="mr-4">Transactions</h2>
           </v-row>
 
           <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
           <v-row v-else>
-            <pre>{{ vm.transactions }}</pre>
+            <pre style="color: white">{{ vm.transactions }}</pre>
           </v-row>
         </v-col>
       </v-row>
@@ -138,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { getItems, getMembers, updateItem } from "@/config/firebase";
+import { getItems, getMembers, getTransactions, updateItem } from "@/config/firebase";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import { onMounted, reactive } from "vue";
@@ -159,11 +161,13 @@ const vm = reactive({
   loading: true,
   members: [] as Member[],
   pickedMember: {},
+  transactions: []
 });
 
 onMounted(async () => {
   vm.items = await getItems();
   vm.members = await getMembers();
+  vm.transactions = await getTransactions();
   vm.loading = false;
 });
 </script>
