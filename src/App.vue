@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="3">
-          <img alt="S9 Logo" class="logo" src="./assets/logo.png" width="125" height="125" />
+          <img alt="S9 Logo" class="logo" src="./assets/logo.png" width="125" height="125" style="position: sticky; top: 40vh" />
         </v-col>
 
         <v-col cols="9">
