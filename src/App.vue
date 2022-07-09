@@ -2,11 +2,19 @@
   <div>
     <v-container>
       <v-row>
-        <v-col cols="3">
-          <img alt="S9 Logo" class="logo" src="./assets/logo.png" width="125" height="125" style="position: sticky; top: 40vh" />
+        <v-col cols="12" md="3">
+          <img
+            alt="S9 Logo"
+            class="logo"
+            src="./assets/logo.png"
+            width="125"
+            height="125"
+            style="position: sticky; top: 40vh"
+          />
         </v-col>
 
-        <v-col cols="9">
+        <!-- BAR ITEM LIST -->
+        <v-col cols="12" md="9">
           <v-row align="center" class="mb-4">
             <h2 class="mr-4">Bar items</h2>
 
@@ -23,44 +31,14 @@
               </v-expansion-panel-title>
 
               <v-expansion-panel-text>
-                <v-row>
-                  <v-col cols="2">
-                    <v-img :src="item.imageURL" />
-                  </v-col>
-
-                  <v-col cols="10">
-                    <v-row>
-                      <v-col>
-                        <v-text-field v-model="item.name" label="Name" @change="updateItem(item)" />
-                      </v-col>
-
-                      <v-col>
-                        <v-text-field
-                          v-model="item.price"
-                          label="Price"
-                          prefix="BitchCoin"
-                          @change="updateItem(item)"
-                          type="number"
-                        />
-                      </v-col>
-
-                      <v-col>
-                        <v-text-field
-                          v-model="item.currentInventory"
-                          label="In the bar"
-                          @change="updateItem(item)"
-                          type="number"
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
+                <BarItem :item="item" />
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
 
           <v-divider class="my-12" />
 
+          <!-- CLUB MEMBER LIST -->
           <v-row align="center" class="mb-4">
             <h2 class="mr-4">Club members</h2>
 
@@ -82,7 +60,9 @@
                     </v-col>
 
                     <v-col>
-                      <v-btn size="small" @click="vm.memberInfoDialogVisible = true; vm.pickedMember = member">More info</v-btn>
+                      <v-btn size="small" @click="vm.memberInfoDialogVisible = true; vm.pickedMember = member">More
+                        info
+                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-card-actions>
@@ -92,6 +72,7 @@
 
           <v-divider class="my-12" />
 
+          <!-- TRANSACTION LIST -->
           <v-row align="center" class="mb-4">
             <h2 class="mr-4">Transactions</h2>
           </v-row>
@@ -107,19 +88,7 @@
     <!-- ADD ITEM DIALOG -->
     <v-dialog v-model="vm.addItemDialogVisible">
       <v-card width="600" height="600">
-        <v-row>
-          <v-col>
-            <v-text-field v-model="vm.newItem.name" label="Name" />
-          </v-col>
-
-          <v-col>
-            <v-text-field v-model="vm.newItem.price" label="Price" prefix="BitchCoin" type="number" />
-          </v-col>
-
-          <v-col>
-            <v-text-field v-model="vm.newItem.currentInventory" label="In the bar" type="number" />
-          </v-col>
-        </v-row>
+        <BarItem :item="vm.newItem" />
       </v-card>
     </v-dialog>
 
@@ -140,10 +109,12 @@
 </template>
 
 <script setup lang="ts">
-import { getItems, getMembers, getTransactions, updateItem } from "@/config/firebase";
+import BarItem from "@/components/BarItem.vue";
+import { getItems, getMembers, getTransactions } from "@/config/firebase";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
-import { onMounted, reactive } from "vue";
+import type Transaction from "@/interfaces/Transaction";
+import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({
   addItemDialogVisible: false,
@@ -161,42 +132,35 @@ const vm = reactive({
   loading: true,
   members: [] as Member[],
   pickedMember: {},
-  transactions: []
+  transactions: [] as Transaction[],
 });
 
 onMounted(async () => {
-  vm.items = await getItems();
-  vm.members = await getMembers();
-  vm.transactions = await getTransactions();
+  [
+    vm.items,
+    vm.members,
+    vm.transactions,
+  ] = await Promise.all([
+    getItems(),
+    getMembers(),
+    getTransactions(),
+  ]);
   vm.loading = false;
 });
+
+async function fetchItems(): Promise<void> {
+  vm.items = await getItems();
+}
+
+provide<() => Promise<void>>("fetchItems", fetchItems);
 </script>
 
 <style>
 @import './assets/base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-header {
-  line-height: 1.5;
-}
-
 .logo {
   display: block;
   margin: 0 auto 2rem;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
 }
 
 @media (hover: hover) {
