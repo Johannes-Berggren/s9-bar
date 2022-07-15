@@ -110,7 +110,7 @@
 
 <script setup lang="ts">
 import BarItem from "@/components/BarItem.vue";
-import { getItems, getMembers, getTransactions } from "@/config/firebase";
+import { createCustomerPortalSession, getItems, getMembers, getTransactions } from "@/config/firebase";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
@@ -145,6 +145,17 @@ onMounted(async () => {
     getMembers(),
     getTransactions(),
   ]);
+
+  console.log("mounted");
+
+  try {
+    const session = await createCustomerPortalSession("cus_JBbsa5PvlS9DKY");
+    console.log(session);
+  }
+  catch (e) {
+    console.error(e);
+  }
+
   vm.loading = false;
 });
 

@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { collection, doc, setDoc, getDocs, getFirestore, query } from "firebase/firestore";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
+import api from "@/config/axios";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcRk89s5vl4ihZ1J_cO0e6AOMDMIkXIz0",
@@ -15,6 +16,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+export async function createCustomerPortalSession(customerID: string) {
+  const portalSession = await api(`/createCustomerPortalSession/${customerID}`);
+
+  console.log(portalSession.data);
+
+  return portalSession;
+}
 
 async function getID(collectionName: string): Promise<number> {
   const itemsQuery = query(collection(db, collectionName));
