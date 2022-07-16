@@ -16,8 +16,8 @@ app.get("/createCustomerCheckoutSession/:memberID/:customerID", async (req, res)
   const checkoutSession = await stripe.checkout.sessions.create({
     customer: req.params.customerID,
     line_items: [{
-      // price: "price_1LMHtpI1MJoejWlLBj1SnnjZ", // PROD
-      price: "price_1LMIWGI1MJoejWlL3PpTxkq5", // TEST
+      price: "price_1LMHtpI1MJoejWlLBj1SnnjZ", // PROD
+      // price: "price_1LMIWGI1MJoejWlL3PpTxkq5", // TEST
       quantity: 1,
     }],
     mode: "payment",

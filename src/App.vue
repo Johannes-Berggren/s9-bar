@@ -1,5 +1,11 @@
 <template>
   <v-container>
+    <v-overlay :model-value="vm.loading" class="align-center justify-center">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
     <v-row>
       <v-col cols="12" md="3" class="text-center">
         <div style="position: sticky; top: 40vh">
@@ -44,7 +50,7 @@
           <v-window v-model="vm.tab">
             <v-window-item value="payment">
               <h2>Betaling</h2>
-              <v-btn @click="createPortalSession()" color="primary" :loading="vm.loading">
+              <v-btn @click="createPortalSession()" color="primary">
                 Oppdater betalingsinformasjon
               </v-btn>
             </v-window-item>
