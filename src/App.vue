@@ -6,9 +6,9 @@
         size="64"
       ></v-progress-circular>
     </v-overlay>
-    <v-row>
-      <v-col cols="12" md="3" class="text-center">
-        <div style="position: sticky; top: 40vh">
+    <div>
+      <v-row class="text-center mx-auto" style="max-width: 400px" align="center">
+        <v-col cols="4">
           <img
             alt="S9 Logo"
             class="logo"
@@ -16,52 +16,38 @@
             width="125"
             height="125"
           />
+        </v-col>
 
-          <div v-if="vm.member.firstName">
-            <h3>Welcome {{ vm.member.firstName }}</h3>
-            <h5>{{ vm.member.credit }} ClubCoin</h5>
-            <v-btn size="x-small" variant="text" class="mx-auto" @click="createCheckoutSession()">
-              Top up balance
-            </v-btn>
-          </div>
-        </div>
-      </v-col>
+        <v-col>
+          <v-row v-if="vm.member.firstName">
+            <v-col cols="12">
+              <h3>Welcome {{ vm.member.firstName }}</h3>
+              <h4 class="mb-2">{{ vm.member.credit }} ClubCoin</h4>
+            </v-col>
 
-      <v-col cols="12" md="9">
+            <v-col cols="6">
+              <v-btn size="x-small" variant="outlined" class="mx-auto" @click="createCheckoutSession()" color="rgb(255, 0, 136)">
+                Top up balance
+              </v-btn>
+            </v-col>
+
+            <v-col cols="6">
+              <v-btn @click="createPortalSession()" variant="outlined" color="rgb(255, 0, 136)" size="x-small">
+                Payment info
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+
+      <div>
         <code-pad v-if="!vm.signedIn" @success="signedIn" />
 
         <v-container v-else>
-          <v-tabs v-model="vm.tab" centered stacked background-color="rgb(255, 0, 136)">
-            <v-tab value="payment" color="white">
-              <v-icon>
-                mdi-credit-card-outline
-              </v-icon>
-              Betaling
-            </v-tab>
-
-            <v-tab value="admin" color="white">
-              <v-icon>
-                mdi-phone
-              </v-icon>
-              Admin
-            </v-tab>
-          </v-tabs>
-
-          <v-window v-model="vm.tab">
-            <v-window-item value="payment">
-              <h2>Betaling</h2>
-              <v-btn @click="createPortalSession()" color="primary">
-                Oppdater betalingsinformasjon
-              </v-btn>
-            </v-window-item>
-
-            <v-window-item value="admin">
-              <admin v-if="vm.member.admin" />
-            </v-window-item>
-          </v-window>
+          <admin v-if="vm.member.admin" />
         </v-container>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -99,26 +85,4 @@ function signedIn(member: Member) {
 
 <style lang="sass">
 @import './assets/base.css'
-
-@media (hover: hover)
-  a:hover
-    background-color: hsla(160, 100%, 37%, 0.2)
-
-@media (min-width: 1024px)
-  body
-    display: flex
-    place-items: center
-
-  header
-    display: flex
-    place-items: center
-    padding-right: calc(var(--section-gap) / 2)
-
-  header .wrapper
-    display: flex
-    place-items: flex-start
-    flex-wrap: wrap
-
-  .logo
-    margin: 0 2rem 0 0
 </style>
