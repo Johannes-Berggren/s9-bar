@@ -1,7 +1,15 @@
 <template>
   <v-row class="code-pad">
     <v-col cols="12">
-      <v-text-field readonly type="password" v-model="vm.code" variant="outlined" />
+      <div style="max-width: 400px" class="mx-auto">
+        <v-text-field
+          readonly
+          type="password"
+          v-model="vm.code"
+          variant="outlined"
+          label="Welcome. Enter your door code."
+        />
+      </div>
     </v-col>
 
     <v-col cols="4">
@@ -63,6 +71,7 @@
 <script setup lang="ts">
 import { defineEmits, onMounted, reactive } from "vue";
 import { getMembers } from "@/config/firebase";
+
 const emit = defineEmits(["success"]);
 import type Member from "@/interfaces/Member";
 
@@ -73,7 +82,7 @@ const vm = reactive({
 
 onMounted(async () => {
   vm.members = await getMembers();
-})
+});
 
 function enterNumber(num: number) {
   vm.code = vm.code + num;

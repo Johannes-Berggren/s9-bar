@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Bar items</h2>
 
@@ -87,7 +87,7 @@
         <pre>{{ vm.pickedMember }}</pre>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script setup lang="ts">
