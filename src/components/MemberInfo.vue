@@ -5,11 +5,10 @@
       <h4>{{ vm.member.credit }} ClubCoin</h4>
     </v-col>
 
-    <v-col cols="6">
+    <v-col cols="4">
       <v-btn
         size="x-small"
         variant="outlined"
-        class="mx-auto"
         @click="createCheckoutSession()"
         color="rgb(255, 0, 136)"
       >
@@ -17,7 +16,7 @@
       </v-btn>
     </v-col>
 
-    <v-col cols="6">
+    <v-col cols="4">
       <v-btn @click="createPortalSession()" variant="outlined" color="rgb(255, 0, 136)" size="x-small">
         Payment info
       </v-btn>
