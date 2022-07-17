@@ -27,6 +27,13 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="vm.purchaseDialogVisible">
+      <v-card>
+        <h3>PURCHASEDIALOG</h3>
+        <pre>{{ vm.selectedItem }}</pre>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -39,6 +46,8 @@ const loading = inject<(val: boolean) => void>("loading");
 
 const vm = reactive({
   items: [] as Item[],
+  purchaseDialogVisible: false,
+  selectedItem: {},
 });
 
 onMounted(async () => {
@@ -49,6 +58,8 @@ onMounted(async () => {
 
 function openItem(item: Item) {
   console.log(item);
+  vm.purchaseDialogVisible = true;
+  vm.selectedItem = item;
 }
 
 </script>
