@@ -12,32 +12,23 @@
           <v-card-subtitle>
             {{ item.price }} ClubCoin
           </v-card-subtitle>
-
-          <!--          <v-card-actions>-->
-          <!--            <v-btn color="primary" size="small" class="mx-auto" variant="rounded">-->
-          <!--              Buy-->
-          <!--            </v-btn>-->
-
-          <!--            <v-spacer />-->
-
-          <!--            <v-btn color="primary" size="small" class="mx-auto">-->
-          <!--              Button 2-->
-          <!--            </v-btn>-->
-          <!--          </v-card-actions>-->
         </v-card>
       </v-col>
     </v-row>
 
-    <v-dialog v-model="vm.purchaseDialogVisible">
-      <v-card class="pa-4 text-center">
-        <v-row class="mb-4">
+    <v-dialog v-model="vm.purchaseDialogVisible" width="600">
+      <v-card v-if="vm.page === 1" class="pa-4 text-center">
+        <v-row class="mb-4" dense>
+          <v-col cols="12">
+            <h2>Buy</h2>
+          </v-col>
           <v-col>
             <v-btn
-              icon
+              variant="icon"
               @click="vm.amount--"
               class="ml-auto"
               color="primary"
-              size="large"
+              size="x-large"
             >
               <v-icon>
                 mdi-minus-circle
@@ -45,26 +36,41 @@
             </v-btn>
           </v-col>
 
-          <v-col>
-            <h1>Buy {{ vm.amount }} {{ vm.selectedItem.name }}</h1>
+          <v-col cols="1">
+            <h1>{{ vm.amount }}</h1>
           </v-col>
 
           <v-col>
             <v-btn
               class="mr-auto"
-              icon
+              variant="icon"
               @click="vm.amount++"
               color="primary"
-              size="large"
+              size="x-large"
             >
               <v-icon>
                 mdi-plus-circle
               </v-icon>
             </v-btn>
           </v-col>
+
+          <v-col cols="12">
+            <h2>{{ vm.selectedItem.name }}</h2>
+          </v-col>
         </v-row>
 
+        <v-divider class="mt-2 mb-6" />
+
         <code-pad style="max-width: 550px;" @success="purchaseItem" />
+      </v-card>
+
+      <v-card v-else-if="vm.page === 2" class="pa-4 text-center" >
+        <h1>Enjoy, bitch!</h1>
+
+        <v-divider class="my-4" />
+
+        <h3>You spent {{ vm.spent }} ClubCoin.</h3>
+        <h4>You have {{ vm.newCredit }} ClubCoin in your account.</h4>
       </v-card>
     </v-dialog>
   </v-container>
@@ -82,8 +88,11 @@ const loading = inject<(val: boolean) => void>("loading");
 const vm = reactive({
   amount: 1,
   items: [] as Item[],
+  newCredit: 0,
+  page: 1,
   purchaseDialogVisible: false,
   selectedItem: {} as Item,
+  spent: 0,
 });
 
 onMounted(async () => {
@@ -94,17 +103,20 @@ onMounted(async () => {
 });
 
 function openItem(item: Item) {
+  vm.page = 1;
   vm.purchaseDialogVisible = true;
   vm.selectedItem = item;
 }
 
 async function purchaseItem(member: Member) {
-  console.log(`${member.firstName} bought ${vm.amount} ${vm.selectedItem.name}`);
+  loading && loading(true);
   vm.selectedItem.currentInventory -= vm.amount;
-  member.credit -= (vm.selectedItem.price * vm.amount);
+  vm.spent = vm.selectedItem.price * vm.amount;
+  vm.newCredit = member.credit -= vm.spent;
   await updateItem(vm.selectedItem);
   await updateMember(member);
-  vm.purchaseDialogVisible = false;
+  vm.page++;
   vm.selectedItem = {} as Item;
+  loading && loading(false);
 }
 </script>
