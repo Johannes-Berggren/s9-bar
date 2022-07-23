@@ -30,6 +30,8 @@ export async function createCustomerPortalSession(customerID: string): Promise<S
   return portalSession.data;
 }
 
+// export async function deleteItem(itemID: string)
+
 async function getID(collectionName: string): Promise<number> {
   const itemsQuery = query(collection(db, collectionName));
   const itemsSnapshot = await getDocs(itemsQuery);
@@ -82,9 +84,21 @@ export async function updateItem(item: Item): Promise<void> {
 //   // TODO
 // }
 
-// export async function editMember(member: Member): Promise<Member> {
-//   // TODO
-// }
+export async function updateMember(member: Member): Promise<void> {
+  console.log(member);
+  const updateObject: Member = {
+    ID: member.ID,
+    admin: member.admin,
+    code: member.code,
+    credit: member.credit,
+    email: member.email,
+    firstName: member.firstName,
+    lastName: member.lastName,
+    phone: member.phone,
+    stripeID: member.stripeID,
+  };
+  await setDoc(doc(db, "members", `${updateObject.ID}`), updateObject);
+}
 
 export async function getMembers(): Promise<Member[]> {
   const membersQuery = query(collection(db, "members"));

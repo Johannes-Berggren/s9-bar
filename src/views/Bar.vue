@@ -29,10 +29,42 @@
     </v-row>
 
     <v-dialog v-model="vm.purchaseDialogVisible">
-      <v-card class="text-center">
-        <h1>Buy one {{ vm.selectedItem.name }}</h1>
+      <v-card class="pa-4 text-center">
+        <v-row class="mb-4">
+          <v-col>
+            <v-btn
+              icon
+              @click="vm.amount--"
+              class="ml-auto"
+              color="primary"
+              size="large"
+            >
+              <v-icon>
+                mdi-minus-circle
+              </v-icon>
+            </v-btn>
+          </v-col>
 
-        <code-pad @success="purchaseItem" />
+          <v-col>
+            <h1>Buy {{ vm.amount }} {{ vm.selectedItem.name }}</h1>
+          </v-col>
+
+          <v-col>
+            <v-btn
+              class="mr-auto"
+              icon
+              @click="vm.amount++"
+              color="primary"
+              size="large"
+            >
+              <v-icon>
+                mdi-plus-circle
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+
+        <code-pad style="max-width: 550px;" @success="purchaseItem" />
       </v-card>
     </v-dialog>
   </v-container>
@@ -42,12 +74,13 @@
 import CodePad from "@/components/CodePad.vue";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
-import { getItems } from "@/config/firebase";
+import { getItems, updateItem, updateMember } from "@/config/firebase";
 import { inject, onMounted, reactive } from "vue";
 
 const loading = inject<(val: boolean) => void>("loading");
 
 const vm = reactive({
+  amount: 1,
   items: [] as Item[],
   purchaseDialogVisible: false,
   selectedItem: {} as Item,
@@ -55,7 +88,8 @@ const vm = reactive({
 
 onMounted(async () => {
   loading && loading(true);
-  vm.items = await getItems();
+  const _items = await getItems();
+  vm.items = _items.filter((item) => item.currentInventory);
   loading && loading(false);
 });
 
@@ -64,7 +98,13 @@ function openItem(item: Item) {
   vm.selectedItem = item;
 }
 
-function purchaseItem(member: Member) {
-  console.log(`${member.firstName} bought one ${vm.selectedItem.name}`);
+async function purchaseItem(member: Member) {
+  console.log(`${member.firstName} bought ${vm.amount} ${vm.selectedItem.name}`);
+  vm.selectedItem.currentInventory--;
+  member.credit -= vm.selectedItem.price;
+  await updateItem(vm.selectedItem);
+  await updateMember(member);
+  vm.purchaseDialogVisible = false;
+  vm.selectedItem = {} as Item;
 }
 </script>

@@ -28,12 +28,19 @@
         </v-col>
 
         <v-col cols="12">
+          <v-text-field
+            v-model="vm.newItem.imageURL"
+            label="Image URL"
+          />
+        </v-col>
+
+        <v-col cols="12">
           <v-btn
             v-if="item.ID"
             color="primary"
             @click="update()"
             :loading="vm.loading"
-            :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.currentInventory"
+            :disabled="!vm.newItem.name || !vm.newItem.price"
           >Update
           </v-btn>
           <v-btn
@@ -44,20 +51,14 @@
             :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.currentInventory"
           >Add
           </v-btn>
-          <v-btn
-            v-if="item.ID"
-            color="primary"
-            @click="del()"
-            :loading="vm.loading"
-            :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.currentInventory"
-          >Delete
-          </v-btn>
+          <!--          <v-btn-->
+          <!--            color="error"-->
+          <!--            @click="del()"-->
+          <!--            :loading="vm.loading"-->
+          <!--          >Delete-->
+          <!--          </v-btn>-->
         </v-col>
       </v-row>
-    </v-col>
-
-    <v-col>
-      <pre>{{ vm.newItem }}</pre>
     </v-col>
   </v-row>
 </template>
@@ -93,11 +94,11 @@ async function add(): Promise<void> {
   vm.loading = false;
 }
 
-async function del(): Promise<void> {
-  vm.loading = true;
-
-  vm.loading = false;
-}
+// async function del(): Promise<void> {
+//   vm.loading = true;
+//   await deleteItem(vm.newItem);
+//   vm.loading = false;
+// }
 
 async function update(): Promise<void> {
   vm.loading = true;

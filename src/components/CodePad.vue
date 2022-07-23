@@ -7,7 +7,7 @@
           type="password"
           v-model="vm.code"
           variant="outlined"
-          label="Welcome. Enter your door code."
+          label="Enter your code."
         />
       </div>
     </v-col>
