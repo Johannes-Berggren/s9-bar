@@ -100,8 +100,8 @@ function openItem(item: Item) {
 
 async function purchaseItem(member: Member) {
   console.log(`${member.firstName} bought ${vm.amount} ${vm.selectedItem.name}`);
-  vm.selectedItem.currentInventory--;
-  member.credit -= vm.selectedItem.price;
+  vm.selectedItem.currentInventory -= vm.amount;
+  member.credit -= (vm.selectedItem.price * vm.amount);
   await updateItem(vm.selectedItem);
   await updateMember(member);
   vm.purchaseDialogVisible = false;
