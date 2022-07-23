@@ -29,17 +29,20 @@
     </v-row>
 
     <v-dialog v-model="vm.purchaseDialogVisible">
-      <v-card>
-        <h3>PURCHASEDIALOG</h3>
-        <pre>{{ vm.selectedItem }}</pre>
+      <v-card class="text-center">
+        <h1>Buy one {{ vm.selectedItem.name }}</h1>
+
+        <code-pad @success="purchaseItem" />
       </v-card>
     </v-dialog>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { getItems } from "@/config/firebase";
+import CodePad from "@/components/CodePad.vue";
 import type Item from "@/interfaces/Item";
+import type Member from "@/interfaces/Member";
+import { getItems } from "@/config/firebase";
 import { inject, onMounted, reactive } from "vue";
 
 const loading = inject<(val: boolean) => void>("loading");
@@ -47,7 +50,7 @@ const loading = inject<(val: boolean) => void>("loading");
 const vm = reactive({
   items: [] as Item[],
   purchaseDialogVisible: false,
-  selectedItem: {},
+  selectedItem: {} as Item,
 });
 
 onMounted(async () => {
@@ -57,9 +60,11 @@ onMounted(async () => {
 });
 
 function openItem(item: Item) {
-  console.log(item);
   vm.purchaseDialogVisible = true;
   vm.selectedItem = item;
 }
 
+function purchaseItem(member: Member) {
+  console.log(`${member.firstName} bought one ${vm.selectedItem.name}`);
+}
 </script>

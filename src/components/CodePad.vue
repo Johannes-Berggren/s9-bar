@@ -1,5 +1,5 @@
 <template>
-  <v-row class="code-pad">
+  <v-row class="code-pad" justify="center">
     <v-col cols="12">
       <div style="max-width: 400px" class="mx-auto">
         <v-text-field
@@ -63,6 +63,12 @@
     <v-col cols="4">
       <v-btn class="mx-auto" @click="enterNumber(9)" icon size="x-large" color="primary">
         9
+      </v-btn>
+    </v-col>
+
+    <v-col cols="4">
+      <v-btn class="mx-auto" @click="enterNumber(0)" icon size="x-large" color="primary">
+        0
       </v-btn>
     </v-col>
   </v-row>

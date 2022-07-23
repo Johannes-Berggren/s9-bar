@@ -44,6 +44,14 @@
             :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.currentInventory"
           >Add
           </v-btn>
+          <v-btn
+            v-if="item.ID"
+            color="primary"
+            @click="del()"
+            :loading="vm.loading"
+            :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.currentInventory"
+          >Delete
+          </v-btn>
         </v-col>
       </v-row>
     </v-col>
@@ -57,7 +65,7 @@
 <script setup lang="ts">
 import { addItem, updateItem } from "@/config/firebase";
 import type Item from "@/interfaces/Item";
-import { defineProps, inject, onMounted, reactive } from "vue";
+import { defineProps, inject, reactive } from "vue";
 
 const props = defineProps<{
   item: Item
@@ -76,16 +84,18 @@ const vm = reactive({
   } as Item,
 });
 
-onMounted(() => {
-  console.log(props.item);
-});
-
 const fetchItems = inject<() => Promise<void>>("fetchItems");
 
 async function add(): Promise<void> {
   vm.loading = true;
   await addItem(vm.newItem);
   fetchItems && await fetchItems();
+  vm.loading = false;
+}
+
+async function del(): Promise<void> {
+  vm.loading = true;
+
   vm.loading = false;
 }
 

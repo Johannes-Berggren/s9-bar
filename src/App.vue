@@ -54,11 +54,11 @@
 </template>
 
 <script setup lang="ts">
-import MemberInfo from "@/components/MemberInfo.vue";
 import Admin from "@/views/Admin.vue";
-import CodePad from "@/components/CodePad.vue";
-import type Member from "@/interfaces/Member";
 import Bar from "@/views/Bar.vue";
+import CodePad from "@/components/CodePad.vue";
+import MemberInfo from "@/components/MemberInfo.vue";
+import type Member from "@/interfaces/Member";
 import { provide, reactive } from "vue";
 
 const vm = reactive({
