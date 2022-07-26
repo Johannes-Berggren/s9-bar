@@ -75,7 +75,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, onMounted, reactive } from "vue";
+import type Alert from "@/interfaces/Alert";
+import { defineEmits, inject, onMounted, reactive } from "vue";
 import { getMembers } from "@/config/firebase";
 
 const emit = defineEmits(["success"]);
@@ -85,6 +86,8 @@ const vm = reactive({
   code: "",
   members: [] as Member[],
 });
+
+const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 
 onMounted(async () => {
   vm.members = await getMembers();
@@ -96,7 +99,15 @@ function enterNumber(num: number) {
   if (vm.code.length === 4) {
     const member = vm.members.filter((m) => m.code === vm.code)[0];
     if (member) emit("success", member);
-    else vm.code = "";
+    else {
+      displayAlert && displayAlert({
+        color: "error",
+        message: "",
+        title: "Wrong code!",
+        visible: true,
+      });
+      vm.code = "";
+    }
   }
 }
 </script>

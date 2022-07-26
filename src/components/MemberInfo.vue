@@ -1,23 +1,28 @@
 <template>
-  <v-row v-if="vm.member.firstName">
+  <v-row v-if="vm.member.firstName" class="text-center">
     <v-col cols="12">
       <h3>Welcome {{ vm.member.firstName }}</h3>
       <h4>{{ vm.member.credit }} ClubCoin</h4>
     </v-col>
 
-    <v-col cols="4">
+    <v-col cols="6">
       <v-btn
-        size="x-small"
-        variant="outlined"
+        size="small"
         @click="createCheckoutSession()"
         color="rgb(255, 0, 136)"
+        class="mx-auto"
       >
         Top up balance
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn @click="createPortalSession()" variant="outlined" color="rgb(255, 0, 136)" size="x-small">
+    <v-col cols="6">
+      <v-btn
+        @click="createPortalSession()"
+        color="rgb(255, 0, 136)"
+        size="small"
+        class="mx-auto"
+      >
         Payment info
       </v-btn>
     </v-col>

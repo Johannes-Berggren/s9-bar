@@ -8,7 +8,7 @@
     </v-overlay>
     <div>
       <v-row class="mx-auto" id="header" align="center">
-        <v-col cols="2">
+        <v-col cols="6" sm="2">
           <img
             alt="S9 Logo"
             class="logo"
@@ -18,12 +18,7 @@
           />
         </v-col>
 
-        <v-col cols="8">
-          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="mb-3 text-center">Select drink.</h1>
-          <member-info v-else-if="vm.signedIn" :member="vm.member" />
-        </v-col>
-
-        <v-col col="1">
+        <v-col col="6">
           <v-btn
             v-if="!vm.signedIn"
             size="small"
@@ -39,17 +34,53 @@
             color="primary"
             @click="vm.member = undefined; vm.signedIn = false; vm.codePadVisible = false"
             class="ml-auto"
+            variant="outlined"
           >Sign out
           </v-btn>
         </v-col>
+
+        <v-col cols="12">
+          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="mb-3 text-center">Select drink.</h1>
+          <member-info v-else-if="vm.signedIn" :member="vm.member" />
+        </v-col>
       </v-row>
 
-      <div>
+      <v-container class="mt-10">
         <bar v-if="!vm.codePadVisible" />
         <code-pad v-else-if="!vm.signedIn" @success="signedIn" />
         <admin v-else-if="vm.member.admin" />
-      </div>
+      </v-container>
     </div>
+
+    <!-- Alert snackbar -->
+    <v-snackbar
+      v-model="vm.alert.visible"
+      :color="vm.alert.color"
+      multi-line
+      shaped
+    >
+      <v-row justify="center">
+        <v-col>
+          <strong>{{ vm.alert.title }}</strong><br>
+          {{ vm.alert.message }}
+        </v-col>
+
+        <v-col
+          cols="3"
+          class="text-right"
+        >
+          <v-btn
+            :color="vm.alert.color"
+            text
+            @click="vm.alert.visible = false"
+            small
+          >
+            <v-icon>mdi-close-circle</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-snackbar>
+    <!-- Alert snackbar end -->
   </v-container>
 </template>
 
@@ -58,15 +89,31 @@ import Admin from "@/views/Admin.vue";
 import Bar from "@/views/Bar.vue";
 import CodePad from "@/components/CodePad.vue";
 import MemberInfo from "@/components/MemberInfo.vue";
+import type Alert from "@/interfaces/Alert";
 import type Member from "@/interfaces/Member";
 import { provide, reactive } from "vue";
 
 const vm = reactive({
+  alert: {
+    color: "success",
+    message: "",
+    title: "",
+    visible: false,
+  },
   codePadVisible: false,
   loading: false,
   member: {} as Member,
   signedIn: false,
 });
+
+function displayAlert(alert: Alert): void {
+  console.log(alert);
+  vm.alert = alert;
+
+  setTimeout(() => {
+    vm.alert.visible = false;
+  }, 4000);
+}
 
 function loading(val: boolean) {
   vm.loading = val;
@@ -77,6 +124,7 @@ function signedIn(member: Member) {
   vm.signedIn = true;
 }
 
+provide("displayAlert", displayAlert);
 provide("loading", loading);
 </script>
 
