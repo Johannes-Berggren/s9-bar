@@ -80,10 +80,6 @@ export async function updateItem(item: Item): Promise<void> {
   await setDoc(doc(db, "items", `${updateObject.ID}`), updateObject);
 }
 
-// export async function addMember(member: Member): Promise<Member> {
-//   // TODO
-// }
-
 export async function updateMember(member: Member): Promise<void> {
   console.log(member);
   const updateObject: Member = {

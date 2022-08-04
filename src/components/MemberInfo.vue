@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="vm.member.firstName" class="text-center">
+  <v-row v-if="vm.member.firstName" class="text-center mb-3">
     <v-col cols="12">
       <h1><b>Welcome {{ vm.member.firstName }}</b></h1>
       <h3>You have {{ vm.member.credit }} ClubCoin</h3>
@@ -19,6 +19,7 @@
 
     <v-col cols="12" sm="6">
       <v-btn
+        size="large"
         @click="createPortalSession()"
         color="primary"
         class="mx-auto"

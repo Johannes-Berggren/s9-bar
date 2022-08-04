@@ -26,31 +26,26 @@
     <!-- CLUB MEMBER LIST -->
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Club members</h2>
-
-      <v-btn color="primary" size="x-small" @click="vm.addMemberDialogVisible = true">New member</v-btn>
     </v-row>
 
     <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
     <v-row v-else>
       <v-col v-for="member in vm.members" :key="member.ID" cols="12" sm="6">
-        <v-card>
+        <v-card class="pb-4">
           <v-card-title>
             {{ member.firstName }} {{ member.lastName }}
           </v-card-title>
 
-          <v-card-actions>
-            <v-row>
-              <v-col>
-                <v-btn size="small">Add credit</v-btn>
-              </v-col>
+          <v-card-subtitle>
+            {{ member.credit }} ClubCoin
+          </v-card-subtitle>
 
-              <v-col>
-                <v-btn size="small" @click="vm.memberInfoDialogVisible = true; vm.pickedMember = member">More
-                  info
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-card-actions>
+          <!--          <v-card-actions>-->
+          <!--            <v-spacer />-->
+          <!--            <v-btn size="x-small" @click="vm.memberInfoDialogVisible = true; vm.pickedMember = member" variant="outlined" color="primary">-->
+          <!--              More info-->
+          <!--            </v-btn>-->
+          <!--          </v-card-actions>-->
         </v-card>
       </v-col>
     </v-row>
@@ -74,17 +69,30 @@
       </v-card>
     </v-dialog>
 
-    <!-- ADD MEMBER DIALOG -->
-    <v-dialog v-model="vm.addMemberDialogVisible">
-      <v-card width="600" height="600">
-        <h4>HER KAN MAN SNART LEGGE TIL MEDLEMMER</h4>
-      </v-card>
-    </v-dialog>
-
     <!-- MEMBER INFORMATION DIALOG -->
     <v-dialog v-model="vm.memberInfoDialogVisible">
       <v-card width="600" height="600">
-        <pre>{{ vm.pickedMember }}</pre>
+        <v-row class="text-center">
+          <v-col cols="6">
+            {{ vm.pickedMember.firstName }}
+          </v-col>
+
+          <v-col cols="6">
+            {{ vm.pickedMember.lastName }}
+          </v-col>
+
+          <v-col cols="6">
+            {{ vm.pickedMember.email }}
+          </v-col>
+
+          <v-col cols="6">
+            {{ vm.pickedMember.phone }}
+          </v-col>
+
+          <v-col cols="6">
+            {{ vm.pickedMember.credit }} ClubCoin
+          </v-col>
+        </v-row>
       </v-card>
     </v-dialog>
   </v-container>
@@ -100,7 +108,6 @@ import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({
   addItemDialogVisible: false,
-  addMemberDialogVisible: false,
   items: [] as Item[],
   memberInfoDialogVisible: false,
   newItem: {
