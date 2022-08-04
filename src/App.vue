@@ -7,7 +7,7 @@
       ></v-progress-circular>
     </v-overlay>
     <div>
-      <v-row class="mx-auto" id="header" align="center">
+      <v-row class="mx-auto" id="header" align="center" dense>
         <v-col cols="6" sm="2">
           <img
             alt="S9 Logo"
@@ -34,13 +34,12 @@
             color="primary"
             @click="vm.member = undefined; vm.signedIn = false; vm.codePadVisible = false"
             class="ml-auto"
-            variant="outlined"
           >Sign out
           </v-btn>
         </v-col>
 
         <v-col cols="12">
-          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="mb-3 text-center">Select drink.</h1>
+          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center mb-3 mt-n3">Select drink.</h1>
           <member-info v-else-if="vm.signedIn" :member="vm.member" />
         </v-col>
       </v-row>
@@ -59,26 +58,8 @@
       multi-line
       shaped
     >
-      <v-row justify="center">
-        <v-col>
-          <strong>{{ vm.alert.title }}</strong><br>
-          {{ vm.alert.message }}
-        </v-col>
-
-        <v-col
-          cols="3"
-          class="text-right"
-        >
-          <v-btn
-            :color="vm.alert.color"
-            text
-            @click="vm.alert.visible = false"
-            small
-          >
-            <v-icon>mdi-close-circle</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
+      <strong>{{ vm.alert.title }}</strong><br>
+      {{ vm.alert.message }}
     </v-snackbar>
     <!-- Alert snackbar end -->
   </v-container>
@@ -107,7 +88,6 @@ const vm = reactive({
 });
 
 function displayAlert(alert: Alert): void {
-  console.log(alert);
   vm.alert = alert;
 
   setTimeout(() => {

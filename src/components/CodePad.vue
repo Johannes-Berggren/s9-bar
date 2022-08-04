@@ -103,7 +103,7 @@ function enterNumber(num: number) {
       displayAlert && displayAlert({
         color: "error",
         message: "",
-        title: "Wrong code!",
+        title: "Wrong code. NO DRINK FOR YOU!",
         visible: true,
       });
       vm.code = "";

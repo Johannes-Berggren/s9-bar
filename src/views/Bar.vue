@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="item in vm.items" :key="item.ID" cols="6" sm="4">
+      <v-col v-for="item in vm.items" :key="item.ID" cols="12" sm="6" md="4">
         <v-card @click="openItem(item)" class="py-3">
           <v-img :src="item.imageURL" height="250px" />
 
@@ -16,7 +16,7 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="vm.purchaseDialogVisible" width="600">
+    <v-dialog v-model="vm.purchaseDialogVisible">
       <v-card v-if="vm.page === 1" class="pa-4 text-center">
         <v-row class="mb-4" dense>
           <v-col cols="12">

@@ -10,7 +10,7 @@
     <v-expansion-panels v-else>
       <v-expansion-panel v-for="item in vm.items" :key="item.ID" cols="4">
         <v-expansion-panel-title>
-          <b>{{ item.name }}</b>
+          <b class="text-left">{{ item.name }}</b>
           <v-spacer />
           {{ item.currentInventory }} left in the bar
         </v-expansion-panel-title>
@@ -95,7 +95,7 @@ import BarItem from "@/components/BarItem.vue";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
-import { createCustomerPortalSession, getItems, getMembers, getTransactions } from "@/config/firebase";
+import { getItems, getMembers, getTransactions } from "@/config/firebase";
 import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({
@@ -127,16 +127,6 @@ onMounted(async () => {
     getMembers(),
     getTransactions(),
   ]);
-
-  console.log("mounted");
-
-  try {
-    const session = await createCustomerPortalSession("cus_JBbsa5PvlS9DKY");
-    console.log(session);
-  }
-  catch (e) {
-    console.error(e);
-  }
 
   vm.loading = false;
 });

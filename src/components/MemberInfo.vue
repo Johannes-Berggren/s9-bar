@@ -1,29 +1,29 @@
 <template>
   <v-row v-if="vm.member.firstName" class="text-center">
     <v-col cols="12">
-      <h3>Welcome {{ vm.member.firstName }}</h3>
-      <h4>{{ vm.member.credit }} ClubCoin</h4>
+      <h1><b>Welcome {{ vm.member.firstName }}</b></h1>
+      <h3>You have {{ vm.member.credit }} ClubCoin</h3>
+      <h6 v-if="vm.member.credit < 100">You drunk ass bitch.</h6>
     </v-col>
 
-    <v-col cols="6">
+    <v-col cols="12" sm="6">
       <v-btn
-        size="small"
+        size="large"
         @click="createCheckoutSession()"
-        color="rgb(255, 0, 136)"
+        color="primary"
         class="mx-auto"
       >
-        Top up balance
+        Buy more ClubCoin
       </v-btn>
     </v-col>
 
-    <v-col cols="6">
+    <v-col cols="12" sm="6">
       <v-btn
         @click="createPortalSession()"
-        color="rgb(255, 0, 136)"
-        size="small"
+        color="primary"
         class="mx-auto"
       >
-        Payment info
+        Update S9 Membership
       </v-btn>
     </v-col>
   </v-row>
@@ -47,7 +47,6 @@ const vm = reactive({
 
 onMounted(() => {
   vm.member = props.member;
-  console.log(vm.member);
 });
 
 async function createCheckoutSession() {

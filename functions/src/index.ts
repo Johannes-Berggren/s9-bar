@@ -49,7 +49,6 @@ app.post("/webhooks", async (req, res) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const member = await getMember(webhook.data.object.metadata.memberID);
-  console.log(member);
 
   member.credit += 500;
 
