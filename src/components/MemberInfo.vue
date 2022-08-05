@@ -33,7 +33,9 @@
 <script setup lang="ts">
 import { createCustomerCheckoutSession, createCustomerPortalSession } from "@/config/firebase";
 import type Member from "@/interfaces/Member";
-import { onMounted, type PropType, reactive } from "vue";
+import { inject, onMounted, type PropType, reactive } from "vue";
+
+const loading = inject<(val: boolean) => void>("loading");
 
 const props = defineProps({
   member: Object as PropType<Member>,
@@ -52,7 +54,7 @@ onMounted(() => {
 
 async function createCheckoutSession() {
   if (vm.member?.ID) {
-    vm.loading = true;
+    loading && loading(true);
     const session = await createCustomerCheckoutSession(vm.member.ID, vm.member.stripeID);
     if (session.url) window.open(session.url, "_self");
   }
@@ -60,7 +62,7 @@ async function createCheckoutSession() {
 
 async function createPortalSession() {
   if (vm.member?.ID) {
-    vm.loading = true;
+    loading && loading(true);
     const session = await createCustomerPortalSession(vm.member.stripeID);
     window.open(session.url, "_self");
   }

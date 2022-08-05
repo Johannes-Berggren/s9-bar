@@ -68,6 +68,8 @@ import { addItem, updateItem } from "@/config/firebase";
 import type Item from "@/interfaces/Item";
 import { defineProps, inject, reactive } from "vue";
 
+const fetchItems = inject<() => Promise<void>>("fetchItems");
+
 const props = defineProps<{
   item: Item
 }>();
@@ -84,8 +86,6 @@ const vm = reactive({
     type: "",
   } as Item,
 });
-
-const fetchItems = inject<() => Promise<void>>("fetchItems");
 
 async function add(): Promise<void> {
   vm.loading = true;
