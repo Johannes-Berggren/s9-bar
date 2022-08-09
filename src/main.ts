@@ -5,6 +5,9 @@ import { loadFonts } from './plugins/webfontloader'
 
 loadFonts()
 
+import LogRocket from 'logrocket';
+LogRocket.init('i77qy0/s9-bar');
+
 createApp(App)
   .use(vuetify)
   .mount('#app')

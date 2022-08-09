@@ -37,7 +37,7 @@
           </v-col>
 
           <v-col cols="1">
-            <h1>{{ vm.amount }}</h1>
+            <h1><b>{{ vm.amount }}</b></h1>
           </v-col>
 
           <v-col>
@@ -64,7 +64,7 @@
         <code-pad style="max-width: 550px;" @success="purchaseItem" />
       </v-card>
 
-      <v-card v-else-if="vm.page === 2" class="pa-4 text-center" >
+      <v-card v-else-if="vm.page === 2" class="pa-4 text-center">
         <h1>Enjoy, bitch!</h1>
 
         <v-divider class="my-4" />
@@ -98,7 +98,7 @@ const vm = reactive({
 onMounted(async () => {
   loading && loading(true);
   const _items = await getItems();
-  vm.items = _items.filter((item) => item.currentInventory);
+  vm.items = _items.filter((item) => item.currentInventory > 0);
   loading && loading(false);
 });
 
@@ -113,10 +113,14 @@ async function purchaseItem(member: Member) {
   vm.selectedItem.currentInventory -= vm.amount;
   vm.spent = vm.selectedItem.price * vm.amount;
   vm.newCredit = member.credit -= vm.spent;
-  await updateItem(vm.selectedItem);
-  await updateMember(member);
+  await Promise.all([
+    updateItem(vm.selectedItem),
+    updateMember(member),
+  // TODO: ADD TRANSACTION
+  ]);
   vm.page++;
   vm.selectedItem = {} as Item;
+  vm.amount = 1;
   loading && loading(false);
 }
 </script>

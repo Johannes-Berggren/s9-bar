@@ -39,7 +39,7 @@
         </v-col>
 
         <v-col cols="12">
-          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center mb-3 mt-n3">Select drink.</h1>
+          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center mb-3 mt-n3">Select drink, baby.</h1>
           <member-info v-else-if="vm.signedIn" :member="vm.member" />
         </v-col>
       </v-row>
