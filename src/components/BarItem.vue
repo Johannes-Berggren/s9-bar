@@ -76,7 +76,6 @@ const props = defineProps<{
 
 const vm = reactive({
   loading: false,
-
   newItem: {
     ID: props.item.ID,
     currentInventory: props.item.currentInventory || 0,

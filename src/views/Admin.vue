@@ -3,7 +3,7 @@
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Bar items</h2>
 
-      <!--      <v-btn color="primary" size="x-small" @click="vm.addItemDialogVisible = true">New item</v-btn>-->
+      <v-btn color="primary" size="x-small" @click="vm.addItemDialogVisible = true">New item</v-btn>
     </v-row>
 
     <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />

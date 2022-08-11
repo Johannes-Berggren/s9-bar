@@ -31,7 +31,8 @@ export async function createCustomerPortalSession(customerID: string): Promise<S
 async function getID(collectionName: string): Promise<number> {
   const itemsQuery = query(collection(db, collectionName));
   const itemsSnapshot = await getDocs(itemsQuery);
-  return parseInt(itemsSnapshot.docs[itemsSnapshot.docs.length - 1].id);
+  const sortedDocs = itemsSnapshot.docs.sort((a, b) => a.data().ID - b.data().ID);
+  return parseInt(sortedDocs[sortedDocs.length - 1].data().ID);
 }
 
 export async function addItem(item: Item): Promise<void> {
