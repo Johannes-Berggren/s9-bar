@@ -1,14 +1,13 @@
 <template>
   <v-row v-if="vm.member.firstName" class="text-center mb-3">
     <v-col cols="12">
-      <h1><b>Welcome {{ vm.member.firstName }}</b></h1>
+      <h2><b>Welcome {{ vm.member.firstName }}</b></h2>
       <h3>You have {{ vm.member.credit }} ClubCoin</h3>
       <h6 v-if="vm.member.credit < 100">You drunk ass bitch.</h6>
     </v-col>
 
-    <v-col cols="12" sm="6">
+    <v-col cols="12">
       <v-btn
-        size="large"
         @click="createCheckoutSession()"
         color="primary"
         class="mx-auto"
@@ -17,9 +16,8 @@
       </v-btn>
     </v-col>
 
-    <v-col cols="12" sm="6">
+    <v-col cols="12">
       <v-btn
-        size="large"
         @click="createPortalSession()"
         color="primary"
         class="mx-auto"

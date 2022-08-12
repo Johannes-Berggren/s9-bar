@@ -8,7 +8,7 @@
     </v-overlay>
     <div>
       <v-row class="mx-auto" id="header" align="center" dense>
-        <v-col cols="6" sm="2">
+        <v-col cols="12" sm="2" class="text-center text-sm-left">
           <img
             alt="S9 Logo"
             class="logo"
@@ -18,13 +18,18 @@
           />
         </v-col>
 
-        <v-col col="6">
+        <v-col cols="12" sm="8" class="text-white">
+          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center">Select drink, baby.</h1>
+          <member-info v-if="vm.signedIn" :member="vm.member" />
+        </v-col>
+
+        <v-col col="12" sm="2" class="text-center text-sm-right">
           <v-btn
             v-if="!vm.signedIn"
             size="small"
             color="primary"
             @click="vm.codePadVisible = true"
-            class="ml-auto"
+            class="mx-auto mr-sm-0"
           >Sign in
           </v-btn>
 
@@ -36,11 +41,6 @@
             class="ml-auto"
           >Sign out
           </v-btn>
-        </v-col>
-
-        <v-col cols="12">
-          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center mb-3 mt-n3">Select drink, baby.</h1>
-          <member-info v-else-if="vm.signedIn" :member="vm.member" />
         </v-col>
       </v-row>
 

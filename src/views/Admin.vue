@@ -53,14 +53,14 @@
     <v-divider class="my-12" />
 
     <!-- TRANSACTION LIST -->
-    <v-row align="center" class="mb-4">
-      <h2 class="mr-4">Transactions</h2>
-    </v-row>
+    <!--    <v-row align="center" class="mb-4">-->
+    <!--      <h2 class="mr-4">Transactions</h2>-->
+    <!--    </v-row>-->
 
-    <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
-    <v-row v-else>
-      <pre style="color: white">{{ vm.transactions }}</pre>
-    </v-row>
+    <!--    <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />-->
+    <!--    <v-row v-else>-->
+    <!--      <pre style="color: white">{{ vm.transactions }}</pre>-->
+    <!--    </v-row>-->
 
     <!-- ADD ITEM DIALOG -->
     <v-dialog v-model="vm.addItemDialogVisible">

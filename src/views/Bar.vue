@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="item in vm.items" :key="item.ID" cols="12" sm="6" md="4">
+      <v-col v-for="item in vm.items" :key="item.ID" cols="12" sm="4" md="3">
         <v-card @click="openItem(item)" class="py-3">
           <v-img :src="item.imageURL" height="250px" />
 
@@ -17,51 +17,57 @@
     </v-row>
 
     <v-dialog v-model="vm.purchaseDialogVisible">
-      <v-card v-if="vm.page === 1" class="pa-4 text-center">
-        <v-row class="mb-4" dense>
-          <v-col cols="12">
-            <h2>Buy</h2>
-          </v-col>
-          <v-col>
-            <v-btn
-              variant="icon"
-              @click="vm.amount--"
-              class="ml-auto"
-              color="primary"
-              size="x-large"
-            >
-              <v-icon>
-                mdi-minus-circle
-              </v-icon>
-            </v-btn>
-          </v-col>
+      <v-card v-if="vm.page === 1" class="text-center">
+        <v-container>
+          <v-row class="mb-4" dense>
+            <v-col cols="12">
+              <h2>Buy</h2>
+            </v-col>
+            <v-col>
+              <v-btn
+                variant="icon"
+                @click="vm.amount--"
+                class="ml-auto"
+                color="primary"
+                size="x-large"
+              >
+                <v-icon>
+                  mdi-minus-circle
+                </v-icon>
+              </v-btn>
+            </v-col>
 
-          <v-col cols="1">
-            <h1><b>{{ vm.amount }}</b></h1>
-          </v-col>
+            <v-col cols="1">
+              <h1><b>{{ vm.amount }}</b></h1>
+            </v-col>
 
-          <v-col>
-            <v-btn
-              class="mr-auto"
-              variant="icon"
-              @click="vm.amount++"
-              color="primary"
-              size="x-large"
-            >
-              <v-icon>
-                mdi-plus-circle
-              </v-icon>
-            </v-btn>
-          </v-col>
+            <v-col>
+              <v-btn
+                class="mr-auto"
+                variant="icon"
+                @click="vm.amount++"
+                color="primary"
+                size="x-large"
+              >
+                <v-icon>
+                  mdi-plus-circle
+                </v-icon>
+              </v-btn>
+            </v-col>
 
-          <v-col cols="12">
-            <h2>{{ vm.selectedItem.name }}</h2>
-          </v-col>
-        </v-row>
+            <v-col cols="12">
+              <h2>{{ vm.selectedItem.name }}</h2>
+            </v-col>
+          </v-row>
 
-        <v-divider class="mt-2 mb-6" />
+          <v-divider class="mt-2 mb-6" />
 
-        <code-pad style="max-width: 550px;" @success="purchaseItem" />
+          <v-alert color="pink" variant="tonal" class="mx-auto mb-3" style="max-width: 400px" icon="mdi-account-question">
+            Not a member? Ask your friend for the code!
+          </v-alert>
+
+          <code-pad style="max-width: 550px;" @success="purchaseItem" />
+        </v-container>
       </v-card>
 
       <v-card v-else-if="vm.page === 2" class="pa-4 text-center">
@@ -96,14 +102,19 @@ const vm = reactive({
 });
 
 onMounted(async () => {
+  await fetchItems();
+});
+
+async function fetchItems() {
   loading && loading(true);
   const _items = await getItems();
   vm.items = _items.filter((item) => item.currentInventory > 0);
   loading && loading(false);
-});
+}
 
 function openItem(item: Item) {
   vm.page = 1;
+  vm.amount = 1;
   vm.purchaseDialogVisible = true;
   vm.selectedItem = item;
 }
@@ -116,8 +127,9 @@ async function purchaseItem(member: Member) {
   await Promise.all([
     updateItem(vm.selectedItem),
     updateMember(member),
-  // TODO: ADD TRANSACTION
+    // TODO: ADD TRANSACTION
   ]);
+  await fetchItems();
   vm.page++;
   vm.selectedItem = {} as Item;
   vm.amount = 1;
