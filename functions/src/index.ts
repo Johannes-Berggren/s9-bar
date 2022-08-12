@@ -9,9 +9,6 @@ const app = express();
 
 app.use(cors);
 
-// Start writing Firebase Functions
-// https://firebase.google.com/docs/functions/typescript
-
 app.get("/createCustomerCheckoutSession/:memberID/:customerID", async (req, res) => {
   const checkoutSession = await stripe.checkout.sessions.create({
     customer: req.params.customerID,

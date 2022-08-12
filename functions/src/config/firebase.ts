@@ -10,11 +10,6 @@ export async function getMember(id: number): Promise<Member> {
   return memberSnapshot.data() as Member;
 }
 
-// export async function getMemberByStripeID(stripeID: string): Promise<Member> {
-//   const memberSnapshots = await db.collection("members").where("stripeID", "==", stripeID).get();
-//   return memberSnapshots.docs[0].data() as Member;
-// }
-
 export async function updateMember(member: Member): Promise<Member> {
   await db.collection("members").doc(String(member.ID)).update(member);
   return getMember(member.ID);
