@@ -83,8 +83,12 @@
           <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchaseItem" />
 
           <div v-else-if="vm.role === 'guest'" class="mt-5">
-            <h1>Pay {{ vm.selectedItem.price * vm.amount }} with Vipps</h1>
+            <h1>Pay {{ vm.selectedItem.price * vm.amount }} kr. with Vipps</h1>
             <v-img src="/qr.png" width="200" class="mx-auto" />
+
+            <v-btn class="mt-5" color="primary" size="large" @click="paidWithVipps()">
+              I have paid!
+            </v-btn>
           </div>
         </v-container>
       </v-card>
@@ -95,7 +99,7 @@
         <v-divider class="my-4" />
 
         <h3>You spent {{ vm.spent }} kr.</h3>
-        <h4>You have {{ vm.newCredit }} kr. in your account.</h4>
+        <h4 v-if="vm.role === 'member'">You have {{ vm.newCredit }} kr. in your account.</h4>
       </v-card>
     </v-dialog>
   </v-container>
@@ -140,6 +144,17 @@ function openItem(item: Item) {
   vm.amount = 1;
   vm.purchaseDialogVisible = true;
   vm.selectedItem = item;
+}
+
+async function paidWithVipps() {
+  loading && loading(true);
+  vm.selectedItem.currentInventory -= vm.amount;
+  vm.spent = vm.selectedItem.price * vm.amount;
+  await updateItem(vm.selectedItem);
+  await fetchItems();
+  vm.page++;
+  vm.selectedItem = {} as Item;
+  loading && loading(false);
 }
 
 async function purchaseItem(member: Member) {
