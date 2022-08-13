@@ -37,7 +37,7 @@
           </v-card-title>
 
           <v-card-subtitle>
-            {{ member.credit }} ClubCoin
+            {{ member.credit }} kr.
           </v-card-subtitle>
 
           <!--          <v-card-actions>-->
@@ -90,7 +90,7 @@
           </v-col>
 
           <v-col cols="6">
-            {{ vm.pickedMember.credit }} ClubCoin
+            {{ vm.pickedMember.credit }} kr.
           </v-col>
         </v-row>
       </v-card>

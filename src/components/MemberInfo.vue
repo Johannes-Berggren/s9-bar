@@ -2,8 +2,7 @@
   <v-row v-if="vm.member.firstName" class="text-center mb-3">
     <v-col cols="12">
       <h2><b>Welcome {{ vm.member.firstName }}</b></h2>
-      <h3>You have {{ vm.member.credit }} ClubCoin</h3>
-      <h6 v-if="vm.member.credit < 100">You drunk ass bitch.</h6>
+      <h3>You have {{ vm.member.credit }} kr.</h3>
     </v-col>
 
     <v-col cols="12">
@@ -12,7 +11,7 @@
         color="primary"
         class="mx-auto"
       >
-        Buy more ClubCoin
+        Buy more kr.
       </v-btn>
     </v-col>
 

@@ -10,7 +10,7 @@
           </v-card-title>
 
           <v-card-subtitle>
-            {{ item.price }} ClubCoin
+            {{ item.price }} kr.
           </v-card-subtitle>
         </v-card>
       </v-col>
@@ -62,11 +62,30 @@
 
           <v-divider class="mt-2 mb-6" />
 
-          <v-alert color="pink" variant="tonal" class="mx-auto mb-3" style="max-width: 400px" icon="mdi-account-question">
-            Not a member? Ask your friend for the code!
-          </v-alert>
+          <v-row justify="center" v-if="!vm.role">
+            <v-col cols="12">
+              <h2>I'm a...</h2>
+            </v-col>
 
-          <code-pad style="max-width: 550px;" @success="purchaseItem" />
+            <v-col cols="3">
+              <v-btn @click="vm.role = 'member'" color="primary">
+                Member
+              </v-btn>
+            </v-col>
+
+            <v-col cols="3">
+              <v-btn @click="vm.role = 'guest'" color="primary">
+                Guest
+              </v-btn>
+            </v-col>
+          </v-row>
+
+          <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchaseItem" />
+
+          <div v-else-if="vm.role === 'guest'" class="mt-5">
+            <h1>Pay {{ vm.selectedItem.price }} with Vipps</h1>
+            <v-img src="/qr.png" width="200" class="mx-auto" />
+          </div>
         </v-container>
       </v-card>
 
@@ -75,8 +94,8 @@
 
         <v-divider class="my-4" />
 
-        <h3>You spent {{ vm.spent }} ClubCoin.</h3>
-        <h4>You have {{ vm.newCredit }} ClubCoin in your account.</h4>
+        <h3>You spent {{ vm.spent }} kr..</h3>
+        <h4>You have {{ vm.newCredit }} kr. in your account.</h4>
       </v-card>
     </v-dialog>
   </v-container>
@@ -84,11 +103,13 @@
 
 <script setup lang="ts">
 import CodePad from "@/components/CodePad.vue";
+import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import { getItems, updateItem, updateMember } from "@/config/firebase";
 import { inject, onMounted, reactive } from "vue";
 
+const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 const loading = inject<(val: boolean) => void>("loading");
 
 const vm = reactive({
@@ -97,6 +118,7 @@ const vm = reactive({
   newCredit: 0,
   page: 1,
   purchaseDialogVisible: false,
+  role: "",
   selectedItem: {} as Item,
   spent: 0,
 });
@@ -113,6 +135,7 @@ async function fetchItems() {
 }
 
 function openItem(item: Item) {
+  vm.role = "";
   vm.page = 1;
   vm.amount = 1;
   vm.purchaseDialogVisible = true;
@@ -121,18 +144,27 @@ function openItem(item: Item) {
 
 async function purchaseItem(member: Member) {
   loading && loading(true);
-  vm.selectedItem.currentInventory -= vm.amount;
-  vm.spent = vm.selectedItem.price * vm.amount;
-  vm.newCredit = member.credit -= vm.spent;
-  await Promise.all([
-    updateItem(vm.selectedItem),
-    updateMember(member),
-    // TODO: ADD TRANSACTION
-  ]);
-  await fetchItems();
-  vm.page++;
-  vm.selectedItem = {} as Item;
-  vm.amount = 1;
+  if (member.credit > vm.selectedItem.price) {
+    vm.selectedItem.currentInventory -= vm.amount;
+    vm.spent = vm.selectedItem.price * vm.amount;
+    vm.newCredit = member.credit -= vm.spent;
+    await Promise.all([
+      updateItem(vm.selectedItem),
+      updateMember(member),
+      // TODO: ADD TRANSACTION
+    ]);
+    await fetchItems();
+    vm.page++;
+    vm.selectedItem = {} as Item;
+  }
+  else {
+    displayAlert && displayAlert({
+      color: "error",
+      message: "Sign in to buy more kr.",
+      title: "You're too poor!",
+      visible: true,
+    });
+  }
   loading && loading(false);
 }
 </script>

@@ -14,7 +14,7 @@
           <v-text-field
             v-model="vm.newItem.price"
             label="Price"
-            prefix="ClubCoin"
+            prefix="kr."
             type="number"
           />
         </v-col>

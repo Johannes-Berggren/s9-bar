@@ -87,6 +87,8 @@ const vm = reactive({
   signedIn: false,
 });
 
+// TODO: Refresh after 30 minutes of inactivity.
+
 function displayAlert(alert: Alert): void {
   vm.alert = alert;
 

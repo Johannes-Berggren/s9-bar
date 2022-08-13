@@ -76,18 +76,17 @@
 
 <script setup lang="ts">
 import type Alert from "@/interfaces/Alert";
+import type Member from "@/interfaces/Member";
 import { defineEmits, inject, onMounted, reactive } from "vue";
 import { getMembers } from "@/config/firebase";
 
 const emit = defineEmits(["success"]);
-import type Member from "@/interfaces/Member";
+const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 
 const vm = reactive({
   code: "",
   members: [] as Member[],
 });
-
-const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 
 onMounted(async () => {
   vm.members = await getMembers();
