@@ -83,7 +83,7 @@
           <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchaseItem" />
 
           <div v-else-if="vm.role === 'guest'" class="mt-5">
-            <h1>Pay {{ vm.selectedItem.price }} with Vipps</h1>
+            <h1>Pay {{ vm.selectedItem.price * vm.amount }} with Vipps</h1>
             <v-img src="/qr.png" width="200" class="mx-auto" />
           </div>
         </v-container>
@@ -94,7 +94,7 @@
 
         <v-divider class="my-4" />
 
-        <h3>You spent {{ vm.spent }} kr..</h3>
+        <h3>You spent {{ vm.spent }} kr.</h3>
         <h4>You have {{ vm.newCredit }} kr. in your account.</h4>
       </v-card>
     </v-dialog>
