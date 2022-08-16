@@ -19,6 +19,7 @@ jobs:
           channelId: live
           projectId: s9bar-54d46
       - name: deploy to production
+        run: npm i
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only functions
