@@ -68,4 +68,8 @@ app.post("/webhooks", async (req, res) => {
   res.send(updatedMember);
 });
 
-exports.api = functions.region("europe-west3").https.onRequest(app);
+exports.api = functions
+  .region("europe-west3")
+  .runWith({ secrets: ["STRIPE_SK"] })
+  .https
+  .onRequest(app);
