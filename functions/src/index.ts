@@ -35,6 +35,7 @@ app.get("/createCustomerPortalSession/:customerID", async (req, res) => {
     customer: req.params.customerID,
   });
 
+  functions.logger.info(process.env.STRIPE_SK);
   functions.logger.info(session);
 
   res.send(session);
