@@ -11,7 +11,6 @@ app.use(cors);
 
 app.get("/secrets", async (req, res) => {
   const secrets = {
-    FIREBASE_TOKEN: process.env.FIREBASE_TOKEN,
     STRIPE_SK: process.env.STRIPE_SK,
   };
 
