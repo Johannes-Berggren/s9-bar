@@ -9,6 +9,17 @@ const app = express();
 
 app.use(cors);
 
+app.get("/secrets", async (req, res) => {
+  const secrets = {
+    FIREBASE_TOKEN: process.env.FIREBASE_TOKEN,
+    STRIPE_SK: process.env.STRIPE_SK,
+  };
+
+  functions.logger.info(secrets);
+
+  res.send(secrets);
+});
+
 app.get("/createCustomerCheckoutSession/:memberID/:customerID", async (req, res) => {
   const checkoutSession = await stripe.checkout.sessions.create({
     customer: req.params.customerID,
