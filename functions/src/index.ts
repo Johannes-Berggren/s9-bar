@@ -9,19 +9,14 @@ const app = express();
 
 app.use(cors);
 
-app.get("/secrets", async (req, res) => {
-  const secrets = {
-    STRIPE_SK: process.env.STRIPE_SK,
-  };
-
-  functions.logger.info(secrets);
-
-  res.send(secrets);
-});
-
 app.get("/createCustomerCheckoutSession/:memberID/:customerID", async (req, res) => {
+  const customerID = req.params.customerID;
+  const memberID = req.params.memberID;
+
+  functions.logger.info(`/createCustomerCheckoutSession/${memberID}/${customerID}`);
+
   const checkoutSession = await stripe.checkout.sessions.create({
-    customer: req.params.customerID,
+    customer: customerID,
     line_items: [{
       price: "price_1LMHtpI1MJoejWlLBj1SnnjZ", // PROD
       // price: "price_1LMIWGI1MJoejWlL3PpTxkq5", // TEST
@@ -31,7 +26,7 @@ app.get("/createCustomerCheckoutSession/:memberID/:customerID", async (req, res)
     success_url: "https://s9-admin.futoria.no",
     cancel_url: "https://s9-admin.futoria.no",
     metadata: {
-      memberID: req.params.memberID,
+      memberID,
     },
   });
 
@@ -41,11 +36,14 @@ app.get("/createCustomerCheckoutSession/:memberID/:customerID", async (req, res)
 });
 
 app.get("/createCustomerPortalSession/:customerID", async (req, res) => {
+  const customerID = req.params.customerID;
+
+  functions.logger.info(`/createCustomerPortalSession/${customerID}`);
+
   const session = await stripe.billingPortal.sessions.create({
-    customer: req.params.customerID,
+    customer: customerID,
   });
 
-  functions.logger.info(process.env.STRIPE_SK);
   functions.logger.info(session);
 
   res.send(session);
