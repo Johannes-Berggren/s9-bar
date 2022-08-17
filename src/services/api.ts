@@ -16,6 +16,6 @@ export async function createCustomerPortalSession(customerID: string): Promise<S
 export async function setLock(state: "closed" | "open"): Promise<void> {
   const binaryState = state === "open" ? 1 : 0;
   const res = await axiosInstance
-    .get(`http://bar-lock:8081/LOCK/${binaryState}`);
+    .get(`http://192.168.50.119:8081/LOCK/${binaryState}`);
   return res.data;
 }
