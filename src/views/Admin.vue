@@ -1,18 +1,18 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <v-btn color="primary" @click="unlock()">
-          Unlock fridge
-        </v-btn>
-      </v-col>
+    <!--    <v-row>-->
+    <!--      <v-col>-->
+    <!--        <v-btn color="primary" @click="unlock()">-->
+    <!--          Unlock fridge-->
+    <!--        </v-btn>-->
+    <!--      </v-col>-->
 
-      <v-col>
-        <v-btn color="primary" @click="lock()">
-          Lock fridge
-        </v-btn>
-      </v-col>
-    </v-row>
+    <!--      <v-col>-->
+    <!--        <v-btn color="primary" @click="lock()">-->
+    <!--          Lock fridge-->
+    <!--        </v-btn>-->
+    <!--      </v-col>-->
+    <!--    </v-row>-->
 
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Bar items</h2>
