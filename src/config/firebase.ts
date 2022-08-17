@@ -3,8 +3,6 @@ import { initializeApp } from "firebase/app";
 import { collection, doc, setDoc, getDocs, getFirestore, query } from "firebase/firestore";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
-import api from "@/config/axios";
-import type * as Stripe from "stripe";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcRk89s5vl4ihZ1J_cO0e6AOMDMIkXIz0",
@@ -17,16 +15,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-export async function createCustomerCheckoutSession(memberID: number, customerID: string): Promise<Stripe.Stripe.Checkout.Session> {
-  const checkoutSession = await api.get<Stripe.Stripe.Checkout.Session>(`/createCustomerCheckoutSession/${memberID}/${customerID}`);
-  return checkoutSession.data;
-}
-
-export async function createCustomerPortalSession(customerID: string): Promise<Stripe.Stripe.BillingPortal.Session> {
-  const portalSession = await api.get<Stripe.Stripe.BillingPortal.Session>(`/createCustomerPortalSession/${customerID}`);
-  return portalSession.data;
-}
 
 async function getID(collectionName: string): Promise<number> {
   const itemsQuery = query(collection(db, collectionName));

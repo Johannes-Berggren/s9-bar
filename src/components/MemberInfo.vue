@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import { createCustomerCheckoutSession, createCustomerPortalSession } from "@/config/firebase";
 import type Member from "@/interfaces/Member";
+import { createCustomerCheckoutSession, createCustomerPortalSession } from "@/services/api";
 import { inject, onMounted, type PropType, reactive } from "vue";
 
 const loading = inject<(val: boolean) => void>("loading");
