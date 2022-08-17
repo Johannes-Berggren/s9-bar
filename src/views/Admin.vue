@@ -1,5 +1,19 @@
 <template>
   <v-container>
+    <v-row>
+      <v-col>
+        <v-btn color="primary" @click="unlock()">
+          Unlock fridge
+        </v-btn>
+      </v-col>
+
+      <v-col>
+        <v-btn color="primary" @click="lock()">
+          Lock fridge
+        </v-btn>
+      </v-col>
+    </v-row>
+
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Bar items</h2>
 
@@ -104,6 +118,7 @@ import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
 import { getItems, getMembers, getTransactions } from "@/config/firebase";
+import { setLock } from "@/services/api";
 import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({
@@ -140,6 +155,14 @@ onMounted(async () => {
 
 async function fetchItems(): Promise<void> {
   vm.items = await getItems();
+}
+
+async function lock() {
+  await setLock("closed");
+}
+
+async function unlock() {
+  await setLock("open");
 }
 
 provide<() => Promise<void>>("fetchItems", fetchItems);

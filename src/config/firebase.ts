@@ -1,8 +1,8 @@
-import type Transaction from "@/interfaces/Transaction";
-import { initializeApp } from "firebase/app";
-import { collection, doc, setDoc, getDocs, getFirestore, query } from "firebase/firestore";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
+import type Transaction from "@/interfaces/Transaction";
+import { collection, doc, setDoc, getDocs, getFirestore, query } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDcRk89s5vl4ihZ1J_cO0e6AOMDMIkXIz0",
@@ -84,6 +84,5 @@ export async function getTransactions(): Promise<Transaction[]> {
 }
 
 export {
-  app,
   db,
 };
