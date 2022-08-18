@@ -60,22 +60,18 @@
             </v-col>
           </v-row>
 
-          <v-divider class="mt-2 mb-6" />
+          <v-divider class="mt-6 mb-12" />
 
           <v-row justify="center" v-if="!vm.role">
-            <v-col cols="12">
-              <h2>I'm a...</h2>
-            </v-col>
-
-            <v-col cols="3">
-              <v-btn @click="vm.role = 'member'" color="primary">
-                Member
+            <v-col cols="6">
+              <v-btn @click="vm.role = 'member'" color="primary" size="x-large">
+                <b>I'm a member</b>
               </v-btn>
             </v-col>
 
-            <v-col cols="3">
-              <v-btn @click="vm.role = 'guest'" color="primary">
-                Guest
+            <v-col cols="6">
+              <v-btn @click="vm.role = 'guest'" color="primary" size="x-large">
+                <b>I'm a guest</b>
               </v-btn>
             </v-col>
           </v-row>

@@ -25,12 +25,22 @@
 
         <v-col col="12" sm="2" class="text-center text-sm-right">
           <v-btn
-            v-if="!vm.signedIn"
+            v-if="!vm.signedIn && !vm.codePadVisible"
             size="small"
             color="primary"
             @click="vm.codePadVisible = true"
             class="mx-auto mr-sm-0"
           >Sign in
+          </v-btn>
+
+          <v-btn
+            v-else-if="!vm.signedIn && vm.codePadVisible"
+            size="small"
+            color="primary"
+            @click="vm.codePadVisible = false"
+            class="mx-auto mr-sm-0"
+          >
+            Cancel
           </v-btn>
 
           <v-btn

@@ -91,22 +91,28 @@ const vm = reactive({
 });
 
 async function add(): Promise<void> {
-  vm.loading = true;
+  loading && loading(true);
   await addItem(vm.newItem);
+  displayAlert && displayAlert({
+    color: "success",
+    message: "",
+    title: "Updated!",
+    visible: true,
+  });
   fetchItems && await fetchItems();
-  vm.loading = false;
+  loading && loading(false);
 }
 
-// async function del(): Promise<void> {
-//   vm.loading = true;
-//   await deleteItem(vm.newItem);
-//   vm.loading = false;
-// }
-
 async function update(): Promise<void> {
-  vm.loading = true;
+  loading && loading(true);
   await updateItem(vm.newItem);
+  displayAlert && displayAlert({
+    color: "success",
+    message: "",
+    title: "Updated!",
+    visible: true,
+  });
   fetchItems && await fetchItems();
-  vm.loading = false;
+  loading && loading(false);
 }
 </script>
