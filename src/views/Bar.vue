@@ -19,37 +19,38 @@
     <v-dialog v-model="vm.purchaseDialogVisible">
       <v-card v-if="vm.page === 1" class="text-center">
         <v-container>
-          <v-row class="mb-4" dense>
+          <v-row class="mb-4" dense justify="center">
             <v-col cols="12">
               <h2>Buy</h2>
             </v-col>
-            <v-col>
+
+            <v-col cols="2">
               <v-btn
-                variant="icon"
                 @click="vm.amount--"
                 class="ml-auto"
                 color="primary"
                 size="x-large"
+                variant="icon"
               >
-                <v-icon>
+                <v-icon size="x-large">
                   mdi-minus-circle
                 </v-icon>
               </v-btn>
             </v-col>
 
-            <v-col cols="1">
+            <v-col cols="2">
               <h1><b>{{ vm.amount }}</b></h1>
             </v-col>
 
-            <v-col>
+            <v-col cols="2">
               <v-btn
-                class="mr-auto"
-                variant="icon"
                 @click="vm.amount++"
+                class="mr-auto"
                 color="primary"
                 size="x-large"
+                variant="icon"
               >
-                <v-icon>
+                <v-icon size="x-large">
                   mdi-plus-circle
                 </v-icon>
               </v-btn>
@@ -172,7 +173,7 @@ async function purchaseItem(member: Member) {
   else {
     displayAlert && displayAlert({
       color: "error",
-      message: "Sign in to buy more kr.",
+      message: "Sign in to add more money",
       title: "You're too poor!",
       visible: true,
     });

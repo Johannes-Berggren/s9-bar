@@ -57,7 +57,15 @@
       <v-container class="mt-10">
         <bar v-if="!vm.codePadVisible" />
         <code-pad v-else-if="!vm.signedIn" @success="signedIn" />
-        <admin v-else-if="vm.member.admin" />
+
+        <div v-else-if="vm.signedIn">
+          <account-buttons :member="vm.member" class="mb-12" />
+
+          <v-divider class="my-12" />
+
+          <h1 class="text-center">Admin-area</h1>
+          <admin v-if="vm.signedIn && vm.member.admin" />
+        </div>
       </v-container>
     </div>
 
@@ -76,6 +84,7 @@
 </template>
 
 <script setup lang="ts">
+import AccountButtons from "@/components/AccountButtons.vue";
 import Admin from "@/views/Admin.vue";
 import Bar from "@/views/Bar.vue";
 import CodePad from "@/components/CodePad.vue";
