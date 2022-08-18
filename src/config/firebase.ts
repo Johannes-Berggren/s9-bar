@@ -16,16 +16,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function getID(collectionName: string): Promise<number> {
+async function getNextID(collectionName: string): Promise<number> {
   const itemsQuery = query(collection(db, collectionName));
   const itemsSnapshot = await getDocs(itemsQuery);
   const sortedDocs = itemsSnapshot.docs.sort((a, b) => a.data().ID - b.data().ID);
-  return parseInt(sortedDocs[sortedDocs.length - 1].data().ID);
+  return parseInt(sortedDocs[sortedDocs.length - 1].data().ID) + 1;
 }
 
 export async function addItem(item: Item): Promise<void> {
-  const oldID = await getID("items");
-  const ID = oldID + 1;
+  const ID = await getNextID("items");
 
   const itemObject: Item = {
     ID,
@@ -38,23 +37,14 @@ export async function addItem(item: Item): Promise<void> {
   await setDoc(doc(db, "items", `${itemObject.ID}`), itemObject);
 }
 
-export async function getItems(): Promise<Item[]> {
-  const itemsQuery = query(collection(db, "items"));
-  const itemsSnapshot = await getDocs(itemsQuery);
-  return itemsSnapshot.docs.map((s) => s.data() as Item);
-}
-
-export async function updateItem(item: Item): Promise<void> {
-  const updateObject: Item = {
-    ID: item.ID,
-    currentInventory: +item.currentInventory,
-    imageURL: item.imageURL,
-    name: item.name,
-    price: +item.price,
-    type: item.type,
-  };
-  await setDoc(doc(db, "items", `${updateObject.ID}`), updateObject);
-}
+// export async function addTransaction(transaction: Transaction): Promise<void> {
+//   const ID = await getNextID("transactions");
+//
+//   const transactionObject: Transaction = {
+//     ID,
+//     creditsUsed:
+//   }
+// }
 
 export async function updateMember(member: Member): Promise<void> {
   const updateObject: Member = {

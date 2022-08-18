@@ -64,11 +64,15 @@
 </template>
 
 <script setup lang="ts">
-import { addItem, updateItem } from "@/config/firebase";
+import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
+import { addItem } from "@/config/firebase";
 import { defineProps, inject, reactive } from "vue";
+import { updateItem } from "@/services/api";
 
+const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 const fetchItems = inject<() => Promise<void>>("fetchItems");
+const loading = inject<(val: boolean) => void>("loading");
 
 const props = defineProps<{
   item: Item

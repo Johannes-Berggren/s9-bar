@@ -1,4 +1,5 @@
 import axiosInstance from "@/config/axios";
+import type Item from "@/interfaces/Item";
 import type * as Stripe from "stripe";
 
 export async function createCustomerCheckoutSession(memberID: number, customerID: string): Promise<Stripe.Stripe.Checkout.Session> {
@@ -11,6 +12,21 @@ export async function createCustomerPortalSession(customerID: string): Promise<S
   const portalSession = await axiosInstance
     .get<Stripe.Stripe.BillingPortal.Session>(`/createCustomerPortalSession/${customerID}`);
   return portalSession.data;
+}
+
+// export async function getItem(id: string): Promise<Item> {
+//   const itemRes = await axiosInstance.get<Item>(`/item/${id}`);
+//   return itemRes.data;
+// }
+
+export async function getItems(): Promise<Item[]> {
+  const itemsRes = await axiosInstance.get<Item[]>("/items");
+  return itemsRes.data;
+}
+
+export async function updateItem(item: Item): Promise<Item> {
+  const itemRes = await axiosInstance.put<Item>("/item", item);
+  return itemRes.data;
 }
 
 export async function setLock(state: "closed" | "open"): Promise<void> {

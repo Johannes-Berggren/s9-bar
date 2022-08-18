@@ -117,8 +117,8 @@ import BarItem from "@/components/BarItem.vue";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
-import { getItems, getMembers, getTransactions } from "@/config/firebase";
-import { setLock } from "@/services/api";
+import { getMembers, getTransactions } from "@/config/firebase";
+import { getItems, setLock } from "@/services/api";
 import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({

@@ -110,8 +110,9 @@ import CodePad from "@/components/CodePad.vue";
 import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
-import { getItems, updateItem, updateMember } from "@/config/firebase";
+import { updateMember } from "@/config/firebase";
 import { inject, onMounted, reactive } from "vue";
+import { getItems, updateItem } from "@/services/api";
 
 const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 const loading = inject<(val: boolean) => void>("loading");
@@ -166,7 +167,7 @@ async function purchaseItem(member: Member) {
     await Promise.all([
       updateItem(vm.selectedItem),
       updateMember(member),
-      // TODO: ADD TRANSACTION
+      // addTransaction()
     ]);
     await fetchItems();
     vm.page++;
