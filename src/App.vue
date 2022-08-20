@@ -13,24 +13,25 @@
             alt="S9 Logo"
             class="logo"
             src="./assets/logo.png"
-            width="125"
-            height="125"
+            width="100"
+            height="100"
           />
         </v-col>
 
         <v-col cols="12" sm="8" class="text-white">
-          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center">Select drink, baby.</h1>
+          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center" style="font-size: 60px">
+            <b>Select drink</b>
+          </h1>
           <member-info v-if="vm.signedIn" :member="vm.member" />
         </v-col>
 
         <v-col col="12" sm="2" class="text-center text-sm-right">
           <v-btn
             v-if="!vm.signedIn && !vm.codePadVisible"
-            size="small"
             color="primary"
             @click="vm.codePadVisible = true"
             class="mx-auto mr-sm-0"
-          >Sign in
+          >Add money
           </v-btn>
 
           <v-btn
