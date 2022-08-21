@@ -6,7 +6,7 @@
         color="primary"
         size="x-large"
       >
-        Add money
+        Buy ClubCoin
       </v-btn>
     </v-col>
 

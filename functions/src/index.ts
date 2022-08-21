@@ -72,7 +72,7 @@ app.post("/webhooks", async (req, res) => {
 
   const updatedMember = await updateMember(member);
 
-  functions.logger.info(`${member.firstName} ${member.lastName} purchased 500 kr.`);
+  functions.logger.info(`${member.firstName} ${member.lastName} purchased 500 ClubCoin`);
   functions.logger.info(updatedMember);
 
   res.send(updatedMember);

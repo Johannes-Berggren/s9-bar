@@ -10,7 +10,7 @@
           </v-card-title>
 
           <v-card-subtitle>
-            {{ item.price }} kr.
+            {{ item.price }} ClubCoin
           </v-card-subtitle>
         </v-card>
       </v-col>
@@ -79,14 +79,17 @@
 
           <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchaseItem" />
 
-          <div v-else-if="vm.role === 'guest'" class="mt-5">
-            <h1>Pay {{ vm.selectedItem.price * vm.amount }} kr. with Vipps</h1>
+          <div v-else-if="vm.role === 'guest'">
+            <h1 class="font-weight-black">Ask a member for the code :)</h1>
 
-            <v-btn class="my-5" color="success" size="large" @click="paidWithVipps()">
-              I have paid!
-            </v-btn>
+            <code-pad style="max-width: 550px;" @success="purchaseItem" />
+            <!--            <h1>Pay {{ vm.selectedItem.price * vm.amount }} ClubCoin with Vipps</h1>-->
 
-            <v-img src="/qr.png" width="200" class="mx-auto" />
+            <!--            <v-btn class="my-5" color="success" size="large" @click="paidWithVipps()">-->
+            <!--              I have paid!-->
+            <!--            </v-btn>-->
+
+            <!--            <v-img src="/qr.png" width="200" class="mx-auto" />-->
           </div>
         </v-container>
       </v-card>
@@ -96,8 +99,8 @@
 
         <v-divider class="my-4" />
 
-        <h3>You spent {{ vm.spent }} kr.</h3>
-        <h4 v-if="vm.role === 'member'">You have {{ vm.newCredit }} kr. in your account.</h4>
+        <h3>You spent {{ vm.spent }} ClubCoin</h3>
+        <h4 v-if="vm.role === 'member'">You have {{ vm.newCredit }} ClubCoin in your account.</h4>
       </v-card>
     </v-dialog>
   </v-container>
@@ -181,7 +184,7 @@ async function purchaseItem(member: Member) {
   else {
     displayAlert && displayAlert({
       color: "error",
-      message: "Sign in to add more money",
+      message: "Sign in to buy more ClubCoin",
       title: "You're too poor!",
       visible: true,
     });

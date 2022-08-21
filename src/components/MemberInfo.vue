@@ -1,7 +1,7 @@
 <template>
   <div class="text-center mb-3">
     <h1><b>Welcome {{ vm.member.firstName }}</b></h1>
-    <h2>You have {{ vm.member.credit }} kr.</h2>
+    <h2>You have {{ vm.member.credit }} ClubCoin</h2>
   </div>
 </template>
 

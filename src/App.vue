@@ -93,7 +93,7 @@ import CodePad from "@/components/CodePad.vue";
 import MemberInfo from "@/components/MemberInfo.vue";
 import type Alert from "@/interfaces/Alert";
 import type Member from "@/interfaces/Member";
-import { onMounted, provide, reactive } from "vue";
+import { provide, reactive } from "vue";
 
 const vm = reactive({
   alert: {
