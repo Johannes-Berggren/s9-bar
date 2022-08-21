@@ -56,6 +56,7 @@
       </v-row>
 
       <v-container class="mt-10">
+<!--        <welcome-screen v-if="vm.activeComponent === 'welcomeScreen'" />-->
         <bar v-if="!vm.codePadVisible" />
         <code-pad v-else-if="!vm.signedIn" @success="signedIn" />
 
@@ -86,6 +87,7 @@
 
 <script setup lang="ts">
 import AccountButtons from "@/components/AccountButtons.vue";
+import WelcomeScreen from "@/components/WelcomeScreen.vue";
 import Admin from "@/views/Admin.vue";
 import Bar from "@/views/Bar.vue";
 import CodePad from "@/components/CodePad.vue";
@@ -95,6 +97,7 @@ import type Member from "@/interfaces/Member";
 import { provide, reactive } from "vue";
 
 const vm = reactive({
+  activeComponent: "welcomeScreen",
   alert: {
     color: "success",
     message: "",
