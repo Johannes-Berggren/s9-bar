@@ -16,7 +16,7 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="vm.purchaseDialogVisible">
+    <v-dialog v-model="vm.purchaseDialogVisible" transition="fab-transition">
       <v-card v-if="vm.page === 1" class="text-center">
         <v-container>
           <v-row class="mb-4" dense justify="center">
@@ -81,11 +81,12 @@
 
           <div v-else-if="vm.role === 'guest'" class="mt-5">
             <h1>Pay {{ vm.selectedItem.price * vm.amount }} kr. with Vipps</h1>
-            <v-img src="/qr.png" width="200" class="mx-auto" />
 
-            <v-btn class="mt-5" color="primary" size="large" @click="paidWithVipps()">
+            <v-btn class="my-5" color="success" size="large" @click="paidWithVipps()">
               I have paid!
             </v-btn>
+
+            <v-img src="/qr.png" width="200" class="mx-auto" />
           </div>
         </v-container>
       </v-card>
@@ -153,6 +154,9 @@ async function paidWithVipps() {
   vm.page++;
   vm.selectedItem = {} as Item;
   loading && loading(false);
+  setTimeout(() => {
+    vm.purchaseDialogVisible = false;
+  }, 10000);
 }
 
 async function purchaseItem(member: Member) {
@@ -179,5 +183,8 @@ async function purchaseItem(member: Member) {
     });
   }
   loading && loading(false);
+  setTimeout(() => {
+    vm.purchaseDialogVisible = false;
+  }, 10000);
 }
 </script>
