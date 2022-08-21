@@ -105,13 +105,15 @@
 
 <script setup lang="ts">
 import CodePad from "@/components/CodePad.vue";
+import JSConfetti from "js-confetti";
 import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
-import { updateMember } from "@/config/firebase";
-import { inject, onMounted, reactive } from "vue";
 import { getItems, updateItem } from "@/services/api";
+import { inject, onMounted, reactive } from "vue";
+import { updateMember } from "@/config/firebase";
 
+const confetti = new JSConfetti();
 const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 const loading = inject<(val: boolean) => void>("loading");
 
@@ -151,6 +153,7 @@ async function paidWithVipps() {
   vm.spent = vm.selectedItem.price * vm.amount;
   await updateItem(vm.selectedItem);
   await fetchItems();
+  confetti.addConfetti();
   vm.page++;
   vm.selectedItem = {} as Item;
   loading && loading(false);
@@ -170,8 +173,9 @@ async function purchaseItem(member: Member) {
       updateMember(member),
       // addTransaction()
     ]);
-    await fetchItems();
+    confetti.addConfetti();
     vm.page++;
+    await fetchItems();
     vm.selectedItem = {} as Item;
   }
   else {
