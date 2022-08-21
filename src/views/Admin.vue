@@ -44,7 +44,7 @@
 
     <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
     <v-row v-else>
-      <v-col v-for="member in vm.members" :key="member.ID" cols="12" sm="6">
+      <v-col v-for="member in vm.members" :key="member.ID" cols="12" sm="4">
         <v-card class="pb-4">
           <v-card-title>
             {{ member.firstName }} {{ member.lastName }}

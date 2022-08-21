@@ -31,7 +31,8 @@
             color="primary"
             @click="vm.codePadVisible = true"
             class="mx-auto mr-sm-0"
-          >Add money
+            size="small"
+          >Member login
           </v-btn>
 
           <v-btn
@@ -92,7 +93,7 @@ import CodePad from "@/components/CodePad.vue";
 import MemberInfo from "@/components/MemberInfo.vue";
 import type Alert from "@/interfaces/Alert";
 import type Member from "@/interfaces/Member";
-import { provide, reactive } from "vue";
+import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({
   alert: {

@@ -64,7 +64,9 @@ export async function updateMember(member: Member): Promise<void> {
 export async function getMembers(): Promise<Member[]> {
   const membersQuery = query(collection(db, "members"));
   const membersSnapshot = await getDocs(membersQuery);
-  return membersSnapshot.docs.map((s) => s.data() as Member);
+  return membersSnapshot.docs
+    .map((s) => s.data() as Member)
+    .sort((a, b) => a.firstName.localeCompare(b.firstName));
 }
 
 export async function getTransactions(): Promise<Transaction[]> {
