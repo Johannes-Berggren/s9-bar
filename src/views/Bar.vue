@@ -77,7 +77,7 @@
             </v-col>
           </v-row>
 
-          <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchase()" />
+          <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchase" />
 
           <div v-else-if="vm.role === 'guest'" class="mt-5">
             <h1>Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps</h1>
