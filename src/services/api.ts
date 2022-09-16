@@ -2,9 +2,9 @@ import axiosInstance from "@/config/axios";
 import type Item from "@/interfaces/Item";
 import type * as Stripe from "stripe";
 
-export async function createCustomerCheckoutSession(memberID: number, customerID: string): Promise<Stripe.Stripe.Checkout.Session> {
+export async function createCustomerCheckoutSession(memberID: number, customerID: string, priceID: string): Promise<Stripe.Stripe.Checkout.Session> {
   const checkoutSession = await axiosInstance
-    .get<Stripe.Stripe.Checkout.Session>(`/createCustomerCheckoutSession/${memberID}/${customerID}`);
+    .get<Stripe.Stripe.Checkout.Session>(`/createCustomerCheckoutSession/${memberID}/${customerID}/${priceID}`);
   return checkoutSession.data;
 }
 

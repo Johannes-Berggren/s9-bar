@@ -9,17 +9,17 @@ const app = express();
 
 app.use(cors);
 
-app.get("/createCustomerCheckoutSession/:memberID/:customerID", async (req, res) => {
+app.get("/createCustomerCheckoutSession/:memberID/:customerID/:priceID", async (req, res) => {
   const customerID = req.params.customerID;
   const memberID = req.params.memberID;
+  const priceID = req.params.priceID;
 
-  functions.logger.info(`/createCustomerCheckoutSession/${memberID}/${customerID}`);
+  functions.logger.info(`/createCustomerCheckoutSession/${memberID}/${customerID}/${priceID}`);
 
   const checkoutSession = await stripe.checkout.sessions.create({
     customer: customerID,
     line_items: [{
-      price: "price_1LMHtpI1MJoejWlLBj1SnnjZ", // PROD
-      // price: "price_1LMIWGI1MJoejWlL3PpTxkq5", // TEST
+      price: priceID,
       quantity: 1,
     }],
     mode: "payment",

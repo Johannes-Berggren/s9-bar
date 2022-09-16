@@ -118,7 +118,7 @@ import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
 import { getMembers, getTransactions } from "@/config/firebase";
-import { getItems, setLock } from "@/services/api";
+import { getItems } from "@/services/api";
 import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({
@@ -155,14 +155,6 @@ onMounted(async () => {
 
 async function fetchItems(): Promise<void> {
   vm.items = await getItems();
-}
-
-async function lock() {
-  await setLock("closed");
-}
-
-async function unlock() {
-  await setLock("open");
 }
 
 provide<() => Promise<void>>("fetchItems", fetchItems);

@@ -1,20 +1,41 @@
 <template>
   <v-row class="text-center">
-    <v-col cols="6">
+    <v-col cols="4">
       <v-btn
-        @click="createCheckoutSession()"
+        @click="createCheckoutSession('price_1LictrI1MJoejWlLaZN6faHU')"
         color="primary"
         size="x-large"
       >
-        Add money
+        Add 200 kr.
       </v-btn>
     </v-col>
 
-    <v-col cols="6">
+    <v-col cols="4">
+      <v-btn
+        @click="createCheckoutSession('price_1LMHtpI1MJoejWlLBj1SnnjZ')"
+        color="primary"
+        size="x-large"
+      >
+        Add 500 kr.
+      </v-btn>
+    </v-col>
+
+    <v-col cols="4">
+      <v-btn
+        @click="createCheckoutSession('price_1LMHu3I1MJoejWlLV6PttYx7')"
+        color="primary"
+        size="x-large"
+      >
+        Add 1000 kr.
+      </v-btn>
+    </v-col>
+
+    <v-col cols="12">
+      <v-divider class="mt-6" />
+
       <v-btn
         @click="createPortalSession()"
         color="primary"
-        size="x-large"
       >
         Update S9 Membership
       </v-btn>
@@ -41,10 +62,10 @@ onMounted(() => {
   vm.member = props.member;
 });
 
-async function createCheckoutSession() {
+async function createCheckoutSession(priceID: string) {
   if (vm.member?.ID) {
     loading && loading(true);
-    const session = await createCustomerCheckoutSession(vm.member.ID, vm.member.stripeID);
+    const session = await createCustomerCheckoutSession(vm.member.ID, vm.member.stripeID, priceID);
     if (session.url) window.open(session.url, "_self");
   }
 }
