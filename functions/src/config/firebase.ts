@@ -21,6 +21,31 @@ export async function getMember(id: number): Promise<Member> {
   return memberSnapshot.data() as Member;
 }
 
+interface ItemMember {
+  item: Item,
+  member: Member
+}
+
+export async function purchaseItem(itemID: number, count: number, memberID: number): Promise<ItemMember> {
+  const [item, member] = await Promise.all([
+    getItem(itemID),
+    getMember(memberID),
+  ]);
+
+  item.currentInventory -= count;
+  member.credit -= item.price * count;
+
+  const [updatedItem, updatedMember] = await Promise.all([
+    updateItem(item),
+    updateMember(member),
+  ]);
+
+  return {
+    item: updatedItem,
+    member: updatedMember,
+  };
+}
+
 export async function updateItem(item: Item): Promise<Item> {
   const updateObject: Item = {
     ID: item.ID,

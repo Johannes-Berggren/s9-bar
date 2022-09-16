@@ -3,7 +3,7 @@ import * as functions from "firebase-functions";
 import cors from "./config/cors";
 import stripe from "./config/stripe";
 import { Stripe } from "stripe";
-import { getItem, getItems, getMember, updateItem, updateMember } from "./config/firebase";
+import { getItem, getItems, getMember, purchaseItem, updateItem, updateMember } from "./config/firebase";
 
 const app = express();
 
@@ -59,6 +59,14 @@ app.get("/items", async (req, res) => {
 
 app.put("/item", async (req, res) => {
   res.send(await (updateItem(req.body)));
+});
+
+app.post("/purchase/:itemID/:count/:memberID", async (req, res) => {
+  const itemID = parseInt(req.params.itemID);
+  const count = parseInt(req.params.count);
+  const memberID = parseInt(req.params.memberID);
+  const itemMember = await purchaseItem(itemID, count, memberID);
+  res.send(itemMember);
 });
 
 app.post("/webhooks", async (req, res) => {

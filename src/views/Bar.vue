@@ -26,7 +26,7 @@
 
             <v-col cols="2">
               <v-btn
-                @click="vm.amount--"
+                @click="vm.count--"
                 class="ml-auto"
                 color="primary"
                 size="x-large"
@@ -39,12 +39,12 @@
             </v-col>
 
             <v-col cols="2">
-              <h1><b>{{ vm.amount }}</b></h1>
+              <h1><b>{{ vm.count }}</b></h1>
             </v-col>
 
             <v-col cols="2">
               <v-btn
-                @click="vm.amount++"
+                @click="vm.count++"
                 class="mr-auto"
                 color="primary"
                 size="x-large"
@@ -77,10 +77,10 @@
             </v-col>
           </v-row>
 
-          <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchaseItem" />
+          <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchase()" />
 
           <div v-else-if="vm.role === 'guest'" class="mt-5">
-            <h1>Pay {{ vm.selectedItem.price * vm.amount }} kr. with Vipps</h1>
+            <h1>Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps</h1>
 
             <v-btn class="my-5" color="success" size="large" @click="paidWithVipps()">
               I have paid!
@@ -109,16 +109,15 @@ import JSConfetti from "js-confetti";
 import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
-import { getItems, updateItem } from "@/services/api";
+import { getItems, purchaseItem, updateItem } from "@/services/api";
 import { inject, onMounted, reactive } from "vue";
-import { updateMember } from "@/config/firebase";
 
 const confetti = new JSConfetti();
 const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 const loading = inject<(val: boolean) => void>("loading");
 
 const vm = reactive({
-  amount: 1,
+  count: 1,
   items: [] as Item[],
   newCredit: 0,
   page: 1,
@@ -142,51 +141,58 @@ async function fetchItems() {
 function openItem(item: Item) {
   vm.role = "";
   vm.page = 1;
-  vm.amount = 1;
+  vm.count = 1;
   vm.purchaseDialogVisible = true;
   vm.selectedItem = item;
 }
 
 async function paidWithVipps() {
   loading && loading(true);
-  vm.selectedItem.currentInventory -= vm.amount;
-  vm.spent = vm.selectedItem.price * vm.amount;
-  await updateItem(vm.selectedItem);
-  await fetchItems();
+
+  vm.selectedItem.currentInventory -= vm.count;
+  vm.spent = vm.selectedItem.price * vm.count;
+
   confetti.addConfetti();
   vm.page++;
-  vm.selectedItem = {} as Item;
+
+  await updateItem(vm.selectedItem);
+
   loading && loading(false);
+
+  await fetchItems();
+  vm.selectedItem = {} as Item;
+
   setTimeout(() => {
     vm.purchaseDialogVisible = false;
   }, 10000);
 }
 
-async function purchaseItem(member: Member) {
+async function purchase(member: Member) {
   loading && loading(true);
-  if (member.credit > vm.selectedItem.price) {
-    vm.selectedItem.currentInventory -= vm.amount;
-    vm.spent = vm.selectedItem.price * vm.amount;
-    vm.newCredit = member.credit -= vm.spent;
-    await Promise.all([
-      updateItem(vm.selectedItem),
-      updateMember(member),
-      // addTransaction()
-    ]);
+
+  if (member.credit > (vm.selectedItem.price * vm.count)) {
+    const itemMember = await purchaseItem(vm.selectedItem.ID, vm.count, member.ID);
+
+    vm.spent = vm.selectedItem.price * vm.count;
+    vm.newCredit = itemMember.member.credit;
+
     confetti.addConfetti();
     vm.page++;
+
     await fetchItems();
     vm.selectedItem = {} as Item;
   }
   else {
     displayAlert && displayAlert({
       color: "error",
-      message: "Sign in to add more money",
+      message: "Click Member login to add more money",
       title: "You're too poor!",
       visible: true,
     });
   }
+
   loading && loading(false);
+
   setTimeout(() => {
     vm.purchaseDialogVisible = false;
   }, 10000);
