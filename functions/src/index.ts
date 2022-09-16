@@ -62,17 +62,23 @@ app.put("/item", async (req, res) => {
 });
 
 app.post("/webhooks", async (req, res) => {
+  functions.logger.info("/webhooks");
+
   const webhook = req.body as Stripe.Event;
+  const session = webhook.data.object as Stripe.Checkout.Session;
+  const amount = session.amount_subtotal ? session.amount_subtotal / 100 : 0;
+
+  functions.logger.info(session.amount_subtotal);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const member = await getMember(webhook.data.object.metadata.memberID);
 
-  member.credit += 500;
+  member.credit += amount;
 
   const updatedMember = await updateMember(member);
 
-  functions.logger.info(`${member.firstName} ${member.lastName} purchased 500 kr.`);
+  functions.logger.info(`${member.firstName} ${member.lastName} purchased ${amount} kr.`);
   functions.logger.info(updatedMember);
 
   res.send(updatedMember);
