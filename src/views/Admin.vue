@@ -25,7 +25,12 @@
       <v-expansion-panel v-for="item in vm.items" :key="item.ID" cols="4">
         <v-expansion-panel-title>
           <b class="text-left">{{ item.name }}</b>
+          <span class="ml-4 text-grey">{{ item.type }}</span>
+
           <v-spacer />
+
+          <span class="mr-4 text-grey-darken-3">{{ item.price }} ClubCoin</span>
+
           {{ item.currentInventory }} left in the bar
         </v-expansion-panel-title>
 

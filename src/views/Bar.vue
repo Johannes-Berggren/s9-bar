@@ -1,27 +1,30 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col v-for="item in vm.items" :key="item.ID" cols="12" sm="4" md="3">
-        <v-card @click="openItem(item)" class="py-3">
-          <v-img :src="item.imageURL" height="250px" />
+    <div v-for="type of ItemTypes" :key="type" class="mb-12">
+      <h2 v-if="vm.items.filter((i) => i.type === type).length" class="mb-3"><b>{{ type }}</b></h2>
+      <v-row>
+        <v-col v-for="item in vm.items.filter((i) => i.type === type)" :key="item.ID" cols="12" sm="4" md="3">
+          <v-card @click="openItem(item)" class="py-3">
+            <v-img :src="item.imageURL" height="250px" />
 
-          <v-card-title>
-            {{ item.name }}
-          </v-card-title>
+            <v-card-title>
+              {{ item.name }}
+            </v-card-title>
 
-          <v-card-subtitle>
-            {{ item.price }} kr.
-          </v-card-subtitle>
-        </v-card>
-      </v-col>
-    </v-row>
+            <v-card-subtitle>
+              {{ item.price }} ClubCoin
+            </v-card-subtitle>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
 
     <v-dialog v-model="vm.purchaseDialogVisible" transition="fab-transition">
       <v-card v-if="vm.page === 1" class="text-center">
-        <v-container>
+        <v-container class="my-12">
           <v-row class="mb-4" dense justify="center">
             <v-col cols="12">
-              <h2>Buy</h2>
+              <h1>Buy</h1>
             </v-col>
 
             <v-col cols="2">
