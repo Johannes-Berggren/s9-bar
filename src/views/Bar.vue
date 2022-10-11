@@ -42,7 +42,7 @@
             </v-col>
 
             <v-col cols="2">
-              <h1><b>{{ vm.count }}</b></h1>
+              <h1 style="font-size: 50px; margin-top: -20px; margin-bottom: -20px"><b>{{ vm.count }}</b></h1>
             </v-col>
 
             <v-col cols="2">
@@ -60,13 +60,13 @@
             </v-col>
 
             <v-col cols="12">
-              <h2>{{ vm.selectedItem.name }}</h2>
+              <h1>{{ vm.selectedItem.name }}</h1>
             </v-col>
           </v-row>
 
           <v-divider class="mt-6 mb-12" />
 
-          <v-row justify="center" v-if="!vm.role">
+          <v-row justify="center" v-if="!vm.role" class="mb-8">
             <v-col cols="6">
               <v-btn @click="vm.role = 'member'" color="primary" size="x-large">
                 <b>I'm a member</b>
@@ -80,16 +80,24 @@
             </v-col>
           </v-row>
 
-          <code-pad v-if="vm.role === 'member'" style="max-width: 550px;" @success="purchase" />
+          <code-pad v-if="vm.role === 'member'" style="max-width: 550px; margin: auto" @success="purchase" />
 
-          <div v-else-if="vm.role === 'guest'" class="mt-5">
-            <h1>Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps</h1>
+          <div v-else-if="vm.role === 'guest'">
+            <h1><b class="text-orange-darken-3">Step 1:</b> Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps</h1>
 
-            <v-btn class="my-5" color="success" size="large" @click="paidWithVipps()">
-              I have paid!
-            </v-btn>
+            <v-img src="/qr.png" width="200" class="mx-auto my-6" />
 
-            <v-img src="/qr.png" width="200" class="mx-auto" />
+            <v-row class="my-12">
+              <v-col cols="6" class="text-right">
+                <h1><b class="text-orange-darken-3">Step 2:</b> Click here:</h1>
+              </v-col>
+
+              <v-col cols="4">
+                <v-btn color="success" size="x-large" @click="paidWithVipps()">
+                  <b>I have paid!</b>
+                </v-btn>
+              </v-col>
+            </v-row>
           </div>
         </v-container>
       </v-card>
@@ -112,8 +120,9 @@ import JSConfetti from "js-confetti";
 import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
-import { getItems, purchaseItem, updateItem } from "@/services/api";
+import { getItem, getItems, purchaseItem, updateItem } from "@/services/api";
 import { inject, onMounted, reactive } from "vue";
+import ItemTypes from "@/config/item-types";
 
 const confetti = new JSConfetti();
 const displayAlert = inject<(alert: Alert) => void>("displayAlert");

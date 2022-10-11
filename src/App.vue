@@ -76,7 +76,7 @@
       v-model="vm.alert.visible"
       :color="vm.alert.color"
       multi-line
-      shaped
+      location="top"
     >
       <strong>{{ vm.alert.title }}</strong><br>
       {{ vm.alert.message }}
@@ -93,7 +93,7 @@ import CodePad from "@/components/CodePad.vue";
 import MemberInfo from "@/components/MemberInfo.vue";
 import type Alert from "@/interfaces/Alert";
 import type Member from "@/interfaces/Member";
-import { onMounted, provide, reactive } from "vue";
+import { provide, reactive } from "vue";
 
 const vm = reactive({
   alert: {
