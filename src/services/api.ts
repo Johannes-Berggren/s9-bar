@@ -20,10 +20,10 @@ export async function createItem(item: Item): Promise<Item> {
   return itemRes.data;
 }
 
-// export async function getItem(id: string): Promise<Item> {
-//   const itemRes = await axiosInstance.get<Item>(`/item/${id}`);
-//   return itemRes.data;
-// }
+export async function getItem(id: number): Promise<Item> {
+  const itemRes = await axiosInstance.get<Item>(`/item/${id}`);
+  return itemRes.data;
+}
 
 export async function getItems(): Promise<Item[]> {
   const itemsRes = await axiosInstance.get<Item[]>("/items");

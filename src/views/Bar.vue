@@ -147,6 +147,7 @@ function openItem(item: Item) {
   vm.count = 1;
   vm.purchaseDialogVisible = true;
   vm.selectedItem = item;
+  getItem(item.ID);
 }
 
 async function paidWithVipps() {
