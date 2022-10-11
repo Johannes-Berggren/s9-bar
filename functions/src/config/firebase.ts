@@ -6,6 +6,12 @@ import { initializeApp } from "firebase-admin/app";
 const app = initializeApp();
 const db = getFirestore(app);
 
+async function getNextID(collectionName: string): Promise<number> {
+  const collectionSnapshot = await db.collection(collectionName).orderBy("ID", "asc").get();
+  const item = collectionSnapshot.docs[collectionSnapshot.docs.length - 1].data() as Item;
+  return item.ID + 1;
+}
+
 export async function getItem(id: number): Promise<Item> {
   const itemSnapshot = await db.collection("items").doc(String(id)).get();
   return itemSnapshot.data() as Item;
@@ -24,6 +30,21 @@ export async function getMember(id: number): Promise<Member> {
 interface ItemMember {
   item: Item,
   member: Member
+}
+
+export async function addItem(item: Item): Promise<Item> {
+  const ID = await getNextID("items");
+
+  const itemObject: Item = {
+    ID,
+    currentInventory: item.currentInventory,
+    imageURL: item.imageURL,
+    name: item.name,
+    price: +item.price,
+    type: item.type,
+  };
+  await db.collection("items").doc(String(itemObject.ID)).set(itemObject);
+  return getItem(ID);
 }
 
 export async function purchaseItem(itemID: number, count: number, memberID: number): Promise<ItemMember> {

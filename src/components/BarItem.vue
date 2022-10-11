@@ -66,9 +66,8 @@
 <script setup lang="ts">
 import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
-import { addItem } from "@/config/firebase";
 import { defineProps, inject, reactive } from "vue";
-import { updateItem } from "@/services/api";
+import { createItem,updateItem } from "@/services/api";
 
 const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 const fetchItems = inject<() => Promise<void>>("fetchItems");
@@ -92,7 +91,7 @@ const vm = reactive({
 
 async function add(): Promise<void> {
   loading && loading(true);
-  await addItem(vm.newItem);
+  await createItem(vm.newItem);
   displayAlert && displayAlert({
     color: "success",
     message: "",

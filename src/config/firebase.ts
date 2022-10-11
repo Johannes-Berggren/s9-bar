@@ -1,7 +1,6 @@
-import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
-import { collection, doc, setDoc, getDocs, getFirestore, query } from "firebase/firestore";
+import { collection, getDocs, getFirestore, query } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -15,51 +14,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-async function getNextID(collectionName: string): Promise<number> {
-  const itemsQuery = query(collection(db, collectionName));
-  const itemsSnapshot = await getDocs(itemsQuery);
-  const sortedDocs = itemsSnapshot.docs.sort((a, b) => a.data().ID - b.data().ID);
-  return parseInt(sortedDocs[sortedDocs.length - 1].data().ID) + 1;
-}
-
-export async function addItem(item: Item): Promise<void> {
-  const ID = await getNextID("items");
-
-  const itemObject: Item = {
-    ID,
-    currentInventory: item.currentInventory,
-    imageURL: item.imageURL,
-    name: item.name,
-    price: +item.price,
-    type: item.type,
-  };
-  await setDoc(doc(db, "items", `${itemObject.ID}`), itemObject);
-}
-
-// export async function addTransaction(transaction: Transaction): Promise<void> {
-//   const ID = await getNextID("transactions");
-//
-//   const transactionObject: Transaction = {
-//     ID,
-//     creditsUsed:
-//   }
-// }
-
-export async function updateMember(member: Member): Promise<void> {
-  const updateObject: Member = {
-    ID: member.ID,
-    admin: member.admin,
-    code: member.code,
-    credit: member.credit,
-    email: member.email,
-    firstName: member.firstName,
-    lastName: member.lastName,
-    phone: member.phone,
-    stripeID: member.stripeID,
-  };
-  await setDoc(doc(db, "members", `${updateObject.ID}`), updateObject);
-}
 
 export async function getMembers(): Promise<Member[]> {
   const membersQuery = query(collection(db, "members"));

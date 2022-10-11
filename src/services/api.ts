@@ -15,6 +15,11 @@ export async function createCustomerPortalSession(customerID: string): Promise<S
   return portalSession.data;
 }
 
+export async function createItem(item: Item): Promise<Item> {
+  const itemRes = await axiosInstance.post<Item>("/item", item);
+  return itemRes.data;
+}
+
 // export async function getItem(id: string): Promise<Item> {
 //   const itemRes = await axiosInstance.get<Item>(`/item/${id}`);
 //   return itemRes.data;
