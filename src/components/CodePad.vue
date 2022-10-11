@@ -12,62 +12,62 @@
       </div>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(1)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(1)" icon size="x-large" color="primary">
         1
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(2)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(2)" icon size="x-large" color="primary">
         2
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(3)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(3)" icon size="x-large" color="primary">
         3
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(4)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(4)" icon size="x-large" color="primary">
         4
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(5)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(5)" icon size="x-large" color="primary">
         5
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(6)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(6)" icon size="x-large" color="primary">
         6
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(7)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(7)" icon size="x-large" color="primary">
         7
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(8)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(8)" icon size="x-large" color="primary">
         8
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(9)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(9)" icon size="x-large" color="primary">
         9
       </v-btn>
     </v-col>
 
-    <v-col cols="4">
-      <v-btn class="mx-auto" @click="enterNumber(0)" icon size="x-large" color="primary">
+    <v-col cols="4" class="text-center">
+      <v-btn @click="enterNumber(0)" icon size="x-large" color="primary">
         0
       </v-btn>
     </v-col>
