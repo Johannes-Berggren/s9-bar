@@ -18,7 +18,10 @@ export async function getItem(id: number): Promise<Item> {
 }
 
 export async function getItems(): Promise<Item[]> {
-  const itemsSnapshot = await db.collection("items").orderBy("name", "asc").get();
+  const itemsSnapshot = await db.collection("items")
+    .orderBy("type", "asc")
+    .orderBy("name", "asc")
+    .get();
   return itemsSnapshot.docs.map((s) => s.data() as Item);
 }
 
