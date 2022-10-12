@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div v-for="type of ItemTypes" :key="type" class="mb-12">
-      <h2 v-if="vm.items.filter((i) => i.type === type).length" class="mb-3"><b>{{ type }}</b></h2>
+      <h2 v-if="vm.items.filter((i) => i.type === type).length" class="mb-1"><b>{{ type }}</b></h2>
       <v-row>
         <v-col v-for="item in vm.items.filter((i) => i.type === type)" :key="item.ID" cols="12" sm="4" md="3">
           <v-card @click="openItem(item)" class="py-3">
