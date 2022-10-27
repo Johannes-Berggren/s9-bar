@@ -65,8 +65,10 @@
 
           <v-divider class="my-12" />
 
-          <h1 class="text-center">Admin-area</h1>
-          <admin v-if="vm.signedIn && vm.member.admin" />
+          <div v-if="vm.signedIn && vm.member.admin">
+            <h1 class="text-center">Admin-area</h1>
+            <admin />
+          </div>
         </div>
       </v-container>
     </div>

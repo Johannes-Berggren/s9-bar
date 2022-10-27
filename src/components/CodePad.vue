@@ -77,8 +77,8 @@
 <script setup lang="ts">
 import type Alert from "@/interfaces/Alert";
 import type Member from "@/interfaces/Member";
-import { defineEmits, inject, onMounted, reactive } from "vue";
-import { getMembers } from "@/config/firebase";
+import { getMembers } from "@/services/api";
+import { defineEmits, inject, reactive } from "vue";
 
 const emit = defineEmits(["success"]);
 const displayAlert = inject<(alert: Alert) => void>("displayAlert");
@@ -88,15 +88,14 @@ const vm = reactive({
   members: [] as Member[],
 });
 
-onMounted(async () => {
-  vm.members = await getMembers();
-});
-
-function enterNumber(num: number) {
+async function enterNumber(num: number) {
   vm.code = vm.code + num;
 
   if (vm.code.length === 4) {
+    vm.members = await getMembers();
+
     const member = vm.members.filter((m) => m.code === vm.code)[0];
+
     if (member) emit("success", member);
     else {
       displayAlert && displayAlert({

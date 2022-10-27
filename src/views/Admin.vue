@@ -1,19 +1,5 @@
 <template>
   <v-container>
-    <!--    <v-row>-->
-    <!--      <v-col>-->
-    <!--        <v-btn color="primary" @click="unlock()">-->
-    <!--          Unlock fridge-->
-    <!--        </v-btn>-->
-    <!--      </v-col>-->
-
-    <!--      <v-col>-->
-    <!--        <v-btn color="primary" @click="lock()">-->
-    <!--          Lock fridge-->
-    <!--        </v-btn>-->
-    <!--      </v-col>-->
-    <!--    </v-row>-->
-
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Bar items</h2>
 
@@ -122,8 +108,7 @@ import BarItem from "@/components/BarItem.vue";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
-import { getMembers, getTransactions } from "@/config/firebase";
-import { getItems } from "@/services/api";
+import { getItems, getMembers } from "@/services/api";
 import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({
@@ -148,11 +133,9 @@ onMounted(async () => {
   [
     vm.items,
     vm.members,
-    vm.transactions,
   ] = await Promise.all([
     getItems(),
     getMembers(),
-    getTransactions(),
   ]);
 
   vm.loading = false;
