@@ -30,6 +30,11 @@ export async function getItems(): Promise<Item[]> {
   return itemsRes.data;
 }
 
+export async function getMembers(): Promise<Member[]> {
+  const membersRes = await axiosInstance.get<Member[]>("/members");
+  return membersRes.data;
+}
+
 interface ItemMember {
   item: Item,
   member: Member

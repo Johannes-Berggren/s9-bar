@@ -30,6 +30,13 @@ export async function getMember(id: number): Promise<Member> {
   return memberSnapshot.data() as Member;
 }
 
+export async function getMembers(): Promise<Member[]> {
+  const memberSnapshots = await db.collection("members")
+    .orderBy("firstName", "asc")
+    .get();
+  return memberSnapshots.docs.map((s) => s.data() as Member);
+}
+
 interface ItemMember {
   item: Item,
   member: Member
