@@ -1,22 +1,25 @@
 <template>
   <v-container>
     <div v-for="type of ItemTypes" :key="type" class="mb-12">
-      <h2 v-if="vm.items.filter((i) => i.type === type).length" class="mb-1"><b>{{ type }}</b></h2>
-      <v-row>
-        <v-col v-for="item in vm.items.filter((i) => i.type === type)" :key="item.ID" cols="12" sm="4" md="3">
-          <v-card @click="openItem(item)" class="py-3">
-            <v-img :src="item.imageURL" height="250px" />
+      <div v-if="vm.items.filter((i) => i.type === type).length">
+        <h1 class="mb-n2 text-blue-accent-1"><b>{{ type }}</b></h1>
+        <v-divider class="mb-2 bg-blue-accent-1" />
+        <v-row>
+          <v-col v-for="item in vm.items.filter((i) => i.type === type)" :key="item.ID" cols="12" sm="4" md="3">
+            <v-card @click="openItem(item)" class="py-3">
+              <v-img :src="item.imageURL" height="250px" />
 
-            <v-card-title>
-              {{ item.name }}
-            </v-card-title>
+              <v-card-title>
+                {{ item.name }}
+              </v-card-title>
 
-            <v-card-subtitle>
-              {{ item.price }} ClubCoin
-            </v-card-subtitle>
-          </v-card>
-        </v-col>
-      </v-row>
+              <v-card-subtitle>
+                {{ item.price }} ClubCoin
+              </v-card-subtitle>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
     </div>
 
     <v-dialog v-model="vm.purchaseDialogVisible" transition="fab-transition">
@@ -83,7 +86,8 @@
           <code-pad v-if="vm.role === 'member'" style="max-width: 550px; margin: auto" @success="purchase" />
 
           <div v-else-if="vm.role === 'guest'">
-            <h1><b class="text-orange-darken-3">Step 1:</b> Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps</h1>
+            <h1><b class="text-orange-darken-3">Step 1:</b> Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps
+            </h1>
 
             <v-img src="/qr.png" width="200" class="mx-auto my-6" />
 
