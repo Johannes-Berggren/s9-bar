@@ -17,7 +17,7 @@
 
           <span class="mr-4 text-grey-darken-3">{{ item.price }} ClubCoin</span>
 
-          {{ item.currentInventory }} left in the bar
+          {{ item.currentInventory }} left
         </v-expansion-panel-title>
 
         <v-expansion-panel-text>
@@ -137,6 +137,7 @@ onMounted(async () => {
 });
 
 async function fetchItems(): Promise<void> {
+  vm.addItemDialogVisible = false;
   vm.items = await getItems();
   vm.items.sort((a, b) => a.name.localeCompare(b.name));
 }
