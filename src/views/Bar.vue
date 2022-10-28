@@ -115,6 +115,8 @@
         <h4 v-if="vm.role === 'member'">You have {{ vm.newCredit }} kr. in your account.</h4>
       </v-card>
     </v-dialog>
+
+    <h4 class="text-center mt-12 font-weight-black">End of the list!<br><br>Scroll back up, you fucking fuck.</h4>
   </v-container>
 </template>
 
