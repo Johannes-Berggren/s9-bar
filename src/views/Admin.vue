@@ -130,19 +130,15 @@ const vm = reactive({
 });
 
 onMounted(async () => {
-  [
-    vm.items,
-    vm.members,
-  ] = await Promise.all([
-    getItems(),
-    getMembers(),
-  ]);
+  vm.members = await getMembers();
+  await fetchItems();
 
   vm.loading = false;
 });
 
 async function fetchItems(): Promise<void> {
   vm.items = await getItems();
+  vm.items.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 provide<() => Promise<void>>("fetchItems", fetchItems);
