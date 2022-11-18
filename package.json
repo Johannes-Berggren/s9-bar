@@ -19,8 +19,8 @@
     "logrocket": "^3.0.1",
     "roboto-fontface": "*",
     "stripe": "^9.13.0",
-    "vue": "^3.2.37",
-    "vuetify": "^3.0.0-beta.14",
+    "vue": "^3.2.45",
+    "vuetify": "^3.0.1",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
