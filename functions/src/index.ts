@@ -32,8 +32,8 @@ app.get("/createCustomerCheckoutSession/:memberID/:customerID/:priceID", async (
       quantity: 1,
     }],
     mode: "payment",
-    success_url: "https://s9-admin.futoria.no",
-    cancel_url: "https://s9-admin.futoria.no",
+    success_url: "https://bar.futoria.no",
+    cancel_url: "https://bar.futoria.no",
     metadata: {
       memberID,
     },
