@@ -30,13 +30,14 @@
               <h1>Buy</h1>
             </v-col>
 
-            <v-col cols="2">
+            <v-col cols="1">
               <v-btn
                 @click="vm.count--"
-                class="ml-auto"
+                class="ml-auto mt-n3"
                 color="primary"
+                variant="plain"
                 size="x-large"
-                variant="icon"
+                icon
               >
                 <v-icon size="x-large">
                   mdi-minus-circle
@@ -48,13 +49,14 @@
               <h1 style="font-size: 50px; margin-top: -20px; margin-bottom: -20px"><b>{{ vm.count }}</b></h1>
             </v-col>
 
-            <v-col cols="2">
+            <v-col cols="1">
               <v-btn
                 @click="vm.count++"
-                class="mr-auto"
+                class="mr-auto mt-n3"
                 color="primary"
+                variant="plain"
                 size="x-large"
-                variant="icon"
+                icon
               >
                 <v-icon size="x-large">
                   mdi-plus-circle
