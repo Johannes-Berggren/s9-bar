@@ -1,74 +1,82 @@
 <template>
   <v-row class="code-pad" justify="center">
     <v-col cols="12">
-      <div style="max-width: 400px" class="mx-auto">
-        <v-text-field
-          readonly
-          type="password"
-          v-model="vm.code"
-          variant="outlined"
-          label="Enter your code."
-        />
-      </div>
+      <v-row style="max-width: 500px" class="mx-auto">
+        <v-col cols="10">
+          <v-text-field
+            readonly
+            type="password"
+            v-model="vm.code"
+            variant="outlined"
+            label="Enter your code."
+          />
+        </v-col>
+
+        <v-col cols="2">
+          <v-btn @click="del()" icon class="mt-6" size="large" variant="tonal">
+            <v-icon>mdi-backspace</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(1)" icon size="x-large" color="primary">
-        1
+        <b>1</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(2)" icon size="x-large" color="primary">
-        2
+        <b>2</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(3)" icon size="x-large" color="primary">
-        3
+        <b>3</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(4)" icon size="x-large" color="primary">
-        4
+        <b>4</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(5)" icon size="x-large" color="primary">
-        5
+        <b>5</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(6)" icon size="x-large" color="primary">
-        6
+        <b>6</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(7)" icon size="x-large" color="primary">
-        7
+        <b>7</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(8)" icon size="x-large" color="primary">
-        8
+        <b>8</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(9)" icon size="x-large" color="primary">
-        9
+        <b>9</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
       <v-btn @click="enterNumber(0)" icon size="x-large" color="primary">
-        0
+        <b>0</b>
       </v-btn>
     </v-col>
   </v-row>
@@ -107,6 +115,10 @@ async function enterNumber(num: number) {
       vm.code = "";
     }
   }
+}
+
+function del() {
+  vm.code = "";
 }
 </script>
 
