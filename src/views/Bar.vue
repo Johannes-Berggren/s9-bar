@@ -73,37 +73,31 @@
 
           <v-row justify="center" v-if="!vm.role" class="mb-8">
             <v-col cols="6">
-              <v-btn @click="vm.role = 'member'" color="primary" size="x-large">
+              <v-btn @click="setRole('member')" color="primary" size="x-large">
                 <b>I'm a member</b>
               </v-btn>
             </v-col>
 
             <v-col cols="6">
-              <v-btn @click="vm.role = 'guest'" color="primary" size="x-large">
+              <v-btn @click="setRole('guest')" color="primary" size="x-large">
                 <b>I'm a guest</b>
               </v-btn>
             </v-col>
           </v-row>
 
-          <code-pad v-if="vm.role === 'member'" style="max-width: 550px; margin: auto" @success="purchase" />
+          <div v-if="vm.role">
+            <code-pad v-if="vm.role === 'member'" style="max-width: 550px; margin: auto" @success="purchase" />
 
-          <div v-else-if="vm.role === 'guest'">
-            <h1><b class="text-orange-darken-3">Step 1:</b> Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps
-            </h1>
+            <div v-else-if="vm.role === 'guest'">
+              <h1><b>Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps</b>
+              </h1>
 
-            <v-img src="/qr.png" width="200" class="mx-auto my-6" />
+              <v-img src="/qr.png" width="200" class="mx-auto my-6" />
 
-            <v-row class="my-12">
-              <v-col cols="6" class="text-right">
-                <h1><b class="text-orange-darken-3">Step 2:</b> Click here:</h1>
-              </v-col>
-
-              <v-col cols="4">
-                <v-btn color="success" size="x-large" @click="paidWithVipps()">
-                  <b>I have paid!</b>
-                </v-btn>
-              </v-col>
-            </v-row>
+              <h2 class="text-green font-weight-bold">Completing purchase in... {{ vm.countDown }}</h2>
+              <v-btn color="success" @click="completePurchase()" class="mr-2" variant="tonal">Complete now</v-btn>
+              <v-btn color="error" @click="cancelPurchase()" variant="tonal">Cancel</v-btn>
+            </div>
           </div>
         </v-container>
       </v-card>
@@ -118,7 +112,7 @@
       </v-card>
     </v-dialog>
 
-    <h4 class="text-center mt-12 font-weight-black">End of the list!<br><br>Scroll back up, you fucking fuck.</h4>
+    <h4 class="text-center mt-12 font-weight-black">End of the list!<br>Scroll back up, babe.</h4>
   </v-container>
 </template>
 
@@ -129,7 +123,7 @@ import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import { getItem, getItems, purchaseItem, updateItem } from "@/services/api";
-import { inject, onMounted, reactive } from "vue";
+import { inject, onMounted, reactive, watchEffect } from "vue";
 import ItemTypes from "@/config/item-types";
 
 const confetti = new JSConfetti();
@@ -138,6 +132,8 @@ const loading = inject<(val: boolean) => void>("loading");
 
 const vm = reactive({
   count: 1,
+  countDown: 60,
+  interval: {} as Timer,
   items: [] as Item[],
   newCredit: 0,
   page: 1,
@@ -150,6 +146,25 @@ const vm = reactive({
 onMounted(async () => {
   await fetchItems();
 });
+
+watchEffect(() => {
+  if (!vm.purchaseDialogVisible) {
+    cancelPurchase();
+  }
+});
+
+async function cancelPurchase() {
+  clearInterval(vm.interval);
+  vm.countDown = 60;
+  vm.purchaseDialogVisible = false;
+  vm.selectedItem = {} as Item;
+}
+
+async function completePurchase() {
+  clearInterval(vm.interval);
+  vm.countDown = 60;
+  await paidWithVipps();
+}
 
 async function fetchItems() {
   loading && loading(true);
@@ -217,5 +232,19 @@ async function purchase(member: Member) {
   setTimeout(() => {
     vm.purchaseDialogVisible = false;
   }, 10000);
+}
+
+function setRole(role: "member" | "guest") {
+  vm.role = role;
+
+  if (role === "guest") {
+    vm.interval = setInterval(async () => {
+      vm.countDown -= 1;
+      if (vm.countDown <= 0) {
+        clearInterval(vm.interval);
+        await paidWithVipps();
+      }
+    }, 1000);
+  }
 }
 </script>
