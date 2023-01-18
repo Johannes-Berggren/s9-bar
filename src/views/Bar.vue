@@ -206,26 +206,16 @@ async function paidWithVipps() {
 async function purchase(member: Member) {
   loading && loading(true);
 
-  if (member.credit > (vm.selectedItem.price * vm.count)) {
-    const itemMember = await purchaseItem(vm.selectedItem.ID, vm.count, member.ID);
+  const itemMember = await purchaseItem(vm.selectedItem.ID, vm.count, member.ID);
 
-    vm.spent = vm.selectedItem.price * vm.count;
-    vm.newCredit = itemMember.member.credit;
+  vm.spent = vm.selectedItem.price * vm.count;
+  vm.newCredit = itemMember.member.credit;
 
-    confetti.addConfetti();
-    vm.page++;
+  confetti.addConfetti();
+  vm.page++;
 
-    await fetchItems();
-    vm.selectedItem = {} as Item;
-  }
-  else {
-    displayAlert && displayAlert({
-      color: "error",
-      message: "Click Member login to add more money",
-      title: "You're too poor!",
-      visible: true,
-    });
-  }
+  await fetchItems();
+  vm.selectedItem = {} as Item;
 
   loading && loading(false);
 
