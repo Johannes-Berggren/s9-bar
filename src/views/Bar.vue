@@ -3,14 +3,21 @@
     <div v-for="type of ItemTypes" :key="type" class="mb-12">
       <div v-if="vm.items.filter((i) => i.type === type).length">
         <h1 class="mb-n2 text-blue-accent-1"><b>{{ type }}</b></h1>
-        <v-divider class="mb-2 bg-blue-accent-1" />
+
+        <v-divider class="mb-4 bg-light-blue-accent-4" />
+
         <v-row>
           <v-col v-for="item in vm.items.filter((i) => i.type === type)" :key="item.ID" cols="12" sm="4" md="3">
             <v-card @click="openItem(item)" class="py-3">
               <v-img :src="item.imageURL" height="250px" />
 
+              <v-card-subtitle>
+
+              </v-card-subtitle>
+
               <v-card-title>
-                {{ item.name }}
+                {{ item.brandName }}<br>
+                <b>{{ item.name }}</b>
               </v-card-title>
 
               <v-card-subtitle>
@@ -112,7 +119,7 @@
       </v-card>
     </v-dialog>
 
-    <h4 class="text-center mt-12 font-weight-black">End of the list!<br>Scroll back up, babe.</h4>
+    <h2 class="text-center mt-12 font-weight-black">Product missing?<br>Please select a similar item.</h2>
   </v-container>
 </template>
 

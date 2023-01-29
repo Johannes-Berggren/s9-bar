@@ -61,9 +61,9 @@
         <code-pad v-else-if="!vm.signedIn" @success="signedIn" />
 
         <div v-else-if="vm.signedIn">
-          <account-buttons :member="vm.member" class="mb-12" />
+          <account-buttons :member="vm.member" />
 
-          <v-divider class="my-12" />
+          <v-divider class="my-6" />
 
           <div v-if="vm.signedIn && vm.member.admin">
             <h1 class="text-center">Admin-area</h1>

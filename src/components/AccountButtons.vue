@@ -31,7 +31,7 @@
     </v-col>
 
     <v-col cols="12">
-      <v-divider class="mt-6" />
+      <v-divider class="my-6" />
 
       <v-btn
         @click="createPortalSession()"
