@@ -10,7 +10,10 @@
     <v-expansion-panels v-else>
       <v-expansion-panel v-for="item in vm.items" :key="item.ID" cols="4">
         <v-expansion-panel-title>
-          <b class="text-left">{{ item.name }}</b>
+          <b class="text-left">{{ item.brandName }}</b>
+
+          <b class="ml-4 text-left">{{ item.name }}</b>
+
           <span class="ml-4 text-grey">{{ item.type }}</span>
 
           <v-spacer />
@@ -21,7 +24,7 @@
         </v-expansion-panel-title>
 
         <v-expansion-panel-text>
-          <BarItem :item="item" />
+          <edit-bar-item :item="item" />
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -70,7 +73,7 @@
     <!-- ADD ITEM DIALOG -->
     <v-dialog v-model="vm.addItemDialogVisible">
       <v-card width="600" height="600">
-        <BarItem :item="vm.newItem" />
+        <edit-bar-item :item="vm.newItem" />
       </v-card>
     </v-dialog>
 
@@ -104,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import BarItem from "@/components/BarItem.vue";
+import EditBarItem from "@/components/EditBarItem.vue";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
@@ -117,6 +120,7 @@ const vm = reactive({
   memberInfoDialogVisible: false,
   newItem: {
     ID: 0,
+    brandName: "",
     currentInventory: 0,
     imageURL: "",
     name: "",

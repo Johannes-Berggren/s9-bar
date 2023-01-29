@@ -1,7 +1,11 @@
 <template>
   <v-row>
-    <v-col cols="12">
-      <v-text-field v-model="vm.newItem.name" label="Name" />
+    <v-col cols="6">
+      <v-text-field v-model="vm.newItem.brandName" label="Brand name" />
+    </v-col>
+
+    <v-col cols="6">
+      <v-text-field v-model="vm.newItem.name" label="Product name" />
     </v-col>
 
     <v-col cols="4">
@@ -46,7 +50,7 @@
         color="primary"
         @click="update()"
         :loading="vm.loading"
-        :disabled="!vm.newItem.name || !vm.newItem.price"
+        :disabled="!vm.newItem.brandName || !vm.newItem.name || !vm.newItem.price"
       >Update
       </v-btn>
       <v-btn
@@ -86,6 +90,7 @@ const vm = reactive({
   loading: false,
   newItem: {
     ID: props.item.ID,
+    brandName: props.item.brandName || "",
     currentInventory: props.item.currentInventory || 0,
     imageURL: props.item.imageURL || "",
     name: props.item.name || "",
