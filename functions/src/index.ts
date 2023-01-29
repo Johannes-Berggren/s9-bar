@@ -18,7 +18,7 @@ const app = express();
 
 app.use(cors);
 
-app.get("/createCustomerCheckoutSession/:memberID/:customerID/:priceID", async (req, res) => {
+app.get("/checkout-session/:memberID/:customerID/:priceID", async (req, res) => {
   const customerID = req.params.customerID;
   const memberID = req.params.memberID;
   const priceID = req.params.priceID;
@@ -44,7 +44,7 @@ app.get("/createCustomerCheckoutSession/:memberID/:customerID/:priceID", async (
   res.send(checkoutSession);
 });
 
-app.get("/createCustomerPortalSession/:customerID", async (req, res) => {
+app.get("/portal-session/:customerID", async (req, res) => {
   const customerID = req.params.customerID;
 
   functions.logger.info(`/createCustomerPortalSession/${customerID}`);
@@ -68,7 +68,7 @@ app.get("/items", async (req, res) => {
 
 app.get("/members", async (req, res) => {
   res.send(await getMembers());
-})
+});
 
 app.put("/item", async (req, res) => {
   res.send(await updateItem(req.body));
@@ -76,6 +76,29 @@ app.put("/item", async (req, res) => {
 
 app.post("/item", async (req, res) => {
   res.send(await addItem(req.body));
+});
+
+app.post("/transfer-credit-to-invoice/:memberID", async (req, res) => {
+  const memberID = parseInt(req.params.memberID);
+  const member = await getMember(memberID);
+  const credit = member.credit;
+
+  // Convert to øre and add 10% "late fee"
+  const creditToInvoice = Math.round(credit * 100 * 1.1);
+
+  functions.logger.info(`Transfering balance of ${credit} to invoice item: ${creditToInvoice}`);
+
+  await stripe.invoiceItems.create({
+    customer: member.stripeID,
+    amount: creditToInvoice,
+    currency: "NOK",
+    description: "Negativ bar-saldo",
+  });
+
+  member.credit = 0;
+  const updatedMember = await updateMember(member);
+
+  res.send(updatedMember);
 });
 
 app.post("/purchase/:itemID/:count/:memberID", async (req, res) => {

@@ -48,12 +48,13 @@
             {{ member.credit }} kr.
           </v-card-subtitle>
 
-          <!--          <v-card-actions>-->
-          <!--            <v-spacer />-->
-          <!--            <v-btn size="x-small" @click="vm.memberInfoDialogVisible = true; vm.pickedMember = member" variant="outlined" color="primary">-->
-          <!--              More info-->
-          <!--            </v-btn>-->
-          <!--          </v-card-actions>-->
+          <v-card-actions>
+            <v-spacer />
+            <v-btn :disabled="member.credit >= 0" color="error" @click="transferToInvoice(member.ID)" variant="elevated" size="small">
+              Transfer credit to invoice
+            </v-btn>
+            <v-spacer />
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -76,33 +77,6 @@
         <edit-bar-item :item="vm.newItem" />
       </v-card>
     </v-dialog>
-
-    <!-- MEMBER INFORMATION DIALOG -->
-    <v-dialog v-model="vm.memberInfoDialogVisible">
-      <v-card width="600" height="600">
-        <v-row class="text-center">
-          <v-col cols="6">
-            {{ vm.pickedMember.firstName }}
-          </v-col>
-
-          <v-col cols="6">
-            {{ vm.pickedMember.lastName }}
-          </v-col>
-
-          <v-col cols="6">
-            {{ vm.pickedMember.email }}
-          </v-col>
-
-          <v-col cols="6">
-            {{ vm.pickedMember.phone }}
-          </v-col>
-
-          <v-col cols="6">
-            {{ vm.pickedMember.credit }} kr.
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-dialog>
   </v-container>
 </template>
 
@@ -111,7 +85,7 @@ import EditBarItem from "@/components/EditBarItem.vue";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
-import { getItems, getMembers } from "@/services/api";
+import { getItems, getMembers, transferCreditToInvoice } from "@/services/api";
 import { onMounted, provide, reactive } from "vue";
 
 const vm = reactive({
@@ -129,7 +103,6 @@ const vm = reactive({
   } as Item,
   loading: true,
   members: [] as Member[],
-  pickedMember: {},
   transactions: [] as Transaction[],
 });
 
@@ -144,6 +117,13 @@ async function fetchItems(): Promise<void> {
   vm.addItemDialogVisible = false;
   vm.items = await getItems();
   vm.items.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+async function transferToInvoice(memberID: number) {
+  vm.loading = true;
+  await transferCreditToInvoice(memberID);
+  await getMembers();
+  vm.loading = false;
 }
 
 provide<() => Promise<void>>("fetchItems", fetchItems);
