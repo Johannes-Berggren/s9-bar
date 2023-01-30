@@ -8,37 +8,35 @@
     </v-overlay>
     <div>
       <v-row class="mx-auto" id="header" align="center" dense>
-        <v-col cols="12" sm="2" class="text-center text-sm-left">
+        <v-col cols="12" sm="3" class="text-center text-sm-left">
           <img
             alt="S9 Logo"
             class="logo"
             src="./assets/logo.png"
-            width="100"
-            height="100"
+            width="120"
+            height="120"
           />
         </v-col>
 
-        <v-col cols="12" sm="8" class="text-white">
+        <v-col cols="12" sm="6" class="text-white">
           <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center" style="font-size: 60px">
             <b>Select drink</b>
           </h1>
           <member-info v-if="vm.signedIn" :member="vm.member" />
         </v-col>
 
-        <v-col col="12" sm="2" class="text-center text-sm-right">
+        <v-col col="12" sm="3" class="text-center text-sm-right">
           <v-btn
             v-if="!vm.signedIn && !vm.codePadVisible"
             color="primary"
             @click="vm.codePadVisible = true"
             class="mx-auto mr-sm-0"
-            size="small"
           >Member login
           </v-btn>
 
           <v-btn
             v-else-if="!vm.signedIn && vm.codePadVisible"
-            size="small"
-            color="primary"
+            color="error"
             @click="vm.codePadVisible = false"
             class="mx-auto mr-sm-0"
           >
