@@ -1,5 +1,6 @@
 export default interface Member {
   ID: number;
+  active: boolean;
   admin: boolean;
   code: string;
   credit: number;
