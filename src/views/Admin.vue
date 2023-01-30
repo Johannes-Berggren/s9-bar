@@ -86,7 +86,9 @@ import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import type Transaction from "@/interfaces/Transaction";
 import { getItems, getMembers, transferCreditToInvoice } from "@/services/api";
-import { onMounted, provide, reactive } from "vue";
+import { inject, onMounted, provide, reactive } from "vue";
+
+const loading = inject<(val: boolean) => void>("loading");
 
 const vm = reactive({
   addItemDialogVisible: false,
@@ -120,10 +122,10 @@ async function fetchItems(): Promise<void> {
 }
 
 async function transferToInvoice(memberID: number) {
-  vm.loading = true;
+  loading && loading(true);
   await transferCreditToInvoice(memberID);
-  await getMembers();
-  vm.loading = false;
+  vm.members = await getMembers();
+  loading && loading(false);
 }
 
 provide<() => Promise<void>>("fetchItems", fetchItems);
