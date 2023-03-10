@@ -20,7 +20,7 @@
 
         <v-col cols="12" sm="6" class="text-white">
           <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center" style="font-size: 60px">
-            <b>Select drink</b>
+            <b>Select item</b>
           </h1>
           <member-info v-if="vm.signedIn" :member="vm.member" />
         </v-col>
