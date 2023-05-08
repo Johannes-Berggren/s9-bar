@@ -83,8 +83,8 @@ app.post("/transfer-credit-to-invoice/:memberID", async (req, res) => {
   const member = await getMember(memberID);
   const credit = member.credit;
 
-  // Convert to øre and add 10% "late fee"
-  const creditToInvoice = -Math.round(credit * 100 * 1.1);
+  // Convert to øre and add 15% "late fee"
+  const creditToInvoice = -Math.round(credit * 100 * 1.15);
 
   functions.logger.info(`Transfering balance of ${credit} to invoice item: ${creditToInvoice}`);
 
