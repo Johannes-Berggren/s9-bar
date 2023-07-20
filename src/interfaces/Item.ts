@@ -5,5 +5,6 @@ export default interface Item {
   imageURL: string;
   name: string;
   price: number;
+  externalPrice: number;
   type: string;
 }
