@@ -52,6 +52,7 @@ export async function addItem(item: Item): Promise<Item> {
     imageURL: item.imageURL,
     name: item.name,
     price: +item.price,
+    externalPrice: +item.externalPrice,
     type: item.type,
   };
   await db.collection("items").doc(String(itemObject.ID)).set(itemObject);
@@ -86,6 +87,7 @@ export async function updateItem(item: Item): Promise<Item> {
     imageURL: item.imageURL,
     name: item.name,
     price: +item.price,
+    externalPrice: +item.externalPrice,
     type: item.type,
   };
   await db.collection("items").doc(String(item.ID)).update(updateObject);

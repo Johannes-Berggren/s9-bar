@@ -8,7 +8,7 @@
       <v-text-field v-model="vm.newItem.name" label="Product name" />
     </v-col>
 
-    <v-col cols="4">
+    <v-col cols="3">
       <v-text-field
         v-model="vm.newItem.price"
         label="Price"
@@ -17,7 +17,17 @@
       />
     </v-col>
 
-    <v-col cols="4">
+    <v-col cols="3">
+      <v-text-field
+        v-model="vm.newItem.externalPrice"
+        label="External price"
+        prefix="kr."
+        type="number"
+      />
+    </v-col>
+
+
+    <v-col cols="3">
       <v-text-field
         v-model="vm.newItem.currentInventory"
         label="In the bar"
@@ -25,7 +35,7 @@
       />
     </v-col>
 
-    <v-col cols="4">
+    <v-col cols="3">
       <v-select
         v-model="vm.newItem.type"
         label="Type"
@@ -50,7 +60,7 @@
         color="primary"
         @click="update()"
         :loading="vm.loading"
-        :disabled="!vm.newItem.brandName || !vm.newItem.name || !vm.newItem.price"
+        :disabled="!vm.newItem.brandName || !vm.newItem.name || !vm.newItem.price || !vm.newItem.externalPrice"
       >Update
       </v-btn>
       <v-btn
@@ -58,7 +68,7 @@
         color="primary"
         @click="add()"
         :loading="vm.loading"
-        :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.currentInventory"
+        :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.externalPrice || !vm.newItem.currentInventory"
       >Add
       </v-btn>
       <!--          <v-btn-->
@@ -95,6 +105,7 @@ const vm = reactive({
     imageURL: props.item.imageURL || "",
     name: props.item.name || "",
     price: props.item.price || 0,
+    externalPrice: props.item.externalPrice || 0,
     type: props.item.type || "",
   } as Item,
 });

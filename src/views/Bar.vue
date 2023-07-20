@@ -96,7 +96,7 @@
             <code-pad v-if="vm.role === 'member'" style="max-width: 550px; margin: auto" @success="purchase" />
 
             <div v-else-if="vm.role === 'guest'">
-              <h1><b>Pay {{ vm.selectedItem.price * vm.count }} kr. with Vipps</b>
+              <h1><b>Pay {{ (vm.selectedItem.externalPrice || vm.selectedItem.price) * vm.count }} kr. with Vipps</b>
               </h1>
 
               <v-img src="/qr.png" width="200" class="mx-auto my-6" />
@@ -149,6 +149,7 @@ const vm = reactive({
   selectedItem: {} as Item,
   spent: 0,
 });
+
 
 onMounted(async () => {
   await fetchItems();
