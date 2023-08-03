@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as functions from "firebase-functions";
-import cors from "./config/cors";
-import stripe from "./config/stripe";
+import cors from "./plugins/cors";
+import stripe from "./plugins/stripe";
 import { Stripe } from "stripe";
 import {
   addItem,
@@ -12,7 +12,7 @@ import {
   purchaseItem,
   updateItem,
   updateMember,
-} from "./config/firebase";
+} from "./plugins/firebase";
 
 const app = express();
 
