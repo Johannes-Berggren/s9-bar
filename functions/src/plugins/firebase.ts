@@ -65,12 +65,14 @@ export async function purchaseItem(itemID: number, count: number, memberID: numb
     getMember(memberID),
   ]);
 
+  const purchaseSum = item.price * count;
   item.currentInventory -= count;
-  member.credit -= item.price * count;
+  member.credit -= purchaseSum;
 
   const [updatedItem, updatedMember] = await Promise.all([
     updateItem(item),
     updateMember(member),
+    countSale(purchaseSum),
   ]);
 
   return {
@@ -97,5 +99,38 @@ export async function updateItem(item: Item): Promise<Item> {
 export async function updateMember(member: Member): Promise<Member> {
   await db.collection("members").doc(String(member.ID)).update(member);
   return getMember(member.ID);
+}
+
+interface Month {
+  ID: string;
+  sum: number;
+}
+
+export function getCurrentMonthString(): string {
+  const now = new Date();
+  return `${now.getMonth()}-${now.getFullYear()}`;
+}
+
+export async function getMonth(): Promise<Month> {
+  const month = getCurrentMonthString();
+  const thisMonthSnapshot = await db.collection("sales").doc(month).get();
+  if (!thisMonthSnapshot.exists) {
+    return {
+      ID: month,
+      sum: 0,
+    };
+  }
+  return thisMonthSnapshot.data() as Month;
+}
+
+export async function countSale(amount: number) {
+  const thisMonth = await getMonth();
+
+  const newSum = thisMonth.sum + amount;
+
+  await db.collection("sales").doc(thisMonth.ID).set({
+    ID: thisMonth.ID,
+    sum: newSum,
+  });
 }
 

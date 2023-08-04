@@ -8,7 +8,7 @@ import {
   getItem,
   getItems,
   getMember,
-  getMembers,
+  getMembers, getMonth,
   purchaseItem,
   updateItem,
   updateMember,
@@ -69,6 +69,11 @@ app.get("/items", async (req, res) => {
 app.get("/members", async (req, res) => {
   res.send(await getMembers());
 });
+
+app.get("/sales", async (req, res) => {
+  const thisMonth = await getMonth()
+  res.send(thisMonth);
+})
 
 app.put("/item", async (req, res) => {
   res.send(await updateItem(req.body));
