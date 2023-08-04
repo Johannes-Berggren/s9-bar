@@ -1,4 +1,5 @@
 import axiosInstance from "@/config/axios";
+import type Month from "@/interfaces/Month";
 import type * as Stripe from "stripe";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
@@ -33,6 +34,11 @@ export async function getItems(): Promise<Item[]> {
 export async function getMembers(): Promise<Member[]> {
   const membersRes = await axiosInstance.get<Member[]>("/members");
   return membersRes.data;
+}
+
+export async function getSales(): Promise<Month[]> {
+  const salesRes = await axiosInstance.get<Month[]>("/sales");
+  return salesRes.data;
 }
 
 export async function transferCreditToInvoice(memberID: number): Promise<Member> {

@@ -31,6 +31,13 @@
 
     <v-divider class="my-12" />
 
+    <v-row align="center" class="mb-4">
+      <h2 class="mr-4">Sales numbers</h2>
+      <pre style="color: white">{{ vm.sales }}</pre>
+    </v-row>
+
+    <v-divider class="my-12" />
+
     <!-- CLUB MEMBER LIST -->
     <v-row align="center" class="mb-4">
       <h2 class="mr-4">Club members</h2>
@@ -50,7 +57,13 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn :disabled="member.credit >= 0" color="error" @click="transferToInvoice(member.ID)" variant="elevated" size="small">
+            <v-btn
+              :disabled="member.credit >= 0"
+              color="error"
+              @click="transferToInvoice(member.ID)"
+              variant="elevated"
+              size="small"
+            >
               Transfer credit to invoice
             </v-btn>
             <v-spacer />
@@ -84,8 +97,9 @@
 import EditBarItem from "@/components/EditBarItem.vue";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
+import type Month from "@/interfaces/Month";
 import type Transaction from "@/interfaces/Transaction";
-import { getItems, getMembers, transferCreditToInvoice } from "@/services/api";
+import { getItems, getMembers, getSales, transferCreditToInvoice } from "@/services/api";
 import { inject, onMounted, provide, reactive } from "vue";
 
 const loading = inject<(val: boolean) => void>("loading");
@@ -106,11 +120,14 @@ const vm = reactive({
   loading: true,
   members: [] as Member[],
   transactions: [] as Transaction[],
+  sales: [] as Month[],
 });
 
 onMounted(async () => {
   vm.members = await getMembers();
   await fetchItems();
+
+  vm.sales = await getSales();
 
   vm.loading = false;
 });

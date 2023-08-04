@@ -21,7 +21,7 @@
               </v-card-title>
 
               <v-card-subtitle>
-                {{ item.price }} ClubCoin
+                {{ item.externalPrice }} kr.
               </v-card-subtitle>
             </v-card>
           </v-col>

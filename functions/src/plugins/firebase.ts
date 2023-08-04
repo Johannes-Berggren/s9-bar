@@ -2,6 +2,7 @@ import Item from "../interfaces/Item";
 import Member from "../interfaces/Member";
 import { getFirestore } from "firebase-admin/firestore";
 import { initializeApp } from "firebase-admin/app";
+import Month from "../interfaces/Month";
 
 const app = initializeApp();
 const db = getFirestore(app);
@@ -101,11 +102,6 @@ export async function updateMember(member: Member): Promise<Member> {
   return getMember(member.ID);
 }
 
-interface Month {
-  ID: string;
-  sum: number;
-}
-
 export function getCurrentMonthString(): string {
   const now = new Date();
   return `${now.getMonth()}-${now.getFullYear()}`;
@@ -121,6 +117,11 @@ export async function getMonth(): Promise<Month> {
     };
   }
   return thisMonthSnapshot.data() as Month;
+}
+
+export async function getSales(): Promise<Month[]> {
+  const salesSnapshots = await db.collection("sales").orderBy("ID", "desc").get();
+  return salesSnapshots.docs.map((s) => s.data() as Month);
 }
 
 export async function countSale(amount: number) {
