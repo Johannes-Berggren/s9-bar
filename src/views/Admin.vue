@@ -1,6 +1,13 @@
 <template>
   <v-container>
     <v-row align="center" class="mb-4">
+      <h2 class="mr-4">Sales numbers</h2>
+      <pre style="color: white">{{ vm.sales }}</pre>
+    </v-row>
+
+    <v-divider class="my-12" />
+
+    <v-row align="center" class="mb-4">
       <h2 class="mr-4">Bar items</h2>
 
       <v-btn color="primary" size="x-small" @click="vm.addItemDialogVisible = true">New item</v-btn>
@@ -28,13 +35,6 @@
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
-
-    <v-divider class="my-12" />
-
-    <v-row align="center" class="mb-4">
-      <h2 class="mr-4">Sales numbers</h2>
-      <pre style="color: white">{{ vm.sales }}</pre>
-    </v-row>
 
     <v-divider class="my-12" />
 
