@@ -110,12 +110,15 @@
       </v-card>
 
       <v-card v-else-if="vm.page === 2" class="pa-4 text-center">
-        <h1>Enjoy, bitch!</h1>
+        <h1>Enjoy that drink, sexy!</h1>
 
         <v-divider class="my-4" />
 
         <h3>You spent {{ vm.spent }} kr.</h3>
-        <h4 v-if="vm.role === 'member'">You have {{ vm.newCredit }} kr. in your account.</h4>
+        <div v-if="vm.role === 'member'">
+          <h4>You have {{ vm.newCredit }} kr. in your account.</h4>
+          <h5 v-if="vm.newCredit < 0">Remember to refill your account! Negative balances cost 15% extra!</h5>
+        </div>
       </v-card>
     </v-dialog>
 
@@ -126,7 +129,6 @@
 <script setup lang="ts">
 import CodePad from "@/components/CodePad.vue";
 import JSConfetti from "js-confetti";
-import type Alert from "@/interfaces/Alert";
 import type Item from "@/interfaces/Item";
 import type Member from "@/interfaces/Member";
 import { getItem, getItems, purchaseItem, updateItem } from "@/services/api";
@@ -134,7 +136,6 @@ import { inject, onMounted, reactive, watchEffect } from "vue";
 import ItemTypes from "@/config/item-types";
 
 const confetti = new JSConfetti();
-const displayAlert = inject<(alert: Alert) => void>("displayAlert");
 const loading = inject<(val: boolean) => void>("loading");
 
 const vm = reactive({
@@ -149,7 +150,6 @@ const vm = reactive({
   selectedItem: {} as Item,
   spent: 0,
 });
-
 
 onMounted(async () => {
   await fetchItems();
