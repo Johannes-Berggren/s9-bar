@@ -1,8 +1,13 @@
 <template>
   <v-container>
-    <v-row align="center" class="mb-4">
-      <h2 class="mr-4">Sales numbers</h2>
-      <pre style="color: white">{{ vm.sales }}</pre>
+    <v-row v-for="month in vm.sales" :key="month.ID" class="text-white">
+      <v-col class="text-right">
+        <p>{{ parseInt(month.ID.split('-')[0]) + 1 }} {{ month.ID.split('-')[1] }}</p>
+      </v-col>
+
+      <v-col>
+        <p>{{ month.sum }}</p>
+      </v-col>
     </v-row>
 
     <v-divider class="my-12" />
@@ -73,16 +78,6 @@
     </v-row>
 
     <v-divider class="my-12" />
-
-    <!-- TRANSACTION LIST -->
-    <!--    <v-row align="center" class="mb-4">-->
-    <!--      <h2 class="mr-4">Transactions</h2>-->
-    <!--    </v-row>-->
-
-    <!--    <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />-->
-    <!--    <v-row v-else>-->
-    <!--      <pre style="color: white">{{ vm.transactions }}</pre>-->
-    <!--    </v-row>-->
 
     <!-- ADD ITEM DIALOG -->
     <v-dialog v-model="vm.addItemDialogVisible">

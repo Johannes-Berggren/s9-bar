@@ -48,6 +48,7 @@ export async function addItem(item: Item): Promise<Item> {
 
   const itemObject: Item = {
     ID,
+    archived: false,
     brandName: item.brandName,
     currentInventory: item.currentInventory,
     imageURL: item.imageURL,
