@@ -74,11 +74,20 @@
       >Add
       </v-btn>
       <v-btn
+        v-if="!item.archived"
         color="error"
         @click="archive()"
         :loading="vm.loading"
         class="mr-2"
       >Archive
+      </v-btn>
+      <v-btn
+        v-if="item.archived"
+        color="success"
+        @click="unArchive()"
+        :loading="vm.loading"
+        class="mr-2"
+      >Un archive
       </v-btn>
     </v-col>
   </v-row>
@@ -132,6 +141,22 @@ async function archive(): Promise<void> {
     ...vm.newItem,
     currentInventory: 0,
     archived: true,
+  });
+  displayAlert && displayAlert({
+    color: "success",
+    message: "",
+    title: "Archived!",
+    visible: true,
+  });
+  fetchItems && await fetchItems();
+  loading && loading(false);
+}
+
+async function unArchive(): Promise<void> {
+  loading && loading(true);
+  await updateItem({
+    ...vm.newItem,
+    archived: false,
   });
   displayAlert && displayAlert({
     color: "success",

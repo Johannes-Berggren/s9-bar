@@ -2,7 +2,7 @@
   <v-container>
     <v-row v-for="month in vm.sales" :key="month.ID" class="text-white">
       <v-col class="text-right">
-        <p>{{ parseInt(month.ID.split('-')[0]) + 1 }} {{ month.ID.split('-')[1] }}</p>
+        <p>{{ parseInt(month.ID.split("-")[0]) + 1 }} {{ month.ID.split("-")[1] }}</p>
       </v-col>
 
       <v-col>
@@ -19,27 +19,59 @@
     </v-row>
 
     <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
-    <v-expansion-panels v-else>
-      <v-expansion-panel v-for="item in vm.items" :key="item.ID" cols="4">
-        <v-expansion-panel-title>
-          <b class="text-left">{{ item.brandName }}</b>
+    <div v-else>
+      <v-expansion-panels>
+        <v-expansion-panel>
+          <v-expansion-panel-title>
+            <b>Active items</b>
+          </v-expansion-panel-title>
 
-          <b class="ml-4 text-left">{{ item.name }}</b>
+          <v-expansion-panel-text>
+            <v-expansion-panels>
+              <v-expansion-panel v-for="item in vm.activeItems" :key="item.ID" cols="4">
+                <v-expansion-panel-title>
+                  <b class="text-left">{{ item.brandName }}</b>
+                  <b class="ml-4 text-left">{{ item.name }}</b>
+                  <span class="ml-4 text-grey">{{ item.type }}</span>
+                  <v-spacer />
+                  <span class="mr-4 text-grey-darken-3">{{ item.price }} ClubCoin</span>
+                  {{ item.currentInventory }} left
+                </v-expansion-panel-title>
 
-          <span class="ml-4 text-grey">{{ item.type }}</span>
+                <v-expansion-panel-text>
+                  <edit-bar-item :item="item" />
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
 
-          <v-spacer />
+        <v-expansion-panel>
+          <v-expansion-panel-title>
+            <b>Archived items</b>
+          </v-expansion-panel-title>
 
-          <span class="mr-4 text-grey-darken-3">{{ item.price }} ClubCoin</span>
+          <v-expansion-panel-text>
+            <v-expansion-panels>
+              <v-expansion-panel v-for="item in vm.archivedItems" :key="item.ID" cols="4">
+                <v-expansion-panel-title>
+                  <b class="text-left">{{ item.brandName }}</b>
+                  <b class="ml-4 text-left">{{ item.name }}</b>
+                  <span class="ml-4 text-grey">{{ item.type }}</span>
+                  <v-spacer />
+                  <span class="mr-4 text-grey-darken-3">{{ item.price }} ClubCoin</span>
+                  {{ item.currentInventory }} left
+                </v-expansion-panel-title>
 
-          {{ item.currentInventory }} left
-        </v-expansion-panel-title>
-
-        <v-expansion-panel-text>
-          <edit-bar-item :item="item" />
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+                <v-expansion-panel-text>
+                  <edit-bar-item :item="item" />
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
 
     <v-divider class="my-12" />
 
@@ -101,7 +133,8 @@ const loading = inject<(val: boolean) => void>("loading");
 
 const vm = reactive({
   addItemDialogVisible: false,
-  items: [] as Item[],
+  activeItems: [] as Item[],
+  archivedItems: [] as Item[],
   memberInfoDialogVisible: false,
   newItem: {
     ID: 0,
@@ -129,8 +162,9 @@ onMounted(async () => {
 
 async function fetchItems(): Promise<void> {
   vm.addItemDialogVisible = false;
-  vm.items = await getItems();
-  vm.items.filter(item => !item.archived).sort((a, b) => a.name.localeCompare(b.name));
+  const _items = await getItems();
+  vm.activeItems = _items.filter(item => !item.archived).sort((a, b) => a.name.localeCompare(b.name));
+  vm.archivedItems = _items.filter(item => item.archived).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 async function transferToInvoice(memberID: number) {
