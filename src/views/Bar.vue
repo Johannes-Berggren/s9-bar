@@ -21,7 +21,8 @@
               </v-card-title>
 
               <v-card-subtitle>
-                {{ item.externalPrice }} kr.
+                Guest: {{ item.externalPrice }} kr.<br>
+                Member: {{ item.price }} kr.
               </v-card-subtitle>
             </v-card>
           </v-col>
