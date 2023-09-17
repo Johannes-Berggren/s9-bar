@@ -177,7 +177,7 @@ async function completePurchase() {
 async function fetchItems() {
   loading && loading(true);
   const _items = await getItems();
-  vm.items = _items.filter((item) => item.currentInventory > 0);
+  vm.items = _items.filter((item) => item.currentInventory > 0 && !item.archived);
   loading && loading(false);
 }
 

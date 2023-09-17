@@ -61,6 +61,7 @@
         @click="update()"
         :loading="vm.loading"
         :disabled="!vm.newItem.brandName || !vm.newItem.name || !vm.newItem.price || !vm.newItem.externalPrice"
+        class="mr-2"
       >Update
       </v-btn>
       <v-btn
@@ -69,14 +70,16 @@
         @click="add()"
         :loading="vm.loading"
         :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.externalPrice || !vm.newItem.currentInventory"
+        class="mr-2"
       >Add
       </v-btn>
-      <!--          <v-btn-->
-      <!--            color="error"-->
-      <!--            @click="del()"-->
-      <!--            :loading="vm.loading"-->
-      <!--          >Delete-->
-      <!--          </v-btn>-->
+      <v-btn
+        color="error"
+        @click="archive()"
+        :loading="vm.loading"
+        class="mr-2"
+      >Archive
+      </v-btn>
     </v-col>
   </v-row>
 </template>
@@ -117,6 +120,23 @@ async function add(): Promise<void> {
     color: "success",
     message: "",
     title: "Updated!",
+    visible: true,
+  });
+  fetchItems && await fetchItems();
+  loading && loading(false);
+}
+
+async function archive(): Promise<void> {
+  loading && loading(true);
+  await updateItem({
+    ...vm.newItem,
+    currentInventory: 0,
+    archived: true,
+  });
+  displayAlert && displayAlert({
+    color: "success",
+    message: "",
+    title: "Archived!",
     visible: true,
   });
   fetchItems && await fetchItems();

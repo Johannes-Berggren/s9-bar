@@ -85,6 +85,7 @@ export async function purchaseItem(itemID: number, count: number, memberID: numb
 export async function updateItem(item: Item): Promise<Item> {
   const updateObject: Item = {
     ID: item.ID,
+    archived: item.archived,
     brandName: item.brandName,
     currentInventory: +item.currentInventory,
     imageURL: item.imageURL,

@@ -135,7 +135,7 @@ onMounted(async () => {
 async function fetchItems(): Promise<void> {
   vm.addItemDialogVisible = false;
   vm.items = await getItems();
-  vm.items.sort((a, b) => a.name.localeCompare(b.name));
+  vm.items.filter(item => !item.archived).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 async function transferToInvoice(memberID: number) {
