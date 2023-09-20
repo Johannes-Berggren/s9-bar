@@ -13,7 +13,7 @@
     <v-divider class="my-12" />
 
     <v-row align="center" class="mb-4">
-      <h2 class="mr-4">Bar items</h2>
+      <h2 class="mr-4 text-white">Bar items</h2>
 
       <v-btn color="primary" size="x-small" @click="vm.addItemDialogVisible = true">New item</v-btn>
     </v-row>
@@ -77,7 +77,7 @@
 
     <!-- CLUB MEMBER LIST -->
     <v-row align="center" class="mb-4">
-      <h2 class="mr-4">Club members</h2>
+      <h2 class="mr-4 text-white">Club members</h2>
     </v-row>
 
     <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />

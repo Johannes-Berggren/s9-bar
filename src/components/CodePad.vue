@@ -4,6 +4,7 @@
       <v-row style="max-width: 500px" class="mx-auto">
         <v-col cols="10">
           <v-text-field
+            style="color: white"
             readonly
             type="password"
             v-model="vm.code"
@@ -13,7 +14,7 @@
         </v-col>
 
         <v-col cols="2">
-          <v-btn @click="del()" icon class="mt-6" size="large" variant="tonal">
+          <v-btn @click="del()" icon class="mt-6" size="large" variant="tonal" color="white">
             <v-icon>mdi-backspace</v-icon>
           </v-btn>
         </v-col>

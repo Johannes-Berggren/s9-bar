@@ -123,7 +123,7 @@
       </v-card>
     </v-dialog>
 
-    <h2 class="text-center mt-12 font-weight-black">Product missing?<br>Please select a similar item.</h2>
+    <h2 class="text-center mt-12 font-weight-black text-white">Product missing?<br>Please select a similar item.</h2>
   </v-container>
 </template>
 

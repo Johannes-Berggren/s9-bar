@@ -50,7 +50,7 @@ export async function addItem(item: Item): Promise<Item> {
     ID,
     archived: false,
     brandName: item.brandName,
-    currentInventory: item.currentInventory,
+    currentInventory: +item.currentInventory,
     imageURL: item.imageURL,
     name: item.name,
     price: +item.price,
