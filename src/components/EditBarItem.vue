@@ -112,6 +112,7 @@ const vm = reactive({
   loading: false,
   newItem: {
     ID: props.item.ID,
+    archived: props.item.archived || false,
     brandName: props.item.brandName || "",
     currentInventory: props.item.currentInventory || 0,
     imageURL: props.item.imageURL || "",
