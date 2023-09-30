@@ -118,7 +118,7 @@
         <h3>You spent {{ vm.spent }} kr.</h3>
         <div v-if="vm.role === 'member'">
           <h4>You have {{ vm.newCredit }} kr. in your account.</h4>
-          <h5 v-if="vm.newCredit < 0">Remember to refill your account! Negative balances cost 15% extra!</h5>
+          <h5 v-if="vm.newCredit < 0">Remember to refill your account! Negative balances cost 10% extra!</h5>
         </div>
       </v-card>
     </v-dialog>
