@@ -19,11 +19,6 @@
                 {{ item.brandName }}<br>
                 <b>{{ item.name }}</b>
               </v-card-title>
-
-              <v-card-subtitle>
-                Guest: {{ item.externalPrice }} kr.<br>
-                Member: {{ item.price }} kr.
-              </v-card-subtitle>
             </v-card>
           </v-col>
         </v-row>
