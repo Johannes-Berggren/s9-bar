@@ -1,7 +1,8 @@
 <template>
-  <div class="text-center mb-3">
+  <div>
     <h1><b>Welcome {{ vm.member.firstName }}</b></h1>
-    <h2>You have {{ vm.member.credit }} kr.</h2>
+    <h2 class="mb-4">You have {{ vm.member.credit }} kr. in your account.</h2>
+    <h4 v-if="vm.member.credit <= 0">Remember to refill your account to avoid 10% late fee.</h4>
   </div>
 </template>
 

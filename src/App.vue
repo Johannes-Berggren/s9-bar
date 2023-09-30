@@ -7,19 +7,9 @@
       ></v-progress-circular>
     </v-overlay>
     <div>
-      <v-row class="mx-auto" id="header" align="center" dense>
-        <v-col cols="12" sm="3" class="text-center text-sm-left">
-          <img
-            alt="S9 Logo"
-            class="logo"
-            src="./assets/logo.png"
-            width="120"
-            height="120"
-          />
-        </v-col>
-
-        <v-col cols="12" sm="6" class="text-white">
-          <h1 v-if="!vm.signedIn && !vm.codePadVisible" class="text-center" style="font-size: 60px">
+      <v-row id="header" align="center" justify="space-between" dense>
+        <v-col cols="12" sm="9" class="text-white">
+          <h1 v-if="!vm.signedIn && !vm.codePadVisible" style="font-size: 60px">
             <b>Select item</b>
           </h1>
           <member-info v-if="vm.signedIn" :member="vm.member" />
