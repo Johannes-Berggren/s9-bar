@@ -56,7 +56,7 @@
 
       <v-container class="mt-10">
         <bar v-if="!vm.codePadVisible" />
-        <code-pad v-else-if="!vm.signedIn" @success="signedIn" />
+        <code-pad v-else-if="!vm.signedIn" @success="signedIn" color="white" />
 
         <div v-else-if="vm.signedIn">
           <account-buttons :member="vm.member" />

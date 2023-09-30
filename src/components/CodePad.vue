@@ -4,7 +4,7 @@
       <v-row style="max-width: 500px" class="mx-auto">
         <v-col cols="10">
           <v-text-field
-            style="color: white"
+            :style="`color: ${ props.color }`"
             readonly
             type="password"
             v-model="vm.code"
@@ -14,7 +14,7 @@
         </v-col>
 
         <v-col cols="2">
-          <v-btn @click="del()" icon class="mt-6" size="large" variant="tonal" color="white">
+          <v-btn @click="del()" icon class="mt-6" size="large" variant="tonal" :color="props.color">
             <v-icon>mdi-backspace</v-icon>
           </v-btn>
         </v-col>
@@ -91,6 +91,10 @@ import { defineEmits, inject, reactive } from "vue";
 
 const emit = defineEmits(["success"]);
 const displayAlert = inject<(alert: Alert) => void>("displayAlert");
+
+const props = defineProps({
+  color: String,
+});
 
 const vm = reactive({
   code: "",
