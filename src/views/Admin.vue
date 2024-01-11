@@ -25,12 +25,12 @@
       <v-expansion-panels>
         <v-expansion-panel>
           <v-expansion-panel-title>
-            <b>Active items</b>
+            <b>Items with inventory</b>
           </v-expansion-panel-title>
 
           <v-expansion-panel-text>
-            <v-expansion-panels>
-              <v-expansion-panel v-for="item in vm.activeItems" :key="item.ID" cols="4">
+            <v-expansion-panels variant="popout">
+              <v-expansion-panel v-for="item in vm.activeItems" :key="item.ID" cols="4" elevation="0">
                 <v-expansion-panel-title>
                   <b class="text-left">{{ item.brandName }}</b>
                   <b class="ml-4 text-left">{{ item.name }}</b>
@@ -50,12 +50,12 @@
 
         <v-expansion-panel>
           <v-expansion-panel-title>
-            <b>Archived items</b>
+            <b>Items without inventory</b>
           </v-expansion-panel-title>
 
           <v-expansion-panel-text>
-            <v-expansion-panels>
-              <v-expansion-panel v-for="item in vm.archivedItems" :key="item.ID" cols="4">
+            <v-expansion-panels variant="popout">
+              <v-expansion-panel v-for="item in vm.inactiveItems" :key="item.ID" cols="4">
                 <v-expansion-panel-title>
                   <b class="text-left">{{ item.brandName }}</b>
                   <b class="ml-4 text-left">{{ item.name }}</b>
@@ -136,7 +136,7 @@ const loading = inject<(val: boolean) => void>("loading");
 const vm = reactive({
   addItemDialogVisible: false,
   activeItems: [] as Item[],
-  archivedItems: [] as Item[],
+  inactiveItems: [] as Item[],
   memberInfoDialogVisible: false,
   newItem: {
     ID: 0,
@@ -157,7 +157,12 @@ onMounted(async () => {
   vm.members = await getMembers();
   await fetchItems();
 
-  vm.sales = await getSales();
+  const _sales = await getSales();
+  vm.sales = _sales.sort((a, b) => {
+    const idA = parseInt(a.ID.split("-")[1]) * 12 + parseInt(a.ID.split("-")[0]);
+    const idB = parseInt(b.ID.split("-")[1]) * 12 + parseInt(b.ID.split("-")[0]);
+    return idA > idB ? -1 : idA < idB ? 1 : 0;
+  });
 
   vm.loading = false;
 });
@@ -165,8 +170,8 @@ onMounted(async () => {
 async function fetchItems(): Promise<void> {
   vm.addItemDialogVisible = false;
   const _items = await getItems();
-  vm.activeItems = _items.filter(item => !item.archived).sort((a, b) => a.name.localeCompare(b.name));
-  vm.archivedItems = _items.filter(item => item.archived).sort((a, b) => a.name.localeCompare(b.name));
+  vm.activeItems = _items.filter(item => item.currentInventory).sort((a, b) => a.name.localeCompare(b.name));
+  vm.inactiveItems = _items.filter(item => !item.currentInventory).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 async function transferToInvoice(memberID: number) {

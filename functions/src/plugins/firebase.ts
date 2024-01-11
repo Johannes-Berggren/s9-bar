@@ -20,6 +20,7 @@ export async function getItem(id: number): Promise<Item> {
 
 export async function getItems(): Promise<Item[]> {
   const itemsSnapshot = await db.collection("items")
+    .where("archived", "==", false)
     .orderBy("type", "asc")
     .orderBy("name", "asc")
     .get();

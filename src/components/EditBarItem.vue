@@ -79,16 +79,16 @@
         @click="archive()"
         :loading="vm.loading"
         class="mr-2"
-      >Archive
+      >Delete
       </v-btn>
-      <v-btn
-        v-if="item.archived"
-        color="success"
-        @click="unArchive()"
-        :loading="vm.loading"
-        class="mr-2"
-      >Un archive
-      </v-btn>
+<!--      <v-btn-->
+<!--        v-if="item.archived"-->
+<!--        color="success"-->
+<!--        @click="unArchive()"-->
+<!--        :loading="vm.loading"-->
+<!--        class="mr-2"-->
+<!--      >Un archive-->
+<!--      </v-btn>-->
     </v-col>
   </v-row>
 </template>
@@ -146,28 +146,28 @@ async function archive(): Promise<void> {
   displayAlert && displayAlert({
     color: "success",
     message: "",
-    title: "Archived!",
+    title: "Deleted!",
     visible: true,
   });
   fetchItems && await fetchItems();
   loading && loading(false);
 }
 
-async function unArchive(): Promise<void> {
-  loading && loading(true);
-  await updateItem({
-    ...vm.newItem,
-    archived: false,
-  });
-  displayAlert && displayAlert({
-    color: "success",
-    message: "",
-    title: "Archived!",
-    visible: true,
-  });
-  fetchItems && await fetchItems();
-  loading && loading(false);
-}
+// async function unArchive(): Promise<void> {
+//   loading && loading(true);
+//   await updateItem({
+//     ...vm.newItem,
+//     archived: false,
+//   });
+//   displayAlert && displayAlert({
+//     color: "success",
+//     message: "",
+//     title: "Archived!",
+//     visible: true,
+//   });
+//   fetchItems && await fetchItems();
+//   loading && loading(false);
+// }
 
 async function update(): Promise<void> {
   loading && loading(true);

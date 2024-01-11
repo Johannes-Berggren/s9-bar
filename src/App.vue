@@ -18,8 +18,7 @@
           />
         </v-col>
 
-        <v-col cols="6" v-if="!vm.signedIn && !vm.codePadVisible" style="text-align: center; color: white;" class="pt-10">
-          <h2>Welcome to The Club.</h2>
+        <v-col cols="6" v-if="!vm.signedIn && !vm.codePadVisible" style="text-align: center; color: white;">
           <h1 style="font-size: 60px">
             <b>Select item</b>
           </h1>
