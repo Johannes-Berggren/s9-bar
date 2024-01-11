@@ -3,30 +3,30 @@
     <v-col cols="4">
       <v-btn
         @click="createCheckoutSession('price_1LictrI1MJoejWlLaZN6faHU')"
-        color="primary"
+        color="#F269D4"
         size="x-large"
       >
-        Add 200 kr.
+        <b style="color: white">Add 200 kr.</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4">
       <v-btn
         @click="createCheckoutSession('price_1LMHtpI1MJoejWlLBj1SnnjZ')"
-        color="primary"
+        color="#F269D4"
         size="x-large"
       >
-        Add 500 kr.
+        <b style="color: white">Add 500 kr.</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4">
       <v-btn
         @click="createCheckoutSession('price_1LMHu3I1MJoejWlLV6PttYx7')"
-        color="primary"
+        color="#F269D4"
         size="x-large"
       >
-        Add 1000 kr.
+        <b style="color: white">Add 1000 kr.</b>
       </v-btn>
     </v-col>
 
@@ -35,9 +35,9 @@
 
       <v-btn
         @click="createPortalSession()"
-        color="primary"
+        color="#F269D4"
       >
-        Update S9 Membership
+        <b style="color: white">Update S9 Membership</b>
       </v-btn>
     </v-col>
   </v-row>

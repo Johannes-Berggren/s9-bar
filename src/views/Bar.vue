@@ -33,7 +33,7 @@
               <v-btn
                 @click="vm.count--"
                 class="ml-auto mt-n3"
-                color="primary"
+                color="#F269D4"
                 variant="plain"
                 size="x-large"
                 icon
@@ -52,7 +52,7 @@
               <v-btn
                 @click="vm.count++"
                 class="mr-auto mt-n3"
-                color="primary"
+                color="#F269D4"
                 variant="plain"
                 size="x-large"
                 icon
@@ -72,13 +72,13 @@
 
           <v-row justify="center" v-if="!vm.role" class="mb-8">
             <v-col cols="6">
-              <v-btn @click="setRole('member')" color="primary" size="x-large">
+              <v-btn @click="setRole('member')" color="#F269D4" size="x-large">
                 <b>I'm a member</b>
               </v-btn>
             </v-col>
 
             <v-col cols="6">
-              <v-btn @click="setRole('guest')" color="primary" size="x-large">
+              <v-btn @click="setRole('guest')" color="#F269D4" size="x-large">
                 <b>I'm a guest</b>
               </v-btn>
             </v-col>
@@ -93,9 +93,9 @@
 
               <v-img src="/qr.png" width="200" class="mx-auto my-6" />
 
-              <h2 class="text-green font-weight-bold">Completing purchase in... {{ vm.countDown }}</h2>
-              <v-btn color="success" @click="completePurchase()" class="mr-2" variant="tonal">Complete now</v-btn>
-              <v-btn color="error" @click="cancelPurchase()" variant="tonal">Cancel</v-btn>
+              <h2 class="text-green font-weight-bold mb-4">Completing purchase in... {{ vm.countDown }}</h2>
+              <v-btn color="success" @click="completePurchase()" class="mr-2" variant="tonal" size="large">Complete now</v-btn>
+              <v-btn color="error" @click="cancelPurchase()" variant="tonal" size="large">Cancel</v-btn>
             </div>
           </div>
         </v-container>

@@ -57,7 +57,7 @@
     <v-col cols="12">
       <v-btn
         v-if="item.ID"
-        color="primary"
+        color="#F269D4"
         @click="update()"
         :loading="vm.loading"
         :disabled="!vm.newItem.brandName || !vm.newItem.name || !vm.newItem.price || !vm.newItem.externalPrice"
@@ -66,7 +66,7 @@
       </v-btn>
       <v-btn
         v-else
-        color="primary"
+        color="#F269D4"
         @click="add()"
         :loading="vm.loading"
         :disabled="!vm.newItem.name || !vm.newItem.price || !vm.newItem.externalPrice || !vm.newItem.currentInventory"

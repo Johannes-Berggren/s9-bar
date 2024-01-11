@@ -8,20 +8,34 @@
     </v-overlay>
     <div>
       <v-row id="header" align="center" justify="space-between" dense>
-        <v-col cols="12" sm="9" class="text-white">
-          <h1 v-if="!vm.signedIn && !vm.codePadVisible" style="font-size: 60px">
+        <v-col>
+          <img
+            alt="S9 Logo"
+            class="logo"
+            src="./assets/Futoria_Logo_Icon_White.png"
+            width="150"
+            height="150"
+          />
+        </v-col>
+
+        <v-col cols="6" v-if="!vm.signedIn && !vm.codePadVisible" style="text-align: center; color: white;" class="pt-10">
+          <h2>Welcome to The Club.</h2>
+          <h1 style="font-size: 60px">
             <b>Select item</b>
           </h1>
+
           <member-info v-if="vm.signedIn" :member="vm.member" />
         </v-col>
 
-        <v-col col="12" sm="3" class="text-center text-sm-right">
+        <v-col align="right">
           <v-btn
             v-if="!vm.signedIn && !vm.codePadVisible"
-            color="primary"
+            color="#F269D4"
             @click="vm.codePadVisible = true"
             class="mx-auto mr-sm-0"
-          >Member login
+            size="large"
+          >
+            <b style="color: white">Member login</b>
           </v-btn>
 
           <v-btn
@@ -29,17 +43,19 @@
             color="error"
             @click="vm.codePadVisible = false"
             class="mx-auto mr-sm-0"
+            size="large"
           >
-            Cancel
+            <b style="color: white">Cancel</b>
           </v-btn>
 
           <v-btn
             v-else
-            size="small"
-            color="primary"
+            size="large"
+            color="#F269D4"
             @click="vm.member = undefined; vm.signedIn = false; vm.codePadVisible = false"
             class="ml-auto"
-          >Sign out
+          >
+            <b style="color: white">Sign out</b>
           </v-btn>
         </v-col>
       </v-row>
@@ -123,10 +139,11 @@ provide("loading", loading);
 
 <style lang="sass">
 @import './assets/base.css'
+@import './styles/variables.scss'
 
 #header
   position: sticky
   top: 0
-  background-color: #000e42
+  background-color: #4a1964
   z-index: 10
 </style>

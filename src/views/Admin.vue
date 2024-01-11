@@ -15,7 +15,9 @@
     <v-row align="center" class="mb-4">
       <h2 class="mr-4 text-white">Bar items</h2>
 
-      <v-btn color="primary" size="x-small" @click="vm.addItemDialogVisible = true">New item</v-btn>
+      <v-btn color="#F269D4" @click="vm.addItemDialogVisible = true">
+        <b style="color: white">New item</b>
+      </v-btn>
     </v-row>
 
     <v-progress-circular v-if="vm.loading" :loading="vm.loading" height="100" color="white" indeterminate />
@@ -34,7 +36,7 @@
                   <b class="ml-4 text-left">{{ item.name }}</b>
                   <span class="ml-4 text-grey">{{ item.type }}</span>
                   <v-spacer />
-                  <span class="mr-4 text-grey-darken-3">{{ item.price }} ClubCoin</span>
+                  <span class="mr-4 text-grey-darken-3">{{ item.price }} kr.</span>
                   {{ item.currentInventory }} left
                 </v-expansion-panel-title>
 
@@ -59,7 +61,7 @@
                   <b class="ml-4 text-left">{{ item.name }}</b>
                   <span class="ml-4 text-grey">{{ item.type }}</span>
                   <v-spacer />
-                  <span class="mr-4 text-grey-darken-3">{{ item.price }} ClubCoin</span>
+                  <span class="mr-4 text-grey-darken-3">{{ item.price }} kr.</span>
                   {{ item.currentInventory }} left
                 </v-expansion-panel-title>
 

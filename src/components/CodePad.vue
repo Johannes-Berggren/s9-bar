@@ -22,62 +22,62 @@
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(1)" icon size="x-large" color="primary">
-        <b>1</b>
+      <v-btn @click="enterNumber(1)" icon size="x-large" color="#F269D4">
+        <b style="color: white">1</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(2)" icon size="x-large" color="primary">
-        <b>2</b>
+      <v-btn @click="enterNumber(2)" icon size="x-large" color="#F269D4">
+        <b style="color: white">2</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(3)" icon size="x-large" color="primary">
-        <b>3</b>
+      <v-btn @click="enterNumber(3)" icon size="x-large" color="#F269D4">
+        <b style="color: white">3</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(4)" icon size="x-large" color="primary">
-        <b>4</b>
+      <v-btn @click="enterNumber(4)" icon size="x-large" color="#F269D4">
+        <b style="color: white">4</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(5)" icon size="x-large" color="primary">
-        <b>5</b>
+      <v-btn @click="enterNumber(5)" icon size="x-large" color="#F269D4">
+        <b style="color: white">5</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(6)" icon size="x-large" color="primary">
-        <b>6</b>
+      <v-btn @click="enterNumber(6)" icon size="x-large" color="#F269D4">
+        <b style="color: white">6</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(7)" icon size="x-large" color="primary">
-        <b>7</b>
+      <v-btn @click="enterNumber(7)" icon size="x-large" color="#F269D4">
+        <b style="color: white">7</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(8)" icon size="x-large" color="primary">
-        <b>8</b>
+      <v-btn @click="enterNumber(8)" icon size="x-large" color="#F269D4">
+        <b style="color: white">8</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(9)" icon size="x-large" color="primary">
-        <b>9</b>
+      <v-btn @click="enterNumber(9)" icon size="x-large" color="#F269D4">
+        <b style="color: white">9</b>
       </v-btn>
     </v-col>
 
     <v-col cols="4" class="text-center">
-      <v-btn @click="enterNumber(0)" icon size="x-large" color="primary">
-        <b>0</b>
+      <v-btn @click="enterNumber(0)" icon size="x-large" color="#F269D4">
+        <b style="color: white">0</b>
       </v-btn>
     </v-col>
   </v-row>
