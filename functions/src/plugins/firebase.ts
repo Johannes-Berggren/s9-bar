@@ -75,7 +75,6 @@ export async function purchaseItem(itemID: number, count: number, memberID: numb
   const [updatedItem, updatedMember] = await Promise.all([
     updateItem(item),
     updateMember(member),
-    countSale(purchaseSum),
   ]);
 
   return {
@@ -125,16 +124,5 @@ export async function getMonth(): Promise<Month> {
 export async function getSales(): Promise<Month[]> {
   const salesSnapshots = await db.collection("sales").orderBy("ID", "desc").get();
   return salesSnapshots.docs.map((s) => s.data() as Month);
-}
-
-export async function countSale(amount: number) {
-  const thisMonth = await getMonth();
-
-  const newSum = thisMonth.sum + amount;
-
-  await db.collection("sales").doc(thisMonth.ID).set({
-    ID: thisMonth.ID,
-    sum: newSum,
-  });
 }
 

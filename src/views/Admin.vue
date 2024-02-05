@@ -1,17 +1,5 @@
 <template>
   <v-container>
-    <v-row v-for="month in vm.sales" :key="month.ID" class="text-white">
-      <v-col class="text-right">
-        <p>{{ parseInt(month.ID.split("-")[0]) + 1 }} {{ month.ID.split("-")[1] }}</p>
-      </v-col>
-
-      <v-col>
-        <p>{{ month.sum }}</p>
-      </v-col>
-    </v-row>
-
-    <v-divider class="my-12" />
-
     <v-row align="center" class="mb-4">
       <h2 class="mr-4 text-white">Bar items</h2>
 
@@ -55,7 +43,7 @@
 
           <v-expansion-panel-text>
             <v-expansion-panels variant="popout">
-              <v-expansion-panel v-for="item in vm.inactiveItems" :key="item.ID" cols="4">
+              <v-expansion-panel v-for="item in vm.inactiveItems" :key="item.ID" cols="4" elevation="0">
                 <v-expansion-panel-title>
                   <b class="text-left">{{ item.brandName }}</b>
                   <b class="ml-4 text-left">{{ item.name }}</b>
